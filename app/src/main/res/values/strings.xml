@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">USCDoorDrink_FrontEnd</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="account">Please enter your username</string>
+    <string name="password">Please enter the password</string>
+    <string name="login">Login</string>
 </resources>
