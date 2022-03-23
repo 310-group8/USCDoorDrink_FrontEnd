@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:559238732600:android:acb5392862e96fa3deffcd",
         "android_client_info": {
-          "package_name": "com.usc.uscDoorDrink"
+          "package_name": "com.example.uscdoordrink_frontend"
         }
       },
       "oauth_client": [
