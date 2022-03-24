@@ -12,13 +12,13 @@ public class Request {
     private String Name;
     private String ContactInformation;
     private String Address;
+    private String StoreUID;
     private double Total;
     private String Status;
     private List<Order> orders;
 
-    public Request(){}
 
-    public Request(String date, String name, String contactInformation, String address, double total, List<Order> orders) {
+    public Request(String date, String name, String contactInformation, String address, String UID, double total, List<Order> orders) {
         Date = date;
         Name = name;
         ContactInformation = contactInformation;
@@ -50,6 +50,14 @@ public class Request {
 
     public void setAddress(String address) {
         Address = address;
+    }
+
+    public String getStoreUID() {
+        return StoreUID;
+    }
+
+    public void setStoreUID(String storeUID) {
+        StoreUID = storeUID;
     }
 
     public double getTotal() {

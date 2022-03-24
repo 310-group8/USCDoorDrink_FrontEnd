@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -42,6 +43,12 @@ public class OrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
         total = Double.parseDouble(SUBTOTAL) - Double.parseDouble(DISCOUNTS) + tax + deliverFee;
+
+        if(Constants.currentUser == null){
+            Toast.makeText(OrderActivity.this, "Please login before placing an order.", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(OrderActivity.this, LoginActivity.class);
+            startActivity(i);
+        }
         order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,15 +80,21 @@ public class OrderActivity extends AppCompatActivity {
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
                 Date date = new Date();
                 String d = formatter.format(date);
+                String UID = Constants.currentUser.getCurrentOrder().get(0).getStoreUID();
 
                 Request req = new Request(d, Constants.currentUser.getUserName(),
                         Constants.currentUser.getContactInformation(),
                         address,
+                        UID,
                         total,
                         Constants.currentUser.getCurrentOrder());
 
                 //sending to firebase
-                request.child(String.valueOf(System.currentTimeMillis())).setValue(req);
+                request.child(Constants.currentUser.getUserName()).setValue(req);
+
+                //update order information to seller
+                request.child(UID).setValue(req);
+
 
                 Constants.currentUser.setCurrentOrder(new ArrayList<Order>());
                 Constants.currentUser.addOrderToHistory(req);
