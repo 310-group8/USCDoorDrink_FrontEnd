@@ -4,4 +4,9 @@
     <string name="account">Please enter your username</string>
     <string name="password">Please enter the password</string>
     <string name="login">Login</string>
+    <string name="signUp">Sign Up</string>
+    <string name="contact">Please enter the contact information</string>
+    <string name="customerOrSeller">Sign up as</string>
+    <string name="check_customer">Customer</string>
+    <string name="check_seller">Seller</string>
 </resources>
