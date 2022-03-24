@@ -170,29 +170,53 @@
             android:layout_marginBottom="@dimen/margin_tiny"
             android:layout_marginLeft="@dimen/margin_tiny"
             android:textColor="@color/black"/>
-        <CheckBox
-            android:id="@+id/checkBox_customer"
-            android:padding="@dimen/dp_5"
-            android:textSize="@dimen/text_size_normal"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="@string/check_customer"
-            android:textColor="@color/black" android:checked="false"/>
-        <CheckBox
-            android:id="@+id/checkBox_login"
-            android:padding="@dimen/dp_5"
-            android:textSize="@dimen/text_size_normal"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="@string/check_seller"
-            android:textColor="@color/black" android:checked="false"/>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <RadioButton
+                android:id="@+id/customer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_small"
+                android:onClick="checkButton"
+                android:text="customer" />
+
+            <RadioButton
+                android:id="@+id/seller"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="seller"
+                android:onClick="checkButton"
+                android:textSize="@dimen/text_size_small" />
+
+        </RadioGroup>
+        <!--        <CheckBox-->
+<!--            android:id="@+id/checkBox_customer"-->
+<!--            android:padding="@dimen/dp_5"-->
+<!--            android:textSize="@dimen/text_size_normal"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/check_customer"-->
+<!--            android:textColor="@color/black" android:checked="false"/>-->
+<!--        <CheckBox-->
+<!--            android:id="@+id/checkBox_login"-->
+<!--            android:padding="@dimen/dp_5"-->
+<!--            android:textSize="@dimen/text_size_normal"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/check_seller"-->
+<!--            android:textColor="@color/black" android:checked="false"/>-->
+
+
     </LinearLayout>
     <Button
-        android:id="@+id/btn_login"
+        android:id="@+id/btn_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_large"
@@ -204,4 +228,24 @@
         android:background="@drawable/btn_maroon_selector"
         android:textColor="@android:color/white"
         android:textSize="@dimen/text_size_normal"/>
+    <TextView
+        android:id="@+id/toLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_large"
+        android:layout_marginRight="@dimen/margin_large"
+        android:layout_marginTop="@dimen/margin_small"
+        android:text="Already have an account? Login now -->"
+        android:textSize="@dimen/text_size_normal"/>
+
+    <Button
+        android:id="@+id/Login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_huge"
+        android:layout_marginRight="@dimen/margin_large"
+        android:background="@drawable/btn_maroon_selector"
+        android:text="register"
+        android:textColor="@android:color/white"
+        android:textSize="8dp" />
 </LinearLayout>

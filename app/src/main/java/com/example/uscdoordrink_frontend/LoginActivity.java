@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.uscdoordrink_frontend.constants.constants;
+import com.example.uscdoordrink_frontend.constants.Constants;
 import com.example.uscdoordrink_frontend.entity.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,7 +26,8 @@ import com.google.firebase.database.ValueEventListener;
 public class LoginActivity extends AppCompatActivity {
 
     EditText userName, password;
-    Button login;
+    Button login, register;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         userName = findViewById(R.id.et_account);
         password = findViewById(R.id.et_password);
         login = findViewById(R.id.btn_login);
+        register = findViewById(R.id.Register);
 
         //initiate firebase database
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
@@ -54,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                             assert user != null;
                             if (user.getPassword().equals(password.getText().toString())) {
                                 Intent intent = new Intent(LoginActivity.this, MapsActivity.class);
-                                constants.currentUser = user;
+                                Constants.currentUser = user;
                                 startActivity(intent);
                                 finish();
                             } else {
@@ -74,5 +76,13 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this, SingUpActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 }

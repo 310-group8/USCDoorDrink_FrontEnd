@@ -8,6 +8,7 @@ package com.example.uscdoordrink_frontend.entity;
 import java.util.List;
 
 public class Request {
+    private String Date;
     private String Name;
     private String ContactInformation;
     private String Address;
@@ -17,7 +18,8 @@ public class Request {
 
     public Request(){}
 
-    public Request(String name, String contactInformation, String address, String total, List<Order> orders) {
+    public Request(String date, String name, String contactInformation, String address, String total, List<Order> orders) {
+        Date = date;
         Name = name;
         ContactInformation = contactInformation;
         Address = address;
@@ -72,5 +74,17 @@ public class Request {
 
     public void setStatus(String status) {
         Status = status;
+    }
+
+    public String getDate() {
+        return Date;
+    }
+
+    public void setDate(String date) {
+        Date = date;
+    }
+
+    public void setContactInformation(String contactInformation) {
+        ContactInformation = contactInformation;
     }
 }

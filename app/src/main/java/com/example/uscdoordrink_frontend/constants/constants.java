@@ -7,7 +7,7 @@ import android.net.NetworkInfo;
 import com.example.uscdoordrink_frontend.entity.Request;
 import com.example.uscdoordrink_frontend.entity.User;
 
-public class constants {
+public class Constants {
     public static User currentUser;
     public static Request currentRequest;
     public final static String UPDATE = "Update";

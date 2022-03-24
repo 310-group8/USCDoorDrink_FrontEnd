@@ -25,6 +25,17 @@ public class User {
 
     private String storeUID;
 
+    public User(String userName, String password, UserType u) {
+        this.userName = userName;
+        this.contactInformation = contactInformation;
+        this.password = password;
+        if(u == userType.CUSTOMER){
+            this.userType = userType.CUSTOMER;
+        } else {
+            this.userType = userType.SELLER;
+        }
+    }
+
     public String getUserName() {
         return userName;
     }

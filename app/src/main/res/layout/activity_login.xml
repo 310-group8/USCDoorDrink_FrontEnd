@@ -124,4 +124,25 @@
         android:background="@drawable/btn_maroon_selector"
         android:textColor="@android:color/white"
         android:textSize="@dimen/text_size_normal"/>
+
+    <TextView
+        android:id="@+id/toRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_large"
+        android:layout_marginRight="@dimen/margin_large"
+        android:layout_marginTop="@dimen/margin_small"
+        android:text="Not have an account? Register now -->"
+        android:textSize="@dimen/text_size_normal"/>
+
+    <Button
+        android:id="@+id/Register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_huge"
+        android:layout_marginRight="@dimen/margin_large"
+        android:background="@drawable/btn_maroon_selector"
+        android:text="register"
+        android:textColor="@android:color/white"
+        android:textSize="8dp" />
 </LinearLayout>

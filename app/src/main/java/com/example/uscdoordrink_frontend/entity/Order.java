@@ -17,63 +17,61 @@ import java.util.Date;
 
 public class Order {
 
-    private Date orderTime;
+    private String drink;
 
     private String storeUID;
 
-    private double orderPrice;
+    private int quantity;
 
-    private Pair<Double, Double> deliveryAddress;
+    private double price;
 
-    private Drink drink;
+    private double discount;
 
-    public Order(Date time, Drink drk, String store, Double price, Pair<Double, Double> deliverAddress) {
-        orderTime = time;
-        storeUID = store;
-        orderPrice = price;
-        deliveryAddress = deliverAddress;
+    public Order(String drink, String storeUID, int quantity, double price, double discount) {
+        this.drink = drink;
+        this.storeUID = storeUID;
+        this.quantity = quantity;
+        this.price = price;
+        this.discount = discount;
     }
 
-    // getters and setters
-    public Date getOrderTime() {
-        return orderTime;
+    public String getDrink() {
+        return drink;
+    }
+
+    public void setDrink(String drink) {
+        this.drink = drink;
     }
 
     public String getStoreUID() {
         return storeUID;
     }
 
-    public double getOrderPrice() {
-        return orderPrice;
-    }
-
-    public Pair<Double, Double> getDeliveryAddress() {
-        return deliveryAddress;
-    }
-
-    public Drink getDrink() {
-        return drink;
-    }
-
-
-    public void setOrderTime(Date orderTime) {
-        this.orderTime = orderTime;
-    }
-
     public void setStoreUID(String storeUID) {
         this.storeUID = storeUID;
     }
 
-    public void setOrderPrice(double orderPrice) {
-        this.orderPrice = orderPrice;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setDeliveryAddress(Pair<Double, Double> deliveryAddress) {
-        this.deliveryAddress = deliveryAddress;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
-    public void setDrink(Drink drink) {
-        this.drink = drink;
+    public double getOrderPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
     }
 }
-

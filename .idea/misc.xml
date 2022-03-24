@@ -4,10 +4,13 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/btn_maroon_selector.xml" value="0.201" />
+        <entry key="app/src/main/res/layout/activity_cart.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.24427083333333333" />
         <entry key="app/src/main/res/layout/activity_maps.xml" value="0.24427083333333333" />
-        <entry key="app/src/main/res/layout/activity_orders.xml" value="0.24427083333333333" />
-        <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.24427083333333333" />
+        <entry key="app/src/main/res/layout/activity_order.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/activity_orders.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.26945800781249996" />
+        <entry key="app/src/main/res/layout/activity_signup.xml" value="0.15520833333333334" />
       </map>
     </option>
   </component>
