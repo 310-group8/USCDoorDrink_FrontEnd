@@ -1,4 +1,4 @@
-package com.example.uscdoordrink_frontend.constants;
+package com.example.uscdoordrink_frontend.Constants;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

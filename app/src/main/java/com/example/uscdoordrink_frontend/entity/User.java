@@ -1,6 +1,7 @@
 package com.example.uscdoordrink_frontend.entity;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ public class User {
 
     private List<Order> currentOrder;
 
-    private List<Order> orderHistory;
+    private List<Request> orderHistory;
 
     private UserType userType;
 
@@ -34,6 +35,8 @@ public class User {
         } else {
             this.userType = userType.SELLER;
         }
+        currentOrder = new ArrayList<Order>();
+        orderHistory = new ArrayList<Request>();
     }
 
     public String getUserName() {
@@ -68,11 +71,11 @@ public class User {
         this.currentOrder = currentOrder;
     }
 
-    public List<Order> getOrderHistory() {
+    public List<Request> getOrderHistory() {
         return orderHistory;
     }
 
-    public void setOrderHistory(List<Order> orderHistory) {
+    public void setOrderHistory(List<Request> orderHistory) {
         this.orderHistory = orderHistory;
     }
 
@@ -90,5 +93,9 @@ public class User {
 
     public void setStoreUID(String storeUID) {
         this.storeUID = storeUID;
+    }
+
+    public void addOrderToHistory(Request r){
+        orderHistory.add(r);
     }
 }

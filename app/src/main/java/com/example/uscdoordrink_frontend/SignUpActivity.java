@@ -12,7 +12,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.example.uscdoordrink_frontend.constants.Constants;
 import com.example.uscdoordrink_frontend.entity.User;
 import com.example.uscdoordrink_frontend.entity.UserType;
 import com.google.firebase.database.DataSnapshot;

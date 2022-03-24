@@ -12,13 +12,13 @@ public class Request {
     private String Name;
     private String ContactInformation;
     private String Address;
-    private String Total;
+    private double Total;
     private String Status;
     private List<Order> orders;
 
     public Request(){}
 
-    public Request(String date, String name, String contactInformation, String address, String total, List<Order> orders) {
+    public Request(String date, String name, String contactInformation, String address, double total, List<Order> orders) {
         Date = date;
         Name = name;
         ContactInformation = contactInformation;
@@ -52,11 +52,11 @@ public class Request {
         Address = address;
     }
 
-    public String getTotal() {
+    public double getTotal() {
         return Total;
     }
 
-    public void setTotal(String total) {
+    public void setTotal(double total) {
         Total = total;
     }
 
