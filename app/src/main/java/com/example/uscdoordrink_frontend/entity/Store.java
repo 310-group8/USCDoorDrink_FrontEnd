@@ -3,6 +3,9 @@ package com.example.uscdoordrink_frontend.entity;
 
 import android.util.Pair;
 
+import com.firebase.geofire.GeoFireUtils;
+import com.firebase.geofire.GeoLocation;
+
 import java.util.List;
 import java.util.Map;
 
@@ -15,18 +18,32 @@ import java.util.Map;
 
 public class Store {
 
+    private String storeUID;
+
     private Pair<Double, Double> storeAddress;
 
     private List<Drink> menu;
 
     private Map<Drink, Double> discounts;
 
+    private String hashLocation;
+
+    public String getStoreUID(){return storeUID;}
+
+    public void setStoreUID(String newUID){storeUID = newUID;}
+
+    //(lat, lng)
     public Pair<Double, Double> getStoreAddress() {
         return storeAddress;
     }
 
     public void setStoreAddress(Pair<Double, Double> storeAddress) {
         this.storeAddress = storeAddress;
+        hashLocation = GeoFireUtils.getGeoHashForLocation(new GeoLocation(this.storeAddress.first, this.storeAddress.second));
+    }
+
+    public String getHashLocation(){
+        return hashLocation;
     }
 
     public List<Drink> getMenu() {
