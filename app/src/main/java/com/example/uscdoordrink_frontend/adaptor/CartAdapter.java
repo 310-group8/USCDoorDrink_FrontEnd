@@ -30,7 +30,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
     }
 
     public void onclick(View view, int position, boolean isLongClick) {
-        Toast.makeText(CartActivity.this, orders.get(position).getDrink(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(CartActivity.this, orders.get(position).getDrink(), Toast.LENGTH_SHORT).show();
     }
 
 
@@ -44,7 +44,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
 
             textViewItemName = itemView.findViewById(R.id.cart_item_name);
             textViewItemPrice = itemView.findViewById(R.id.cart_item_price);
-            textViewItemPrice = itemView.findViewById(R.id.cart_item_quantity);
+            textViewItemQuantity = itemView.findViewById(R.id.cart_item_quantity);
             increment = itemView.findViewById(R.id.cart_increment);
             decrement = itemView.findViewById(R.id.cart_decrement);
         }
@@ -70,26 +70,49 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
         final double price = orders.get(position).getOrderPrice() * orders.get(position).getQuantity()
                 - orders.get(position).getDiscount() * orders.get(position).getQuantity();
         holder.textViewItemPrice.setText(numberFormat.format(price));
-        holder.textViewItemQuantity.setNumber(orders.get(position).getQuantity());
+        holder.textViewItemQuantity.setText(orders.get(position).getQuantity());
 
-        holder.btnQuantity.setOnValueChangeListener(new ElegantNumberButton.OnValueChangeListener() {
+        holder.increment.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
-                //Updating the price after quantity is changed
-                int result = Integer.parseInt(orders.get(position).getPrice()) * newValue;
+            public void onClick(View view) {
+                String oldQuantity = holder.textViewItemQuantity.getText().toString();
+                int newQuantity = Integer.parseInt(oldQuantity) + 1;
+                double result = orders.get(position).getOrderPrice() * newQuantity;
                 holder.textViewItemPrice.setText(numberFormat.format(result));
 
                 //Update database
                 Order order = orders.get(position);
-                order.setQuantity(newValue));
-                new Database(context).updateCart(order);
+                order.setQuantity(newQuantity);
 
                 //Update total amount
                 int total = 0;
                 for(Order cartOrder: orders)
                 {
-                    total += (cartOrder.getOrderPrice()) * cartOrder.getQuantity())
-                            - cartOrder.getDiscount() * cartOrder.getQuantity());
+                    total += (cartOrder.getOrderPrice()) * cartOrder.getQuantity()
+                            - cartOrder.getDiscount() * cartOrder.getQuantity();
+                }
+                context.textViewPrice.setText(String.format(" $%s", total));
+            }
+        });
+
+        holder.decrement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String oldQuantity = holder.textViewItemQuantity.getText().toString();
+                int newQuantity = Integer.parseInt(oldQuantity) - 1;
+                double result = orders.get(position).getOrderPrice() * newQuantity;
+                holder.textViewItemPrice.setText(numberFormat.format(result));
+
+                //Update database
+                Order order = orders.get(position);
+                order.setQuantity(newQuantity);
+
+                //Update total amount
+                int total = 0;
+                for(Order cartOrder: orders)
+                {
+                    total += (cartOrder.getOrderPrice()) * cartOrder.getQuantity()
+                    - cartOrder.getDiscount() * cartOrder.getQuantity();
                 }
                 context.textViewPrice.setText(String.format(" $%s", total));
             }

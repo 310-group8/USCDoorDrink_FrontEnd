@@ -125,7 +125,7 @@
             android:layout_marginBottom="@dimen/margin_tiny"
             android:layout_marginLeft="@dimen/margin_tiny"
             android:scaleType="fitXY"
-            android:src="@drawable/image_contactInfo_ci"/>
+            android:src="@drawable/image_contact_info_ci"/>
 
         <EditText
             android:id="@+id/et_ci"
