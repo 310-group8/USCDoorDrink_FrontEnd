@@ -54,7 +54,9 @@ public class StoreService {
      * @return the UID of the newStore
      *
      * Add the new Store to the database. Returns the UID of the newStore and automatically set the
-     * storeUID of all the drinks its menu.
+     * storeUID of all the drinks in its menu. Please note that when the method returns, the new
+     * Store may still not be in the database yet. Any code that depends on the success of this
+     * operation should be in the OnSuccess() method in your OnSuccessCallBack.
      *
      * Example to use:
      *
@@ -101,6 +103,40 @@ public class StoreService {
         return UID;
     }
 
+
+    /**
+     * @param storeUID, the ID of the store
+     * @param successCallBack, an OnSuccessCallBack that contains a onSuccess call back
+     *                         function. The onSuccess method will be called when the get is
+     *                         completed successfully.
+     * @param failureCallBack, an OnFailureCallBack that contains a onFailure call back
+     *      *                  function. The onFailure method will be called when the get is
+     *      *                  completed with failure.
+     *
+     * Fetch the Store with the given ID. Once it successfully get the Store, it will pass it to
+     * the OnSuccess() method in your OnSuccessCallBack. Please note that when the method returns,
+     * the fetching may still be uncompleted.
+     *
+     * Example to use:
+     *
+     * In your Activity:
+     *
+     *  getStoreByUID(yourStoreUID,
+     *                new OnSuccessCallBack<Store>() {
+     *                    @Override
+     *                    public void OnSuccess(Store theStore){
+     *                        // the code that you want your activity to do on success. The input
+     *                        // parameter theStore is the result of this fetch. Any code that
+     *                        // depends on theStore should be here.
+     *                    }
+     *                },
+     *                new OnFailureCallBack<Exception>(){
+     *                    @Override
+     *                    public void OnFailure(Exception e){
+     *                        // the code you want your activity to do on failure.
+     *                    }
+     *                })
+     */
     public void getStoreByUID(String storeUID,
                               final OnSuccessCallBack<Store> successCallBack,
                               final OnFailureCallBack<Exception> failureCallBack){
