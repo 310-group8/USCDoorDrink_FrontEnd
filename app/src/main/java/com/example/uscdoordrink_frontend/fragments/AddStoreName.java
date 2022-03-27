@@ -3,11 +3,14 @@ package com.example.uscdoordrink_frontend.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -67,13 +70,18 @@ public class AddStoreName extends Fragment {
         // Inflate the layout for this fragment
         View mainView = inflater.inflate(R.layout.fragment_add_store_name, container, false);
 
-//        TextView text = (TextView)mainView.findViewById(R.id.textView);
-//        text.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
+        EditText textName = (EditText) mainView.findViewById(R.id.editTextStoreName);
+        String defaultName = textName.getText().toString();
+
+        Button confirmButton = (Button)mainView.findViewById(R.id.button_confirm_name_and_address);
+
+        confirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Navigation.findNavController(view).navigate(R.id.action_name_to_menu);
+                Log.d("AddstoreName", textName.getText().toString());
+            }
+        });
         return mainView;
     }
 }

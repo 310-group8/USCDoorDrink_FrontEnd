@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/add_store_nav_graph"
+    app:startDestination="@id/addStoreName">
+
+    <fragment
+        android:id="@+id/addStoreName"
+        android:name="com.example.uscdoordrink_frontend.fragments.AddStoreName"
+        android:label="fragment_add_store_name"
+        tools:layout="@layout/fragment_add_store_name" >
+        <action
+            android:id="@+id/action_name_to_menu"
+            app:destination="@id/addStoreMenu" />
+    </fragment>
+    <fragment
+        android:id="@+id/addStoreMenu"
+        android:name="com.example.uscdoordrink_frontend.fragments.AddStoreMenu"
+        android:label="fragment_add_store_menu"
+        tools:layout="@layout/fragment_add_store_menu" >
+        <action
+            android:id="@+id/action_menu_to_name"
+            app:destination="@id/addStoreName" />
+    </fragment>
+</navigation>

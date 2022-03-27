@@ -3,6 +3,7 @@ package com.example.uscdoordrink_frontend.fragments;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,15 +65,15 @@ public class AddStoreMenu extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View mainView = inflater.inflate(R.layout.fragment_add_store_name, container, false);
+        View mainView = inflater.inflate(R.layout.fragment_add_store_menu, container, false);
 
-//        TextView text = (TextView)mainView.findViewById(R.id.textView2);
-//        text.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-////                text.setText("Mother Fucker");
-//            }
-//        });
+        TextView text = (TextView)mainView.findViewById(R.id.textView2);
+        text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.action_menu_to_name);
+            }
+        });
         return mainView;
     }
 }
