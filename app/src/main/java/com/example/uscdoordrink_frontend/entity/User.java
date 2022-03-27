@@ -24,17 +24,31 @@ public class User {
 
     private UserType userType;
 
+    private int dailyCaffineConsume;
+
     private String storeUID;
 
-    public User(String userName, String password, UserType u) {
-        this.userName = userName;
-        this.contactInformation = contactInformation;
-        this.password = password;
-        if(u == userType.CUSTOMER){
+    public User(){}
+
+    public int getDailyCaffineConsume() {
+        return dailyCaffineConsume;
+    }
+
+    public void setDailyCaffineConsume(int dailyCaffineConsume) {
+        this.dailyCaffineConsume = dailyCaffineConsume;
+    }
+
+    public User(String u, String p, String c, UserType t) {
+        this.userName = u;
+        this.contactInformation = c;
+        this.password = p;
+        this.dailyCaffineConsume = 0;
+        if(t == userType.CUSTOMER){
             this.userType = userType.CUSTOMER;
         } else {
             this.userType = userType.SELLER;
         }
+        this.storeUID = "toBeAssigned";
         currentOrder = new ArrayList<Order>();
         orderHistory = new ArrayList<Request>();
     }
