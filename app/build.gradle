@@ -63,6 +63,11 @@ dependencies {
     // Declare the dependencies for any other desired Firebase products
     // For example, declare the dependencies for Firebase Authentication and Cloud Firestore
 
+    def fragment_version = "1.4.1"
+
+    // Java language implementation
+    implementation "androidx.fragment:fragment:$fragment_version"
+
     def nav_version = "2.4.1"
 
     // Java language implementation
