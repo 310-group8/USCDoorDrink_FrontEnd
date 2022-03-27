@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/foodName"
+        android:text="Food Name"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:textSize="30sp"
+        />
+    <View
+        android:layout_width="match_parent" android:layout_height="@dimen/dp_1"
+        android:background="@color/maroon"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_normal"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginRight="@dimen/margin_large"
+        android:layout_marginTop="@dimen/dp_20">
+
+
+
+        <TextView
+            android:id="@+id/ingredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginBottom="@dimen/margin_tiny"
+            android:background="@null"
+            android:textColor="@android:color/black"
+            android:textSize="20dp"
+            android:text="Ingredients: "/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/ingredients"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_marginTop="350dp"
+        android:layout_marginLeft="10dp">
+    <Button
+        android:id="@+id/cart_decrementAddToCart"
+        android:layout_width="@dimen/dp_60"
+        android:layout_height="wrap_content"
+        android:text="-" />
+
+    <TextView
+        android:id="@+id/cart_item_quantityAddToCart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:text="quantity"
+        android:textSize="16sp"
+        android:textStyle="normal" />
+
+    <Button
+        android:id="@+id/cart_incrementAddToCart"
+        android:layout_width="@dimen/dp_60"
+        android:layout_height="wrap_content"
+        android:text="+" />
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_AddToCart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_large"
+        android:layout_marginTop="@dimen/margin_huge"
+        android:layout_marginRight="@dimen/margin_large"
+        android:background="@drawable/btn_maroon_selector"
+        android:paddingTop="@dimen/margin_small"
+        android:paddingBottom="@dimen/margin_small"
+        android:text="@string/submit"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_normal"/>
+</LinearLayout>

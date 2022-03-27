@@ -296,4 +296,5 @@
     <color name="black">#000000</color>
     <!-- 黑色 -->
     <color name="veryPeri">#6667AB</color>
+    <color name="underline">#D8D6D6</color>
 </resources>

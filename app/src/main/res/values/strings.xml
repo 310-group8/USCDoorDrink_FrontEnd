@@ -26,4 +26,5 @@
     <string name="add_store_successful">Registration Successful!</string>
     <string name="continue_to_map">Continue</string>
     <string name="personal_page">Personal Profiles</string>
+    <string name="submit">Add to cart</string>
 </resources>

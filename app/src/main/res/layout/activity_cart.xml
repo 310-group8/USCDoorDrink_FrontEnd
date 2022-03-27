@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="Cart"
+        android:id="@+id/Cart"
         android:textColor="@color/black"
         android:gravity="center"
         android:textSize="30sp"
@@ -23,13 +24,14 @@
         android:layout_height="match_parent"
         android:scrollbars="vertical"
         android:layout_above="@id/card"
+        android:layout_below="@+id/Cart"
         android:background="@android:color/transparent"/>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        app:cardBackgroundColor="@color/veryPeri"
+        app:cardBackgroundColor="@color/white"
         app:cardUseCompatPadding="true"
         android:layout_alignParentBottom="true">
 
@@ -50,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:text="$0.00"
                     android:textSize="24sp"
-                    android:textColor="@android:color/white"/>
+                    android:textColor="@android:color/black"/>
             </LinearLayout>
 
             <Button
