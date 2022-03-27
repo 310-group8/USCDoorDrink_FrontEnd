@@ -6,6 +6,7 @@ import android.util.Pair;
 import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,13 +21,19 @@ public class Store {
 
     private String storeUID;
 
+    private String storeName;
+
     private Pair<Double, Double> storeAddress;
 
-    private List<Drink> menu;
+    private List<Drink> menu = new ArrayList<>();
 
     private Map<Drink, Double> discounts;
 
     private String hashLocation;
+
+    public String getStoreName(){return storeName;}
+
+    public void setStoreName(String newName){storeName = newName;}
 
     public String getStoreUID(){return storeUID;}
 

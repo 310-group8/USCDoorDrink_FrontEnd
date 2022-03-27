@@ -10,8 +10,10 @@
         <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/activity_order.xml" value="0.3" />
         <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/activity_sign_up.xml" value="0.3" />
         <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/cart_item.xml" value="0.3" />
+        <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/fragment_add_store_drink.xml" value="0.25226449275362317" />
         <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/fragment_add_store_menu.xml" value="0.2225705329153605" />
         <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/fragment_add_store_name.xml" value="0.3" />
+        <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/fragment_add_store_successful.xml" value="0.28541666666666665" />
       </map>
     </option>
   </component>

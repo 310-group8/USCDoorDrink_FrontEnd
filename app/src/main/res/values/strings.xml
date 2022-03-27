@@ -10,17 +10,19 @@
     <string name="check_customer">Customer</string>
     <string name="check_seller">Seller</string>
     <string name="title_activity_orders">OrdersActivity</string>
-<!--    &lt;!&ndash; Strings used for fragments for navigation &ndash;&gt;-->
-<!--    <string name="first_fragment_label">First Fragment</string>-->
-<!--    <string name="second_fragment_label">Second Fragment</string>-->
-<!--    <string name="next">Next</string>-->
-<!--    <string name="previous">Previous</string>-->
 
-<!--    <string name="hello_first_fragment">Hello first fragment</string>-->
-<!--    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>-->
 
     <string name="confirm_name_and_address">Confirm</string>
+    <string name="confirm_menu">Confirm</string>
+    <string name="confirm_drink">Confirm Drink</string>
     <string name="add_store_name">Store Name</string>
-    <string name="add_store_address">Store Address</string>
-    <string name="add_store_menu">Hello blank fragment two</string>
+    <string name="add_store_lat">Store Latitude</string>
+    <string name="add_store_lng">Store Longitude</string>
+    <string name="add_drink">Add Drink</string>
+    <string name="add_drink_name">Drink Name</string>
+    <string name="add_drink_ingredient">Ingredient</string>
+    <string name="add_drink_price">Price</string>
+    <string name="add_store_processing">Processing…</string>
+    <string name="add_store_successful">Registration Successful!</string>
+    <string name="continue_to_map">Continue</string>
 </resources>

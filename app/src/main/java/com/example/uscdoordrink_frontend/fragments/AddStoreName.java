@@ -2,10 +2,12 @@ package com.example.uscdoordrink_frontend.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,9 @@ import android.widget.Toast;
 
 import com.example.uscdoordrink_frontend.AddStoreActivity;
 import com.example.uscdoordrink_frontend.R;
+import com.example.uscdoordrink_frontend.entity.Store;
+
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -71,15 +76,46 @@ public class AddStoreName extends Fragment {
         View mainView = inflater.inflate(R.layout.fragment_add_store_name, container, false);
 
         EditText textName = (EditText) mainView.findViewById(R.id.editTextStoreName);
+        EditText textLat = (EditText) mainView.findViewById(R.id.editTextStoreLat);
+        EditText textLng = (EditText) mainView.findViewById(R.id.editTextStoreLng);
         String defaultName = textName.getText().toString();
 
+        @NonNull Store store = Objects.requireNonNull(((AddStoreActivity) requireActivity()).theStore.mStoreModel.getValue());
+
+        if (store.getStoreName() != null){
+            textName.setText(store.getStoreName());
+        }else if (store.getStoreAddress() != null){
+            textLat.setText(store.getStoreAddress().first.toString());
+            textLng.setText(store.getStoreAddress().second.toString());
+        }
         Button confirmButton = (Button)mainView.findViewById(R.id.button_confirm_name_and_address);
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Navigation.findNavController(view).navigate(R.id.action_name_to_menu);
+                if ("".equals(textName.getText().toString())){
+                    Toast.makeText(getContext(), "Store Name cannot be empty", Toast.LENGTH_SHORT).show();
+                }else if("".equals(textLat.getText().toString()) || "".equals(textLng.getText().toString())){
+                    Toast.makeText(getContext(), "Address cannot be empty", Toast.LENGTH_SHORT).show();
+                }else if (defaultName.equals(textName.getText().toString())){
+                    Toast.makeText(getContext(), "Please customize your store name", Toast.LENGTH_SHORT).show();
+                }else{
+                    try{
+                        double lat = Double.parseDouble(textLat.getText().toString());
+                        double lng = Double.parseDouble(textLng.getText().toString());
+                        if (lat > 90 || lat < -90 || lng > 180 || lng < -180){
+                            throw new NumberFormatException();
+                        }
+                        store.setStoreAddress(new Pair<Double, Double>(lat, lng));
+                        store.setStoreName(textName.getText().toString());
+                        Navigation.findNavController(view).navigate(R.id.action_name_to_menu);
+                    }catch (NumberFormatException e){
+                        Toast.makeText(getContext(), "Please enter a valid address", Toast.LENGTH_SHORT).show();
+                    }
+                }
                 Log.d("AddstoreName", textName.getText().toString());
+                Log.d("AddstoreName", textLat.getText().toString());
+                Log.d("AddstoreName", textLng.getText().toString());
             }
         });
         return mainView;

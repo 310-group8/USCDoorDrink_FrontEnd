@@ -2,17 +2,30 @@ package com.example.uscdoordrink_frontend.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.uscdoordrink_frontend.AddStoreActivity;
 import com.example.uscdoordrink_frontend.R;
+import com.example.uscdoordrink_frontend.entity.Drink;
+import com.example.uscdoordrink_frontend.entity.Store;
+import com.example.uscdoordrink_frontend.service.CallBack.OnFailureCallBack;
+import com.example.uscdoordrink_frontend.service.CallBack.OnSuccessCallBack;
+import com.example.uscdoordrink_frontend.service.StoreService;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -66,12 +79,61 @@ public class AddStoreMenu extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View mainView = inflater.inflate(R.layout.fragment_add_store_menu, container, false);
+        @NonNull Store theStore = Objects.requireNonNull(((AddStoreActivity) requireActivity()).theStore.mStoreModel.getValue());
+        ListView listView = (ListView) mainView.findViewById(R.id.menu_list_view);
+        List<String> drinkNames = new ArrayList<>();
+        for (Drink drink : theStore.getMenu()){
+            drinkNames.add(drink.getDrinkName());
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, drinkNames);
+        listView.setAdapter(adapter);
 
-        TextView text = (TextView)mainView.findViewById(R.id.textView2);
-        text.setOnClickListener(new View.OnClickListener() {
+        Button addButton = (Button) mainView.findViewById(R.id.button_add_item);
+        addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_menu_to_name);
+                Navigation.findNavController(view).navigate(R.id.action_menu_to_drink);
+            }
+        });
+
+        Button confirmButton = (Button) mainView.findViewById(R.id.button_confirm_menu);
+        confirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (theStore.getMenu().isEmpty()){
+                    Toast.makeText(getContext(), "Menu cannot be empty", Toast.LENGTH_SHORT).show();
+                }else{
+                    StoreService storeService = new StoreService();
+                    if (theStore.getStoreUID() == null){
+                        storeService.addStore(theStore,
+                                new OnSuccessCallBack<Void>() {
+                                    @Override
+                                    public void onSuccess(Void input) {
+                                        Navigation.findNavController(view).navigate(R.id.action_menu_to_successful);
+                                    }
+                                },
+                                new OnFailureCallBack<Exception>() {
+                                    @Override
+                                    public void onFailure(Exception input) {
+                                        Toast.makeText(getContext(), "failed to upload your store", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    }else{
+                        storeService.UpdateStore(theStore,
+                                new OnSuccessCallBack<Void>() {
+                                    @Override
+                                    public void onSuccess(Void input) {
+                                        Navigation.findNavController(view).navigate(R.id.action_menu_to_successful);
+                                    }
+                                },
+                                new OnFailureCallBack<Exception>() {
+                                    @Override
+                                    public void onFailure(Exception input) {
+                                        Toast.makeText(getContext(), "failed to upload your store", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    }
+                }
             }
         });
         return mainView;

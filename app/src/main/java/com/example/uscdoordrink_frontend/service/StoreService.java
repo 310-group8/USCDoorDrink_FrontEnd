@@ -103,6 +103,29 @@ public class StoreService {
         return UID;
     }
 
+    public String UpdateStore(Store newStore, final OnSuccessCallBack<Void> successCallBack,
+                              final OnFailureCallBack<Exception> failureCallBack){
+        @NonNull final String UID = newStore.getStoreUID();
+        for (Drink drink : newStore.getMenu()){
+            drink.setStoreUID(UID);
+        }
+        DocumentReference documentReference = db.collection("Store").document(UID);
+        documentReference.set(newStore).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Log.d(TAG, "DocumentSnapshot updated with ID: " + UID);
+                successCallBack.onSuccess(unused);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG, "Error updating document", e);
+                failureCallBack.onFailure(e);
+            }
+        });
+        return UID;
+    }
+
 
     /**
      * @param storeUID, the ID of the store

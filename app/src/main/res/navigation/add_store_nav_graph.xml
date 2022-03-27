@@ -20,7 +20,24 @@
         android:label="fragment_add_store_menu"
         tools:layout="@layout/fragment_add_store_menu" >
         <action
-            android:id="@+id/action_menu_to_name"
-            app:destination="@id/addStoreName" />
+            android:id="@+id/action_menu_to_drink"
+            app:destination="@id/addStoreDrink" />
+        <action
+            android:id="@+id/action_menu_to_successful"
+            app:destination="@id/addStoreSuccessful" />
     </fragment>
+    <fragment
+        android:id="@+id/addStoreDrink"
+        android:name="com.example.uscdoordrink_frontend.fragments.AddStoreDrink"
+        android:label="fragment_add_store_drink"
+        tools:layout="@layout/fragment_add_store_drink" >
+        <action
+            android:id="@+id/action_drink_to_menu"
+            app:destination="@id/addStoreMenu" />
+    </fragment>
+    <fragment
+        android:id="@+id/addStoreSuccessful"
+        android:name="com.example.uscdoordrink_frontend.fragments.AddStoreSuccessful"
+        android:label="fragment_add_store_successful"
+        tools:layout="@layout/fragment_add_store_successful" />
 </navigation>

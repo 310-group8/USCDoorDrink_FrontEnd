@@ -18,7 +18,7 @@ public class Drink {
     private String drinkName;
 
 
-    private List<String> ingredients;
+    private List<String> ingredients = new ArrayList<>();
 
 
     private double price;

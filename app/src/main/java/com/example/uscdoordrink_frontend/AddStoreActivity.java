@@ -53,4 +53,10 @@ public class AddStoreActivity extends AppCompatActivity {
         }
     }
 
+    public void toMap(){
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
 }
