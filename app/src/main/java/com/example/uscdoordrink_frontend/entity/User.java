@@ -18,9 +18,9 @@ public class User {
 
     private String password;
 
-    private List<Order> currentOrder;
+    private List<Order> currentOrder = new ArrayList<>();
 
-    private List<Request> orderHistory;
+    private List<Request> orderHistory = new ArrayList<>();
 
     private UserType userType;
 
