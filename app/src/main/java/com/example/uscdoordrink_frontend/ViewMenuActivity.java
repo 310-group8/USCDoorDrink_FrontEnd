@@ -37,8 +37,10 @@ public class ViewMenuActivity extends AppCompatActivity {
     FirebaseFirestore db;
     String storeUID = "XSaRWfRKQwaqvYWB6yHi";
     Button btSelect;
-    private List<Drink> menu = new ArrayList<>();
     static final String TAG = "ViewMenuActivity";
+    List<Drink> menu;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,8 +55,8 @@ public class ViewMenuActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task){
                         if(task.isSuccessful()){
                             DocumentSnapshot document = task.getResult();
-                            
-//                            menu = castList(document.get("menu"), Drink.class);
+                            String drinkUID = document.get("drinkUID").toString();
+                            getMenu(drinkUID);
                         }else{
                             Log.d(TAG, "get failed with ", task.getException());
                         }
@@ -105,6 +107,24 @@ public class ViewMenuActivity extends AppCompatActivity {
         i.putExtra(AddCartActivity.PRICE, drinks.get(position).getPrice());
         i.putExtra(AddCartActivity.DISCOUNT, 0);
         startActivity(i);
+    }
+
+    private void getMenu(String drinkUID){
+        db = FirebaseFirestore.getInstance();
+        db.collection("Drink")
+                .document(drinkUID)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task){
+                        if(task.isSuccessful()){
+                            DocumentSnapshot document = task.getResult();
+                            menu = document.toObject(Menu.class).drinks;
+                        }else{
+                            Log.d(TAG, "get failed with ", task.getException());
+                        }
+                    }
+                });
     }
 }
 

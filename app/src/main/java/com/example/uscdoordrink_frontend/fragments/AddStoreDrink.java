@@ -98,6 +98,10 @@ public class AddStoreDrink extends Fragment {
                         addIngredient(drink, textIngredientThree.getText().toString(), defaultIngredient);
                         double price = Double.parseDouble(textPrice.getText().toString());
                         drink.setPrice(price);
+
+                        //added drink discount
+                        drink.setDiscount(0.0);
+
                         store.getMenu().add(drink);
                         Navigation.findNavController(view).navigate(R.id.action_drink_to_menu);
                     }catch (NumberFormatException e){

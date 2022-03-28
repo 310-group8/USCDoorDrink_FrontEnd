@@ -78,7 +78,7 @@ public class OrderActivity extends AppCompatActivity {
                 if(Constants.currentUser.getDailyCaffineConsume() >= 5){
                     Toast.makeText(OrderActivity.this, "Quote from USDA: Currently, strong evidence shows that consumption " +
                             "of coffee within the moderate range (3 to 5 cups per day or up to 400 mg/d caffeine) " +
-                            "is not associated with increased long-term health risks among healthy individuals.", Toast.LENGTH_SHORT);
+                            "is not associated with increased long-term health risks among healthy individuals.", Toast.LENGTH_SHORT).show();
 
                 }
                 address = editText.getText().toString();

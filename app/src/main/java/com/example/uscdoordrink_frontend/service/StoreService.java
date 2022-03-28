@@ -7,6 +7,7 @@ package com.example.uscdoordrink_frontend.service;
 
 import com.example.uscdoordrink_frontend.entity.Store;
 import com.example.uscdoordrink_frontend.entity.Drink;
+import com.example.uscdoordrink_frontend.entity.Menu;
 import com.example.uscdoordrink_frontend.service.CallBack.OnFailureCallBack;
 import com.example.uscdoordrink_frontend.service.CallBack.OnSuccessCallBack;
 import com.firebase.geofire.GeoFireUtils;
@@ -28,6 +29,7 @@ import java.util.List;
 
 import android.util.Log;
 import android.util.Pair;
+
 
 import androidx.annotation.NonNull;
 
@@ -242,5 +244,28 @@ public class StoreService {
                         }
                     }
                 });
+    }
+
+    public String updateDrinkUID(Menu m, final OnSuccessCallBack<Void> successCallBack,
+                                 final OnFailureCallBack<Exception> failureCallBack){
+
+        DocumentReference documentReference = db.collection("Drink").document();
+        final String UID = documentReference.getId();
+
+        documentReference.set(m).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Log.d(TAG, "DocumentSnapshot added with ID: " + UID);
+                successCallBack.onSuccess(unused);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG, "Error adding document", e);
+                failureCallBack.onFailure(e);
+            }
+        });
+        Log.d(TAG, UID);
+        return UID;
     }
 }

@@ -59,7 +59,7 @@ public class OrderManagementActivity extends AppCompatActivity {
                 }
                 req.setStatus(String.valueOf(i));
                 service.updateRequest(req);
-                Toast.makeText(OrderManagementActivity.this, "Order status successfully changed!", Toast.LENGTH_SHORT);
+                Toast.makeText(OrderManagementActivity.this, "Order status successfully changed!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -76,7 +76,7 @@ public class OrderManagementActivity extends AppCompatActivity {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(OrderManagementActivity.this, "Return to map.", Toast.LENGTH_SHORT);
+                Toast.makeText(OrderManagementActivity.this, "Return to map.", Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(OrderManagementActivity.this, MapsActivity.class);
                 startActivity(i);
                 finish();

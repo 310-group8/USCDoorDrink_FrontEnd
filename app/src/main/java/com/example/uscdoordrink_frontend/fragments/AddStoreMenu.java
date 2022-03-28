@@ -16,8 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.uscdoordrink_frontend.AddStoreActivity;
+import com.example.uscdoordrink_frontend.Constants.Constants;
 import com.example.uscdoordrink_frontend.R;
 import com.example.uscdoordrink_frontend.entity.Drink;
+import com.example.uscdoordrink_frontend.entity.Menu;
 import com.example.uscdoordrink_frontend.entity.Store;
 import com.example.uscdoordrink_frontend.service.CallBack.OnFailureCallBack;
 import com.example.uscdoordrink_frontend.service.CallBack.OnSuccessCallBack;
@@ -109,6 +111,26 @@ public class AddStoreMenu extends Fragment {
                                 new OnSuccessCallBack<Void>() {
                                     @Override
                                     public void onSuccess(Void input) {
+
+                                        //update drinkUID
+                                        Menu m = new Menu(theStore.getMenu());
+                                        String drinkUID = storeService.updateDrinkUID(m,new OnSuccessCallBack<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void input) {
+                                                        Toast.makeText(getContext(), "successfully uploading drinkUID", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                },
+                                                new OnFailureCallBack<Exception>() {
+                                                    @Override
+                                                    public void onFailure(Exception input) {
+                                                        Toast.makeText(getContext(), "failed to upload drinkUID", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                        theStore.setDrinkUID(drinkUID);
+
+                                        //add storeUID to user
+                                        Constants.currentUser.setStoreUID(theStore.getStoreUID());
+
                                         Navigation.findNavController(view).navigate(R.id.action_menu_to_successful);
                                     }
                                 },
@@ -123,6 +145,23 @@ public class AddStoreMenu extends Fragment {
                                 new OnSuccessCallBack<Void>() {
                                     @Override
                                     public void onSuccess(Void input) {
+
+                                        //update drinkUID
+                                        Menu m = new Menu(theStore.getMenu());
+                                        String drinkUID = storeService.updateDrinkUID(m,new OnSuccessCallBack<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void input) {
+                                                        Toast.makeText(getContext(), "successfully uploading drinkUID", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                },
+                                                new OnFailureCallBack<Exception>() {
+                                                    @Override
+                                                    public void onFailure(Exception input) {
+                                                        Toast.makeText(getContext(), "failed to upload drinkUID", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                        theStore.setDrinkUID(drinkUID);
+
                                         Navigation.findNavController(view).navigate(R.id.action_menu_to_successful);
                                     }
                                 },
