@@ -128,10 +128,12 @@ public class AddStoreMenu extends Fragment {
                                                     }
                                                 });
 
-                                        //add storeUID to user
+                                        // add storeUID to user
                                         Constants.currentUser.setStoreUID(theStore.getStoreUID());
                                         UserService service = new UserService();
                                         service.updateStoreUID(Constants.currentUser.getUserName(), theStore.getStoreUID());
+
+                                        // start order listening service
 
                                         Navigation.findNavController(view).navigate(R.id.action_menu_to_successful);
                                     }

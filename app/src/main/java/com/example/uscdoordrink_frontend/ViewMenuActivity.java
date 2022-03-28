@@ -35,7 +35,7 @@ public class ViewMenuActivity extends AppCompatActivity {
     ArrayList<String> priceList;
     ArrayList<Drink> drinks;
     FirebaseFirestore db;
-    String storeUID = "ENenoMqEZbpgVln7C4eN";
+    String storeUID = "7PqA0Yca8mKTntrvIHPT";
     Button btSelect;
     static final String TAG = "ViewMenuActivity";
     List<Drink> menu;

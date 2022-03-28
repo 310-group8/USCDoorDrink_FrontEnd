@@ -10,8 +10,8 @@ import java.util.List;
 
 public class Request {
 
-    private Instant start;
-    private Instant end;
+    private String start;
+    private String end;
     private String Name;
     private String ContactInformation;
     private String Address;
@@ -22,13 +22,14 @@ public class Request {
 
     public Request(){}
 
-    public Request(Instant s, String name, String contactInformation, String address, String UID, double total, List<Order> orders) {
+    public Request(String s, String name, String contactInformation, String address, String UID, double total, List<Order> orders) {
         start = s;
         end = null;
         Name = name;
         ContactInformation = contactInformation;
         Address = address;
         Total = total;
+        StoreUID = UID;
         Status = "0";   //0 is default, 1 is shipping, 2 is shipped
         this.orders = orders;
     }
@@ -92,19 +93,19 @@ public class Request {
     public void setContactInformation(String contactInformation) {
         ContactInformation = contactInformation;
     }
-    public Instant getStart() {
+    public String getStart() {
         return start;
     }
 
-    public void setStart(Instant start) {
+    public void setStart(String start) {
         this.start = start;
     }
 
-    public Instant getEnd() {
+    public String getEnd() {
         return end;
     }
 
-    public void setEnd(Instant end) {
+    public void setEnd(String end) {
         this.end = end;
     }
 }

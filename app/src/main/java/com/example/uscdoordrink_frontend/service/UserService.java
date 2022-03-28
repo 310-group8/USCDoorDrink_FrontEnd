@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 
+import com.example.uscdoordrink_frontend.entity.Request;
 import com.example.uscdoordrink_frontend.entity.User;
 import com.example.uscdoordrink_frontend.entity.UserType;
 import com.example.uscdoordrink_frontend.service.CallBack.OnFailureCallBack;
@@ -15,6 +16,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class UserService {
@@ -70,5 +72,9 @@ public class UserService {
         docRef.update("storeUID", UID);
     }
 
+    public void addUserRequest(String name, Request r){
+        DocumentReference docRef = db.collection("User").document(name);
+        docRef.update("orderHistory", FieldValue.arrayUnion(r));
+    }
 
 }

@@ -84,10 +84,10 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/contactInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:id="@+id/contactInfo"
                     android:text="xxxxxxxxx"
                     android:textColor="#000000"
                     android:textSize="18sp" />
@@ -114,10 +114,10 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/Password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:id="@+id/Password"
                     android:text="xxxxxxxxx"
                     android:textColor="#000000"
                     android:textSize="18sp" />
@@ -144,13 +144,13 @@
                     android:textSize="13sp" />
 
                 <Button
+                    android:id="@+id/btn_ViewChart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:text="View"
                     android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:id="@+id/btn_ViewChart"/>
+                    android:textSize="18sp" />
 
 
                 <View
@@ -163,6 +163,16 @@
 
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/manage_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="127dp"
+            android:layout_marginBottom="63dp"
+            android:text="View Order" />
 
     </RelativeLayout>
 

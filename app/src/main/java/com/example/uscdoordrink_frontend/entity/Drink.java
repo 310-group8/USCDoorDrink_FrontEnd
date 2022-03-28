@@ -25,6 +25,9 @@ public class Drink {
 
     private double price;
 
+    public Drink() {}
+
+
     public String getStoreUID() {
         return storeUID;
     }

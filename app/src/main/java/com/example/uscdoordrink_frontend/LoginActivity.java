@@ -77,18 +77,8 @@ public class LoginActivity extends AppCompatActivity {
                                             Log.d(TAG, "auth correct");
                                             Constants.currentUser = u;
                                             Toast.makeText(LoginActivity.this, "----- Logging you in ------", Toast.LENGTH_SHORT).show();
-                                            Intent i;
-                                            if(Constants.currentUser.getUserType() == UserType.CUSTOMER){
-                                                i = new Intent(LoginActivity.this, MapsActivity.class);
-                                            } else{
-                                                OrderNotificationService s = new OrderNotificationService();
-                                                s.orderListener();
-                                                if(Constants.currentUser.getStoreUID().equals("toBeAssigned")){
-                                                    i = new Intent(LoginActivity.this, AddStoreActivity.class);
-                                                }else{
-                                                    i = new Intent(LoginActivity.this, MapsActivity.class);
-                                                }
-                                            }
+
+                                            Intent i = new Intent(LoginActivity.this, ProfileActivity.class);
                                             startActivity(i);
                                             finish();
                                         } else{

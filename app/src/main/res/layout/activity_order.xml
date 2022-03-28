@@ -5,153 +5,37 @@
     android:background="#fff"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/item_height_normal"
-        android:layout_marginLeft="@dimen/margin_large"
-        android:layout_marginRight="@dimen/margin_large"
-        android:layout_marginTop="@dimen/dp_80">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Store name: xxx"
-            android:textSize="@dimen/dp_20"
-            android:textColor="@color/black"
-            />
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_large"
         android:layout_marginRight="@dimen/margin_large"
-        android:layout_marginTop="@dimen/margin_small"
-        android:paddingBottom="@dimen/margin_small"
-        android:paddingTop="@dimen/margin_small"
-        android:orientation="horizontal"
-        >
-        <TextView
-            android:id="@+id/drinkName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="drink name"
-            android:layout_weight="1"
-            android:layout_marginBottom="@dimen/margin_tiny"
-            android:layout_marginLeft="@dimen/margin_tiny"
-            android:textColor="@color/black"
-            android:textSize="@dimen/dp_20"
-            />
-
-        <TextView
-            android:id="@+id/price"
-            android:textSize="@dimen/dp_20"
-            android:layout_marginLeft="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="$ price"
-            android:textColor="@color/black"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_large"
-        android:layout_marginRight="@dimen/margin_large"
-        android:layout_marginTop="@dimen/margin_small"
-        android:paddingBottom="@dimen/margin_small"
-        android:paddingTop="@dimen/margin_small"
-        android:orientation="horizontal"
-        >
-        <TextView
-            android:id="@+id/address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Address:xxx"
-            android:layout_weight="1"
-            android:layout_marginBottom="@dimen/margin_tiny"
-            android:layout_marginLeft="@dimen/margin_tiny"
-            android:textColor="@color/black"
-            android:textSize="@dimen/dp_20"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_large"
-        android:layout_marginRight="@dimen/margin_large"
-        android:layout_marginTop="@dimen/margin_small"
-        android:paddingBottom="@dimen/margin_small"
-        android:paddingTop="@dimen/margin_small"
-        android:orientation="horizontal"
-        >
-        <TextView
-            android:id="@+id/EstimatedTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Estimated Deliver Time: xxx"
-            android:layout_weight="1"
-            android:layout_marginBottom="@dimen/margin_tiny"
-            android:layout_marginLeft="@dimen/margin_tiny"
-            android:textColor="@color/black"
-            android:textSize="@dimen/dp_20"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_large"
-        android:layout_marginRight="@dimen/margin_large"
-        android:layout_marginTop="@dimen/margin_small"
-        android:paddingBottom="@dimen/margin_small"
-        android:paddingTop="@dimen/margin_large"
-        android:orientation="horizontal"
-        >
-        <TextView
-            android:id="@+id/PriceDetail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="price detail"
-            android:layout_weight="1"
-            android:layout_marginBottom="@dimen/margin_tiny"
-            android:layout_marginLeft="@dimen/margin_tiny"
-            android:textColor="@color/black"
-            android:textSize="@dimen/dp_20"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_large"
-        android:layout_marginRight="@dimen/margin_large"
-        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginTop="250dp"
         android:paddingBottom="@dimen/margin_small"
         android:paddingTop="@dimen/margin_tiny"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal" >
+
         <TextView
-            android:id="@+id/subTotal"
+            android:id="@+id/subtotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="subtotal:"
-            android:layout_weight="1"
-            android:layout_marginBottom="@dimen/margin_tiny"
             android:layout_marginLeft="@dimen/margin_large"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="@dimen/margin_tiny"
+            android:layout_weight="1"
+            android:text="subtotal:"
             android:textColor="@color/black"
-            android:textSize="@dimen/dp_20"
-            />
+            android:textSize="@dimen/dp_20" />
 
         <TextView
-            android:id="@+id/pricest"
-            android:textSize="@dimen/dp_20"
-            android:layout_marginLeft="10dp"
+            android:id="@+id/pricesub"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="$ xxx"
-            android:textColor="@color/black"/>
+            android:layout_marginLeft="10dp"
+            android:text="-$ xxx"
+            android:textColor="@color/black"
+            android:textSize="@dimen/dp_20" />
     </LinearLayout>
 
     <LinearLayout
@@ -159,11 +43,12 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_large"
         android:layout_marginRight="@dimen/margin_large"
-        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginTop="8dp"
         android:paddingBottom="@dimen/margin_small"
         android:paddingTop="@dimen/margin_tiny"
         android:orientation="horizontal"
         >
+
         <TextView
             android:id="@+id/discounts"
             android:layout_width="wrap_content"
@@ -283,7 +168,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_login"
+        android:id="@+id/place_order"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp_280"

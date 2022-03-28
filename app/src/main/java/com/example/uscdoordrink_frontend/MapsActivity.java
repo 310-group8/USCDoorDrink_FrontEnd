@@ -59,7 +59,7 @@ import java.util.Objects;
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback{
 
     private GoogleMap mMap;
-//    private ActivityMapsBinding binding;
+    //    private ActivityMapsBinding binding;
     private static String TAG = "MapsActivity";
     private static int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private static float DEFAULT_ZOOM = 14.0f;

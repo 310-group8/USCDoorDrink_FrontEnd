@@ -10,39 +10,68 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.uscdoordrink_frontend.Constants.Constants;
 import com.example.uscdoordrink_frontend.entity.Order;
 import com.example.uscdoordrink_frontend.entity.Request;
+import com.example.uscdoordrink_frontend.entity.User;
+import com.example.uscdoordrink_frontend.entity.UserType;
 import com.example.uscdoordrink_frontend.service.CallBack.OnFailureCallBack;
 import com.example.uscdoordrink_frontend.service.CallBack.OnSuccessCallBack;
 import com.example.uscdoordrink_frontend.service.OrderNotificationService;
+import com.example.uscdoordrink_frontend.service.OrderService;
+import com.example.uscdoordrink_frontend.service.UserService;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 
 import java.util.ArrayList;
 import java.time.Instant;
+import java.util.List;
 
 public class OrderActivity extends AppCompatActivity {
 
-    public static final String SUBTOTAL = "SUBTOTAL";
-    public static final String DISCOUNTS = "DISCOUNTS";
+    public double subtotal;
+    public double discounts;
 
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     String TAG = "UserService";
 
     Button order;
+    TextView priceSub, pricedc, pricetax, priceSt, priceTotal;
     String address = null;
-    double tax = Double.parseDouble(SUBTOTAL) * 0.1;
-    double deliverFee = 1.99;
     double total;
+
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
-        total = Double.parseDouble(SUBTOTAL) - Double.parseDouble(DISCOUNTS) + tax + deliverFee;
+
+        User u = new User("Wade", "Lyz007354", "3233560454", UserType.CUSTOMER);
+        List<Order> orders = new ArrayList<>();
+        Order a = new Order("Pineapple Lemonade", "7PqA0Yca8mKTntrvIHPT", 1, 5, 0);
+        orders.add(a);
+        u.setCurrentOrder(orders);
+        Constants.currentUser = u;
+
+        subtotal = getIntent().getDoubleExtra("subtotal", 0.0);
+        discounts = getIntent().getDoubleExtra("discounts", 0.0);
+
+        order = findViewById(R.id.place_order);
+        priceSub = findViewById(R.id.pricesub);
+        pricedc = findViewById(R.id.pricedc);
+        pricetax = findViewById(R.id.pricetax);
+        priceSt = findViewById(R.id.priceSt);
+        priceTotal = findViewById(R.id.pricetotal);
+
+        double tax = subtotal * 0.1;
+        double deliverFee = 1.99;
+
+        total = subtotal - discounts + tax + deliverFee;
 
         if(Constants.currentUser == null){
             Toast.makeText(OrderActivity.this, "Please login before placing an order.", Toast.LENGTH_SHORT).show();
@@ -50,6 +79,12 @@ public class OrderActivity extends AppCompatActivity {
             startActivity(i);
             finish();
         }
+        priceSub.setText(String.valueOf(subtotal));
+        pricedc.setText(String.valueOf(discounts));
+        pricetax.setText(String.valueOf(tax));
+        priceSt.setText(String.valueOf(deliverFee));
+        priceTotal.setText(String.valueOf(total));
+
         order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,25 +116,26 @@ public class OrderActivity extends AppCompatActivity {
                             "is not associated with increased long-term health risks among healthy individuals.", Toast.LENGTH_SHORT).show();
 
                 }
-                address = editText.getText().toString();
 
-                Instant start = Instant.now();
-                String UID = Constants.currentUser.getCurrentOrder().get(0).getStoreUID();
+                Instant instant = Instant.now();
+                String start = instant.toString();
 
                 Request req = new Request(start, Constants.currentUser.getUserName(),
                         Constants.currentUser.getContactInformation(),
                         address,
-                        UID,
+                        Constants.currentUser.getCurrentOrder().get(0).getStoreUID(),
                         total,
                         Constants.currentUser.getCurrentOrder());
 
                 //sending request to firebase
-                OrderNotificationService s = new OrderNotificationService();
+
+                OrderService s = new OrderService();
                 s.addRequest(req, new OnSuccessCallBack<Void>() {
                     @Override
                     public void onSuccess(Void input) {
                         Constants.currentUser.setCurrentOrder(new ArrayList<Order>());
-                        Constants.currentUser.addOrderToHistory(req);
+                        Constants.currentRequest = req;
+                        //request will only be added to user order history when completed
                         Toast.makeText(OrderActivity.this, "Order is placed. Thank You!", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(OrderActivity.this, ViewOrderActivity.class);
                         startActivity(i);
@@ -126,5 +162,6 @@ public class OrderActivity extends AppCompatActivity {
 
         builder.show();
     }
+
 
 }

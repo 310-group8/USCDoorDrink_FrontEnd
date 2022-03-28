@@ -70,7 +70,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
         final double price = orders.get(position).getOrderPrice() * orders.get(position).getQuantity()
                 - orders.get(position).getDiscount() * orders.get(position).getQuantity();
         holder.textViewItemPrice.setText(numberFormat.format(price));
-        holder.textViewItemQuantity.setText(orders.get(position).getQuantity());
+        holder.textViewItemQuantity.setText(Integer.toString(orders.get(position).getQuantity()));
 
         holder.increment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +79,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
                 int newQuantity = Integer.parseInt(oldQuantity) + 1;
                 double result = orders.get(position).getOrderPrice() * newQuantity;
                 holder.textViewItemPrice.setText(numberFormat.format(result));
+                holder.textViewItemQuantity.setText(String.valueOf(newQuantity));
 
                 //Update database
                 Order order = orders.get(position);
@@ -102,6 +103,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
                 int newQuantity = Integer.parseInt(oldQuantity) - 1;
                 double result = orders.get(position).getOrderPrice() * newQuantity;
                 holder.textViewItemPrice.setText(numberFormat.format(result));
+                holder.textViewItemQuantity.setText(String.valueOf(newQuantity));
 
                 //Update database
                 Order order = orders.get(position);
