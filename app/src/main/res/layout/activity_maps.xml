@@ -19,8 +19,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MapsActivity"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="65dp">
+
 
     </fragment>
 
@@ -106,6 +107,95 @@
         app:layout_constraintEnd_toStartOf="@+id/fab_profile"
         app:layout_constraintTop_toBottomOf="@+id/fab_main"
         tools:ignore="MissingConstraints" />
+
+<!--    <FrameLayout-->
+<!--        android:layout_width="383dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/map"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.90">-->
+
+<!--        <com.google.android.material.chip.Chip-->
+<!--            android:id="@+id/order_here"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:text="@string/view_menu"-->
+<!--            android:textAlignment="center"-->
+<!--            android:textSize="16sp"-->
+<!--            android:visibility="invisible" />-->
+<!--    </FrameLayout>-->
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/order_here"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/aquamarine"
+        android:text="@string/view_menu"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.90" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/modes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:chipSpacingHorizontal="@dimen/dp_50"
+        app:layout_constraintBottom_toBottomOf="@+id/map"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/map"
+        app:layout_constraintTop_toTopOf="@+id/map"
+        app:layout_constraintVertical_bias="0.20"
+        app:singleSelection="true"
+        app:selectionRequired="true">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/driving"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:textSize="16sp"
+            app:checkedIconEnabled="false"
+            app:chipBackgroundColor="@color/transportation_color_state"
+            app:chipIcon="@drawable/driving"
+            app:chipIconEnabled="true"
+            app:chipIconSize="@dimen/dp_30"
+            app:ensureMinTouchTargetSize="true" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/walking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:textSize="16sp"
+            app:checkedIconEnabled="false"
+            app:chipBackgroundColor="@color/transportation_color_state"
+            app:chipIcon="@drawable/walking"
+            app:chipIconEnabled="true"
+            app:chipIconSize="@dimen/dp_30"
+            app:ensureMinTouchTargetSize="true" />
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/bicycling"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:textSize="16sp"
+            app:checkedIconEnabled="false"
+            app:chipBackgroundColor="@color/transportation_color_state"
+            app:chipIcon="@drawable/bicycling"
+            app:chipIconEnabled="true"
+            app:chipIconSize="@dimen/dp_30"
+            app:ensureMinTouchTargetSize="true" />
+    </com.google.android.material.chip.ChipGroup>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
