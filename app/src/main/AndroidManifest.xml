@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.uscdoordrink_frontend">
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -25,10 +28,13 @@
             android:exported="false" />
         <activity
             android:name=".AddStoreActivity"
-            android:exported="true" />
-        <activity
-            android:name=".ViewMenuActivity"
-            android:exported="false" />
+            android:exported="true">
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
+
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
+        </activity>
 
         <service
             android:name=".service.OrderNotificationService"
@@ -38,6 +44,9 @@
         <activity
             android:name=".OrderActivity"
             android:exported="false" />
+        <activity
+            android:name=".ViewChartActivity"
+            android:exported="false"/>
         <activity
             android:name=".CartActivity"
             android:exported="false" />

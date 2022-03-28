@@ -17,15 +17,15 @@ import com.example.uscdoordrink_frontend.entity.Drink;
 import com.example.uscdoordrink_frontend.entity.Menu;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.button.MaterialButton;
+
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
 
 
 public class ViewMenuActivity extends AppCompatActivity {
@@ -35,7 +35,7 @@ public class ViewMenuActivity extends AppCompatActivity {
     ArrayList<String> priceList;
     ArrayList<Drink> drinks;
     FirebaseFirestore db;
-    String storeUID = "XSaRWfRKQwaqvYWB6yHi";
+    String storeUID = "ENenoMqEZbpgVln7C4eN";
     Button btSelect;
     static final String TAG = "ViewMenuActivity";
     List<Drink> menu;
@@ -56,9 +56,26 @@ public class ViewMenuActivity extends AppCompatActivity {
                         if(task.isSuccessful()){
                             DocumentSnapshot document = task.getResult();
                             String drinkUID = document.get("drinkUID").toString();
-                            getMenu(drinkUID);
+
+                            db = FirebaseFirestore.getInstance();
+                            db.collection("Drink")
+                                    .document(drinkUID)
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task){
+                                            if(task.isSuccessful()){
+                                                DocumentSnapshot document = task.getResult();
+                                                menu = document.toObject(Menu.class).drinks;
+                                            }else{
+                                                Log.d(TAG, "get failed with ", task.getException());
+                                            }
+                                        }
+                                    });
+
+                            Log.d(TAG, "success");
                         }else{
-                            Log.d(TAG, "get failed with ", task.getException());
+                            Log.w(TAG, "get failed with ", task.getException());
                         }
                     }
                 });
@@ -71,10 +88,12 @@ public class ViewMenuActivity extends AppCompatActivity {
         priceList = new ArrayList<String>();
         menuAdapter = new MenuAdapter(this, drinks);
         recyclerView.setAdapter(menuAdapter);
+
         for(Drink drink: menu){
             drinkNameList.add(drink.getDrinkName());
             priceList.add(String.valueOf(drink.getPrice()));
         }
+
         menuAdapter.buttonSetOnclick(new MenuAdapter.ButtonInterface(){
             @Override
             public void onclick(View view, int position) {
@@ -110,24 +129,6 @@ public class ViewMenuActivity extends AppCompatActivity {
     }
 
     private void getMenu(String drinkUID){
-        db = FirebaseFirestore.getInstance();
-        db.collection("Drink")
-                .document(drinkUID)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task){
-                        if(task.isSuccessful()){
-                            DocumentSnapshot document = task.getResult();
-                            menu = document.toObject(Menu.class).drinks;
-                        }else{
-                            Log.d(TAG, "get failed with ", task.getException());
-                        }
-                    }
-                });
+
     }
 }
-
-
-
-
