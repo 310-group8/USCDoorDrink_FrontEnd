@@ -41,6 +41,11 @@
             android:enabled="true"
             android:exported="true" />
 
+        <service
+            android:name=".service.DirectionService"
+            android:enabled="true"
+            android:exported="true" />
+
         <activity
             android:name=".OrderActivity"
             android:exported="false" />

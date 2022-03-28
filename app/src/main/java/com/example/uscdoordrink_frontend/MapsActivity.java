@@ -6,10 +6,14 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
@@ -22,6 +26,7 @@ import com.example.uscdoordrink_frontend.entity.UserType;
 import com.example.uscdoordrink_frontend.entity.Store;
 import com.example.uscdoordrink_frontend.service.CallBack.OnFailureCallBack;
 import com.example.uscdoordrink_frontend.service.CallBack.OnSuccessCallBack;
+import com.example.uscdoordrink_frontend.service.DirectionService;
 import com.example.uscdoordrink_frontend.service.StoreService;
 import com.example.uscdoordrink_frontend.utils.DirectionHelper;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -51,7 +56,7 @@ import java.util.List;
 import java.util.Objects;
 //import com.example.uscdoordrink_frontend.databinding.ActivityMapsBinding;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener{
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback{
 
     private GoogleMap mMap;
 //    private ActivityMapsBinding binding;
@@ -66,6 +71,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private FusedLocationProviderClient fusedLocationProviderClient;
     private List<Store> storesNearby;
     private Polyline mPolyline;
+    private boolean mBound = false;
+    private DirectionService mService;
     private List<Marker> markers;
 
     private Animation rotateOpen, rotateClose, fromBottom, toBottom;
@@ -94,7 +101,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 //                .commit();
 
         // Construct a PlacesClient
-        Places.initialize(getApplicationContext(), getString(R.string.maps_api_key));
+        if (!Places.isInitialized()){
+            Places.initialize(getApplicationContext(), getString(R.string.maps_api_key));
+        }
         placesClient = Places.createClient(this);
 
         // Construct a FusedLocationProviderClient.
@@ -103,6 +112,37 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         setUpButtons();
     }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Bind to LocalService
+        Intent intent = new Intent(this, DirectionService.class);
+        bindService(intent, connection, Context.BIND_AUTO_CREATE);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unbindService(connection);
+        mBound = false;
+    }
+
+    private final ServiceConnection connection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName className,
+                                       IBinder service) {
+            // We've bound to LocalService, cast the IBinder and get LocalService instance
+            DirectionService.DirectionServiceBinder binder = (DirectionService.DirectionServiceBinder) service;
+            mService = binder.getService();
+            mBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            mBound = false;
+        }
+    };
 
     /**
      * Manipulates the map once available.
@@ -124,7 +164,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         getLocationPermission();
         updateLocationUI();
         getDeviceLocation();
-        setUpMarkers();
     }
 
     public void onAddButtonClicked(){
@@ -336,6 +375,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                         new LatLng(lastKnownLocation.getLatitude(),
                                                 lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+                                setUpMarkers();
                             }
                         } else {
                             Log.d(TAG, "Current location is null. Using defaults.");
@@ -362,17 +402,27 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void setUpMarkers(){
         StoreService storeService = new StoreService();
-        Pair<Double, Double> lastKnownPair = new Pair<>(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
-        storeService.getNearbyStore(lastKnownPair,
+        storeService.getNearbyStore(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()),
                 new OnSuccessCallBack<List<Store>>() {
                     @Override
                     public void onSuccess(List<Store> input) {
                         storesNearby = input;
                         for (Store store : storesNearby){
-                            LatLng storePosition = new LatLng(store.getStoreAddress().first, store.getStoreAddress().second);
+                            LatLng storePosition = new LatLng(store.getStoreAddress().latitude, store.getStoreAddress().longitude);
                             @NonNull Marker marker = Objects.requireNonNull(mMap.addMarker(new MarkerOptions().position(storePosition).title(store.getStoreName())));
                             marker.setTag(store);
                         }
+                        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                            @Override
+                            public boolean onMarkerClick(@NonNull final Marker marker){
+
+                                Log.d(TAG, "Yes you did it");
+                                drawPoly(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()),
+                                        ((Store)marker.getTag()).getStoreAddress(),
+                                        DirectionHelper.Modes.driving);
+                                return false;
+                            }
+                        });
                     }
                 },
                 new OnFailureCallBack<Exception>() {
@@ -383,40 +433,46 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 });
     }
 
-    @Override
-    public boolean onMarkerClick(@NonNull final Marker marker){
 
-        Log.d(TAG, "Yes you did it");
-        return false;
-    }
-
-    private String drawPoly(Pair<Double, Double> origin, Pair<Double, Double> destination, DirectionHelper.Modes mode){
+    private void drawPoly(LatLng origin, LatLng destination, DirectionHelper.Modes mode){
         if (mPolyline != null){
             mPolyline.remove();
         }
         String URL = DirectionHelper.setUpURL(origin, destination, mode);
-        try{
-            OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder()
-                    .url(URL)
-                    .method("GET", null)
-                    .build();
-            Response response = client.newCall(request).execute();
-            List<LatLng> result = new ArrayList<>();
-            String time = DirectionHelper.decodePolyline(response, result);
-            if (time == null){
-                throw new NullPointerException();
-            }
-            mMap.addPolyline(new PolylineOptions().addAll(result));
-            return time;
-        }catch (IOException e){
-            Toast.makeText(getApplicationContext(), "Failed to get directions", Toast.LENGTH_SHORT).show();
-            return null;
-        }catch (NullPointerException e){
-            Toast.makeText(getApplicationContext(), "Failed to parse directions", Toast.LENGTH_SHORT).show();
-            return null;
+        if (mBound){
+            mService.getDirections(URL,
+                    new OnSuccessCallBack<Response>() {
+                        @Override
+                        public void onSuccess(Response response) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try{
+                                        List<LatLng> result = new ArrayList<>();
+                                        String time = DirectionHelper.decodePolyline(response, result);
+                                        if (time == null){
+                                            throw new NullPointerException();
+                                        }
+                                        mPolyline = mMap.addPolyline(new PolylineOptions().addAll(result));
+                                    }catch (NullPointerException e){
+                                        Toast.makeText(getApplicationContext(), "Failed to get directions", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }
+                    },
+                    new OnFailureCallBack<Exception>() {
+                        @Override
+                        public void onFailure(Exception input) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getApplicationContext(), "Failed to parse directions", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    });
         }
-
     }
 
 }

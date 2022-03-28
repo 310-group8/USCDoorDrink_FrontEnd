@@ -30,11 +30,11 @@ public class DirectionHelper {
     }
 
     @SuppressLint("DefaultLocale")
-    public static String setUpURL(Pair<Double, Double> origin, Pair<Double, Double> destination, Modes mode){
+    public static String setUpURL(LatLng origin, LatLng destination, Modes mode){
 
         return String.format("https://maps.googleapis.com/maps/api/directions/json?origin=%f,%f&destination=%f,%f&mode=%s&key=%s",
-                origin.first, origin.second,
-                destination.first, destination.second,
+                origin.latitude, origin.longitude,
+                destination.latitude, destination.longitude,
                 mode.toString(),
                 "AIzaSyCoj0HiPuANRmMbBN4fA51oCiRa8y_q8fA");
     }

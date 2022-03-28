@@ -13,6 +13,7 @@ import com.example.uscdoordrink_frontend.service.CallBack.OnSuccessCallBack;
 import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQueryBounds;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -186,10 +187,10 @@ public class StoreService {
         });
     }
 
-    public void getNearbyStore(Pair<Double, Double> position,
+    public void getNearbyStore(LatLng position,
                                final OnSuccessCallBack<List<Store>> successCallBack,
                                final OnFailureCallBack<Exception> failureCallBack){
-        final GeoLocation center = new GeoLocation(position.first, position.second);
+        final GeoLocation center = new GeoLocation(position.latitude, position.longitude);
         List<GeoQueryBounds> bounds = GeoFireUtils.getGeoHashQueryBounds(center, searchRadius);
         final List<Task<QuerySnapshot>> tasks = new ArrayList<>();
         for (GeoQueryBounds b : bounds) {
@@ -216,8 +217,8 @@ public class StoreService {
                                     if (store == null){
                                         throw new NullPointerException("The Store equals null");
                                     }
-                                    double lat = store.getStoreAddress().first;
-                                    double lng = store.getStoreAddress().second;
+                                    double lat = store.getStoreAddress().latitude;
+                                    double lng = store.getStoreAddress().longitude;
                                     // We have to filter out a few false positives due to GeoHash
                                     // accuracy, but most will match
                                     GeoLocation docLocation = new GeoLocation(lat, lng);

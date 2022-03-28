@@ -30,30 +30,41 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.25" />
 
-    <EditText
-        android:id="@+id/editTextStoreLat"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:ems="10"
-        android:inputType="numberSigned"
-        android:text="@string/add_store_lat"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.45"/>
+<!--    <EditText-->
+<!--        android:id="@+id/editTextStoreLat"-->
+<!--        android:layout_width="200dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:ems="10"-->
+<!--        android:inputType="numberSigned"-->
+<!--        android:text="@string/add_store_lat"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.45"/>-->
 
-    <EditText
-        android:id="@+id/editTextStoreLng"
-        android:layout_width="200dp"
+<!--    <EditText-->
+<!--        android:id="@+id/editTextStoreLng"-->
+<!--        android:layout_width="200dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:ems="10"-->
+<!--        android:inputType="numberSigned"-->
+<!--        android:text="@string/add_store_lng"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.60"/>-->
+
+    <fragment
+        android:id="@+id/autocomplete_fragment"
+        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+        android:layout_width="300dp"
         android:layout_height="50dp"
-        android:ems="10"
-        android:inputType="numberSigned"
-        android:text="@string/add_store_lng"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.60"/>
+        app:layout_constraintVertical_bias="0.50" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,12 +3,18 @@ package com.example.uscdoordrink_frontend.entity;
 
 import android.util.Pair;
 
+import androidx.annotation.NonNull;
+
 import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 
 /**
@@ -23,10 +29,11 @@ public class Store {
 
     private String storeName;
 
-    private Pair<Double, Double> storeAddress;
+    private HashMap<String, Double> storeAddress;
+
+    private String addressString;
 
     private List<Drink> menu = new ArrayList<>();
-
 
     private String drinkUID;
 
@@ -40,14 +47,23 @@ public class Store {
 
     public void setStoreUID(String newUID){storeUID = newUID;}
 
+
     //(lat, lng)
-    public Pair<Double, Double> getStoreAddress() {
-        return storeAddress;
+    public LatLng getStoreAddress() {
+        if (storeAddress != null){
+            return new LatLng(Objects.requireNonNull(storeAddress.get("latitude")), Objects.requireNonNull(storeAddress.get("longitude")));
+        }else{
+            return null;
+        }
     }
 
-    public void setStoreAddress(Pair<Double, Double> storeAddress) {
-        this.storeAddress = storeAddress;
-        hashLocation = GeoFireUtils.getGeoHashForLocation(new GeoLocation(this.storeAddress.first, this.storeAddress.second));
+    public void setStoreAddress(Double latitude, Double longitude) {
+        if (this.storeAddress == null){
+            this.storeAddress = new HashMap<>();
+        }
+        this.storeAddress.put("latitude", latitude);
+        this.storeAddress.put("longitude", longitude);
+        hashLocation = GeoFireUtils.getGeoHashForLocation(new GeoLocation(Objects.requireNonNull(storeAddress.get("latitude")), Objects.requireNonNull(storeAddress.get("longitude"))));
     }
 
     public String getHashLocation(){
@@ -69,8 +85,12 @@ public class Store {
         this.drinkUID = drinkUID;
     }
 
-    public void setHashLocation(String hashLocation) {
+    private void setHashLocation(String hashLocation) {
         this.hashLocation = hashLocation;
     }
+
+    public void setAddressString(String newAddressString){addressString = newAddressString;}
+
+    public String getAddressString(){return addressString;}
 
 }

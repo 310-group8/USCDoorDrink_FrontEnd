@@ -18,6 +18,7 @@ import com.example.uscdoordrink_frontend.service.CallBack.OnFailureCallBack;
 import com.example.uscdoordrink_frontend.service.CallBack.OnSuccessCallBack;
 import com.example.uscdoordrink_frontend.service.StoreService;
 import com.example.uscdoordrink_frontend.viewmodels.AddStoreViewModel;
+import com.google.android.libraries.places.api.Places;
 
 public class AddStoreActivity extends AppCompatActivity {
 
@@ -27,6 +28,9 @@ public class AddStoreActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_store);
+        if (!Places.isInitialized()){
+            Places.initialize(getApplicationContext(), getString(R.string.maps_api_key));
+        }
         Intent intent = getIntent();
         String storeUID = intent.getStringExtra("storeUID");
         theStore = new ViewModelProvider(this).get(AddStoreViewModel.class);
