@@ -70,7 +70,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "cart is pressed successfully");
-                Intent i = new Intent(MapsActivity.this, CartActivity.class);
+                Intent i = new Intent(MapsActivity.this, ViewMenuActivity.class);
                 startActivity(i);
                 finish();
             }

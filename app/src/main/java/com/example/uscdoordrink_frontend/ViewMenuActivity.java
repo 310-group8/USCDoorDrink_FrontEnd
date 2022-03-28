@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.uscdoordrink_frontend.adaptor.MenuAdapter;
 import com.example.uscdoordrink_frontend.entity.Drink;
+import com.example.uscdoordrink_frontend.entity.Menu;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
@@ -24,6 +25,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class ViewMenuActivity extends AppCompatActivity {
@@ -33,7 +35,7 @@ public class ViewMenuActivity extends AppCompatActivity {
     ArrayList<String> priceList;
     ArrayList<Drink> drinks;
     FirebaseFirestore db;
-    String storeUID;
+    String storeUID = "XSaRWfRKQwaqvYWB6yHi";
     Button btSelect;
     private List<Drink> menu = new ArrayList<>();
     static final String TAG = "ViewMenuActivity";
@@ -51,7 +53,8 @@ public class ViewMenuActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task){
                         if(task.isSuccessful()){
                             DocumentSnapshot document = task.getResult();
-                            menu = castList(document.get("menu"), Drink.class);
+                            
+//                            menu = castList(document.get("menu"), Drink.class);
                         }else{
                             Log.d(TAG, "get failed with ", task.getException());
                         }
