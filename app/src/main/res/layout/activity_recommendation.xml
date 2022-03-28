@@ -1,10 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RecommendationActivity">
+    android:background="#fff"
+    android:orientation="vertical">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Some Recommendations"
+        android:textColor="@color/black"
+        android:textSize="@dimen/margin_large"
+        android:gravity="center"
+        />
+    <View
+        android:layout_width="match_parent" android:layout_height="@dimen/dp_1"
+        android:background="@color/maroon"
+        />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height_normal"
+        android:layout_marginLeft="@dimen/margin_large"
+        android:layout_marginRight="@dimen/margin_large"
+        android:layout_marginTop="@dimen/dp_30">
+
+        <TextView
+            android:id="@+id/GuessYouLike"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/margin_normal"
+            android:layout_marginBottom="@dimen/margin_tiny"
+            android:background="@null"
+            android:textSize="@dimen/margin_medium"
+            android:text="Guess you like:"
+            android:textColor="@color/black"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_500"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginLeft="@dimen/margin_large"
+        android:layout_marginRight="@dimen/margin_large">
+
+        <TextView
+            android:id="@+id/recommendations"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/margin_normal"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="40dp"
+            android:background="@null"
+            android:text="Item, Item, Item, Item, Item"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/margin_medium"/>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_return"
+        android:layout_width="341dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_large"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="@dimen/margin_large"
+        android:background="@drawable/btn_maroon_selector"
+        android:paddingTop="@dimen/margin_small"
+        android:paddingBottom="@dimen/margin_small"
+        android:text="Return"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_normal" />
+
+</LinearLayout>
