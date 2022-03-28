@@ -20,15 +20,23 @@
             android:exported="false" />
         <activity
             android:name=".RecommendationActivity"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/title_activity_recommendation"
-            android:theme="@style/Theme.USCDoorDrink_FrontEnd.NoActionBar" />
+            android:theme="@style/Theme.USCDoorDrink_FrontEnd.NoActionBar" >
+<!--                <intent-filter>-->
+<!--                    <action android:name="android.intent.action.MAIN" />-->
+
+<!--                    <category android:name="android.intent.category.LAUNCHER" />-->
+<!--                </intent-filter>-->
+        </activity>
+
         <activity
             android:name=".OrderManagementActivity"
             android:exported="false" />
         <activity
             android:name=".AddStoreActivity"
             android:exported="true">
+
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->
 
@@ -49,6 +57,9 @@
         <activity
             android:name=".OrderActivity"
             android:exported="false" />
+        <activity
+            android:name=".ViewChartActivity"
+            android:exported="false"/>
         <activity
             android:name=".CartActivity"
             android:exported="false" />
@@ -77,11 +88,11 @@
             android:name=".MapsActivity"
             android:exported="true"
             android:label="@string/title_activity_maps">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
     </application>
 

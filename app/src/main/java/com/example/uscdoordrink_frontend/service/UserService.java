@@ -37,7 +37,7 @@ public class UserService {
                 failureCallBack.onFailure(e);
             }
         });
-        
+
     }
 
 
@@ -64,5 +64,11 @@ public class UserService {
         });
         return status[0];
     }
+
+    public void updateStoreUID(String name, String UID){
+        DocumentReference docRef = db.collection("User").document(name);
+        docRef.update("storeUID", UID);
+    }
+
 
 }
