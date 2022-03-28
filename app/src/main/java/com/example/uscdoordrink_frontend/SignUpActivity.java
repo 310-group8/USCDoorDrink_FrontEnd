@@ -12,13 +12,13 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.uscdoordrink_frontend.entity.Store;
 import com.example.uscdoordrink_frontend.entity.User;
 import com.example.uscdoordrink_frontend.entity.UserType;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.example.uscdoordrink_frontend.service.CallBack.OnFailureCallBack;
+import com.example.uscdoordrink_frontend.service.CallBack.OnSuccessCallBack;
+import com.example.uscdoordrink_frontend.service.UserService;
+
 
 /**
  * @Author: Yuxiang Zhang
@@ -30,9 +30,6 @@ public class SignUpActivity extends AppCompatActivity {
     EditText userName, password, contactInformation;
     Button login, register;
     RadioGroup select;
-    RadioButton userType;
-    UserType u;
-    boolean isRegistered;
 
 
     @Override
@@ -45,52 +42,63 @@ public class SignUpActivity extends AppCompatActivity {
         contactInformation = findViewById((R.id.et_ci));
         register = findViewById(R.id.btn_register);
         login = findViewById(R.id.Login);
+        select = (RadioGroup)findViewById(R.id.select);
 
-        //initiate firebase database
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference userTable = firebaseDatabase.getReference("User");
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userTable.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        //Checking User avail
-                        if (dataSnapshot.child(userName.getText().toString()).exists()) {
-                            //username already exists
-                            Toast.makeText(SignUpActivity.this, "Username already exits.", Toast.LENGTH_SHORT).show();
-                        } else {
-                            int radioID = select.getCheckedRadioButtonId();
-                            userType = findViewById(radioID);
-                            if (userType.getText().equals("customer")) {
-                                User user = new User(userName.getText().toString(), password.getText().toString(), UserType.CUSTOMER);
-                                userTable.child(contactInformation.getText().toString()).setValue(user);
-                                Toast.makeText(SignUpActivity.this, "User created successfully!", Toast.LENGTH_SHORT).show();
-                                isRegistered = true;
-                            } else if (userType.getText().equals("seller")) {
-                                User user = new User(userName.getText().toString(), password.getText().toString(), UserType.SELLER);
-                                userTable.child(contactInformation.getText().toString()).setValue(user);
-                                Toast.makeText(SignUpActivity.this, "User created successfully!", Toast.LENGTH_SHORT).show();
-                                isRegistered = true;
-                            } else {
-                                Toast.makeText(SignUpActivity.this, "Please select your user type!", Toast.LENGTH_SHORT).show();
-                                isRegistered = false;
-                            }
-                            if(isRegistered){
-                                Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                        }
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                UserService s = new UserService();
+                if (s.isRegistered(userName.getText().toString()).equals("true")) {
+                    Toast.makeText(SignUpActivity.this, "Username already exits, please log in.", Toast.LENGTH_SHORT).show();
+                } else {
+                    int id = select.getCheckedRadioButtonId();
+                    switch (id) {
+                        case R.id.customer:
+                            User u1 = new User(userName.getText().toString(), password.getText().toString(), contactInformation.getText().toString(), UserType.CUSTOMER);
+                            s.register(u1, new OnSuccessCallBack<Void>() {
+                                @Override
+                                public void onSuccess(Void input) {
+                                    Toast.makeText(SignUpActivity.this, "Customer sign up successfully!", Toast.LENGTH_SHORT).show();
+                                    setRegister();
+                                }
+                            }, new OnFailureCallBack<Exception>() {
+                                @Override
+                                public void onFailure(Exception input) {
+                                    Toast.makeText(getApplicationContext(),
+                                            "sign up failed",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                            break;
+
+                            case R.id.seller:
+                                User u2 = new User(userName.getText().toString(), password.getText().toString(), contactInformation.getText().toString(), UserType.SELLER);
+                                s.register(u2, new OnSuccessCallBack<Void>() {
+                                @Override
+                                public void onSuccess(Void input) {
+                                    Toast.makeText(SignUpActivity.this, "Seller sign up successfully!", Toast.LENGTH_SHORT).show();
+                                    setRegister();
+                                }
+                            }, new OnFailureCallBack<Exception>() {
+                                @Override
+                                public void onFailure(Exception input) {
+                                    Toast.makeText(getApplicationContext(),
+                                            "sign up failed",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                                break;
+                                default:
+                                    Toast.makeText(SignUpActivity.this, "Please select your user type!", Toast.LENGTH_SHORT).show();
+                                    break;
 
                     }
-                });
+                }
             }
         });
+
+
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,6 +108,12 @@ public class SignUpActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    public void setRegister(){
+        Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 

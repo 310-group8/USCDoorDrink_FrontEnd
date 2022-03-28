@@ -27,6 +27,8 @@ public class Order {
 
     private double discount;
 
+    public Order(){}
+
     public Order(String drink, String storeUID, int quantity, double price, double discount) {
         this.drink = drink;
         this.storeUID = storeUID;

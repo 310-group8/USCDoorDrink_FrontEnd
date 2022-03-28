@@ -29,8 +29,6 @@ public class CartActivity extends AppCompatActivity {
         double subtotal = 0;
         double discount = 0;
 
-        FirebaseDatabase firebaseDatabase;
-        DatabaseReference request;
         CartAdapter cartAdapter;
         List<Order> orders = new ArrayList<>();
 
@@ -84,5 +82,6 @@ public class CartActivity extends AppCompatActivity {
                 i.putExtra(OrderActivity.SUBTOTAL, subtotal);
                 i.putExtra(OrderActivity.DISCOUNTS, discount);
                 startActivity(i);
+                finish();
             }
         }

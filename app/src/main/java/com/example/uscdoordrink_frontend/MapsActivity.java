@@ -2,9 +2,12 @@ package com.example.uscdoordrink_frontend;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -21,6 +24,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
 //    private ActivityMapsBinding binding;
     private static String TAG = "MapsActivity";
+
+    private Animation rotateOpen, rotateClose, fromBottom, toBottom;
+    private FloatingActionButton fab_main, fab_profile, fab_cart, fab_recommendation, fab_order, fab_login;
+    boolean clicked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +46,73 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //                .beginTransaction()
 //                .add(R.id.map_container_view, mapFragment)
 //                .commit();
-        FloatingActionButton fab = findViewById(R.id.fab_to_personal_profile);
-        fab.setOnClickListener(new View.OnClickListener() {
+        fab_main = findViewById(R.id.fab_main);
+        fab_cart = findViewById(R.id.fab_cart);
+        fab_login = findViewById(R.id.fab_login);
+        fab_order = findViewById(R.id.fab_order);
+        fab_profile = findViewById(R.id.fab_profile);
+        fab_recommendation = findViewById(R.id.fab_recommendation);
+
+        rotateOpen = AnimationUtils.loadAnimation(this, R.anim.rotate_open_anim);
+        rotateClose = AnimationUtils.loadAnimation(this, R.anim.rotate_close_anim);
+        fromBottom = AnimationUtils.loadAnimation(this, R.anim.from_bottom_anim);
+        toBottom = AnimationUtils.loadAnimation(this, R.anim.to_bottom_anim);
+
+        fab_main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "Fab is pressed successfully");
+                onAddButtonClicked();
+            }
+        });
+
+        fab_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "cart is pressed successfully");
+                Intent i = new Intent(MapsActivity.this, CartActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
+        fab_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "login is pressed successfully");
+                Intent i = new Intent(MapsActivity.this, LoginActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
+        fab_order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "order is pressed successfully");
+                Intent i = new Intent(MapsActivity.this, ViewOrderActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
+        fab_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "profile is pressed successfully");
+                Intent i = new Intent(MapsActivity.this, ProfileActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
+        fab_recommendation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "recommendation is pressed successfully");
+                Intent i = new Intent(MapsActivity.this, RecommendationActivity.class);
+                startActivity(i);
+                finish();
             }
         });
     }
@@ -65,5 +134,45 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    }
+
+    public void onAddButtonClicked(){
+        setVisibility(clicked);
+        setAnimation(clicked);
+        clicked = !clicked;
+    }
+
+    private void setVisibility(Boolean clicked){
+        if(!clicked){
+            fab_recommendation.setVisibility(View.VISIBLE);
+            fab_cart.setVisibility(View.VISIBLE);
+            fab_order.setVisibility(View.VISIBLE);
+            fab_profile.setVisibility(View.VISIBLE);
+            fab_login.setVisibility(View.VISIBLE);
+        } else{
+            fab_recommendation.setVisibility(View.INVISIBLE);
+            fab_cart.setVisibility(View.INVISIBLE);
+            fab_order.setVisibility(View.INVISIBLE);
+            fab_profile.setVisibility(View.INVISIBLE);
+            fab_login.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void setAnimation(Boolean clicked){
+        if (!clicked){
+            fab_recommendation.startAnimation(fromBottom);
+            fab_cart.startAnimation(fromBottom);
+            fab_order.startAnimation(fromBottom);
+            fab_profile.startAnimation(fromBottom);
+            fab_login.startAnimation(fromBottom);
+            fab_main.startAnimation(rotateOpen);
+        } else{
+            fab_recommendation.startAnimation(toBottom);
+            fab_cart.startAnimation(toBottom);
+            fab_order.startAnimation(toBottom);
+            fab_profile.startAnimation(toBottom);
+            fab_login.startAnimation(toBottom);
+            fab_main.startAnimation(rotateClose);
+        }
     }
 }

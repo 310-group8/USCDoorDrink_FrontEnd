@@ -172,6 +172,7 @@
             android:textColor="@color/black"/>
 
         <RadioGroup
+            android:id="@+id/select"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
@@ -180,7 +181,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/text_size_small"
-                android:onClick="checkButton"
+
                 android:text="customer" />
 
             <RadioButton
@@ -188,7 +189,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="seller"
-                android:onClick="checkButton"
+
                 android:textSize="@dimen/text_size_small" />
 
         </RadioGroup>
@@ -245,7 +246,7 @@
         android:layout_marginLeft="@dimen/margin_huge"
         android:layout_marginRight="@dimen/margin_large"
         android:background="@drawable/btn_maroon_selector"
-        android:text="register"
+        android:text="login"
         android:textColor="@android:color/white"
         android:textSize="8dp" />
 </LinearLayout>

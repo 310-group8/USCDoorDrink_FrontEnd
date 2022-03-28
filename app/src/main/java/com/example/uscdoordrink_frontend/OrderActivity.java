@@ -15,22 +15,22 @@ import android.widget.Toast;
 import com.example.uscdoordrink_frontend.Constants.Constants;
 import com.example.uscdoordrink_frontend.entity.Order;
 import com.example.uscdoordrink_frontend.entity.Request;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.example.uscdoordrink_frontend.service.CallBack.OnFailureCallBack;
+import com.example.uscdoordrink_frontend.service.CallBack.OnSuccessCallBack;
+import com.example.uscdoordrink_frontend.service.OrderNotificationService;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.time.Instant;
 
 public class OrderActivity extends AppCompatActivity {
 
     public static final String SUBTOTAL = "SUBTOTAL";
     public static final String DISCOUNTS = "DISCOUNTS";
 
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    String TAG = "UserService";
 
-    //init firebase
-    FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    DatabaseReference request = firebaseDatabase.getReference("Request");
     Button order;
     String address = null;
     double tax = Double.parseDouble(SUBTOTAL) * 0.1;
@@ -48,6 +48,7 @@ public class OrderActivity extends AppCompatActivity {
             Toast.makeText(OrderActivity.this, "Please login before placing an order.", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(OrderActivity.this, LoginActivity.class);
             startActivity(i);
+            finish();
         }
         order.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,32 +75,45 @@ public class OrderActivity extends AppCompatActivity {
         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                if(Constants.currentUser.getDailyCaffineConsume() >= 5){
+                    Toast.makeText(OrderActivity.this, "Quote from USDA: Currently, strong evidence shows that consumption " +
+                            "of coffee within the moderate range (3 to 5 cups per day or up to 400 mg/d caffeine) " +
+                            "is not associated with increased long-term health risks among healthy individuals.", Toast.LENGTH_SHORT);
 
+                }
                 address = editText.getText().toString();
 
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-                Date date = new Date();
-                String d = formatter.format(date);
+                Instant start = Instant.now();
                 String UID = Constants.currentUser.getCurrentOrder().get(0).getStoreUID();
 
-                Request req = new Request(d, Constants.currentUser.getUserName(),
+                Request req = new Request(start, Constants.currentUser.getUserName(),
                         Constants.currentUser.getContactInformation(),
                         address,
                         UID,
                         total,
                         Constants.currentUser.getCurrentOrder());
 
-                //sending to firebase
-                request.child(Constants.currentUser.getUserName()).setValue(req);
+                //sending request to firebase
+                OrderNotificationService s = new OrderNotificationService();
+                s.addRequest(req, new OnSuccessCallBack<Void>() {
+                    @Override
+                    public void onSuccess(Void input) {
+                        Constants.currentUser.setCurrentOrder(new ArrayList<Order>());
+                        Constants.currentUser.addOrderToHistory(req);
+                        Toast.makeText(OrderActivity.this, "Order is placed. Thank You!", Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(OrderActivity.this, ViewOrderActivity.class);
+                        startActivity(i);
+                        finish();
+                    }
+                }, new OnFailureCallBack<Exception>() {
+                    @Override
+                    public void onFailure(Exception input) {
+                        Toast.makeText(getApplicationContext(),
+                                "order failed",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
 
-                //update order information to seller
-                request.child(UID).setValue(req);
-
-
-                Constants.currentUser.setCurrentOrder(new ArrayList<Order>());
-                Constants.currentUser.addOrderToHistory(req);
-                Toast.makeText(OrderActivity.this, "Order is placed. Thank You!", Toast.LENGTH_SHORT).show();
-                finish();
             }
         });
 

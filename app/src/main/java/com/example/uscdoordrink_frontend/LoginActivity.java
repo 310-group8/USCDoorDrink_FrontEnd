@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,11 +13,19 @@ import android.widget.Toast;
 
 import com.example.uscdoordrink_frontend.Constants.Constants;
 import com.example.uscdoordrink_frontend.entity.User;
+import com.example.uscdoordrink_frontend.service.CallBack.OnSuccessCallBack;
+import com.example.uscdoordrink_frontend.service.UserService;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
  * @Author: Yuxiang Zhang
@@ -25,6 +34,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    String TAG = "UserService";
     EditText userName, password;
     Button login, register;
 
@@ -39,42 +50,51 @@ public class LoginActivity extends AppCompatActivity {
         login = findViewById(R.id.btn_login);
         register = findViewById(R.id.Register);
 
-        //initiate firebase database
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference userTable = firebaseDatabase.getReference("User");
+
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userTable.addValueEventListener(new ValueEventListener() {
+                String name = userName.getText().toString();
+                String p = password.getText().toString();
+                DocumentReference docRef = db.collection("User").document(name);
+                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        //Checking User avail
-                        if (dataSnapshot.child(userName.getText().toString()).exists()) {
-                            //Get User data
-                            User user = dataSnapshot.child(userName.getText().toString()).getValue(User.class);
-                            assert user != null;
-                            if (user.getPassword().equals(password.getText().toString())) {
-                                Intent intent = new Intent(LoginActivity.this, MapsActivity.class);
-                                Constants.currentUser = user;
-                                startActivity(intent);
-                                finish();
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                DocumentReference docRef = db.collection("User").document(name);
+                                docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        User u = documentSnapshot.toObject(User.class);
+                                        if(u.getPassword().equals(p)){
+                                            Log.d(TAG, "auth correct");
+                                            Toast.makeText(LoginActivity.this, "----- Logging you in ------", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(LoginActivity.this, MapsActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        } else{
+                                            Toast.makeText(LoginActivity.this, "Wrong password, please try again.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
                             } else {
-                                Toast.makeText(LoginActivity.this, "Incorrect password", Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, "No such document");
+                                Toast.makeText(LoginActivity.this, "cannot find this username, please register first.", Toast.LENGTH_SHORT).show();
                             }
-                        }   else{
-                            Toast.makeText(LoginActivity.this, "Login failed, user does not exist", Toast.LENGTH_SHORT);
+                        } else {
+                            Log.d(TAG, "get failed with ", task.getException());
+                            Toast.makeText(LoginActivity.this, "Failed.", Toast.LENGTH_SHORT).show();
                         }
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
                     }
                 });
+
             }
         });
+
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,5 +104,6 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
         });
+
     }
 }

@@ -17,10 +17,13 @@
         <entry key="app/src/main/res/layout/activity_cart.xml" value="0.24427083333333333" />
         <entry key="app/src/main/res/layout/activity_map.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_maps.xml" value="0.24427083333333333" />
+        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.24427083333333333" />
         <entry key="app/src/main/res/layout/activity_view_menu.xml" value="0.24427083333333333" />
+        <entry key="app/src/main/res/layout/activity_view_order.xml" value="0.24427083333333333" />
         <entry key="app/src/main/res/layout/cart_item.xml" value="0.24427083333333333" />
         <entry key="app/src/main/res/layout/fragment_add_store_menu.xml" value="0.24427083333333333" />
         <entry key="app/src/main/res/layout/fragment_add_store_name.xml" value="0.24427083333333333" />
+        <entry key="app/src/main/res/layout/fragment_add_store_successful.xml" value="0.24427083333333333" />
         <entry key="app/src/main/res/layout/list_drink_menu.xml" value="0.24427083333333333" />
       </map>
     </option>

@@ -5,10 +5,13 @@ package com.example.uscdoordrink_frontend.entity;
  * @Date: 2022/3/22 22:28
  */
 
+import java.time.Instant;
 import java.util.List;
 
 public class Request {
-    private String Date;
+
+    private Instant start;
+    private Instant end;
     private String Name;
     private String ContactInformation;
     private String Address;
@@ -17,9 +20,11 @@ public class Request {
     private String Status;
     private List<Order> orders;
 
+    public Request(){}
 
-    public Request(String date, String name, String contactInformation, String address, String UID, double total, List<Order> orders) {
-        Date = date;
+    public Request(Instant s, String name, String contactInformation, String address, String UID, double total, List<Order> orders) {
+        start = s;
+        end = null;
         Name = name;
         ContactInformation = contactInformation;
         Address = address;
@@ -84,15 +89,22 @@ public class Request {
         Status = status;
     }
 
-    public String getDate() {
-        return Date;
-    }
-
-    public void setDate(String date) {
-        Date = date;
-    }
-
     public void setContactInformation(String contactInformation) {
         ContactInformation = contactInformation;
+    }
+    public Instant getStart() {
+        return start;
+    }
+
+    public void setStart(Instant start) {
+        this.start = start;
+    }
+
+    public Instant getEnd() {
+        return end;
+    }
+
+    public void setEnd(Instant end) {
+        this.end = end;
     }
 }
