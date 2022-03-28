@@ -39,7 +39,7 @@ public class OrderNotificationService extends Service{
     }
 
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
-    String TAG = "UserService";
+    String TAG = "OrderNotificationService";
 
     public OrderNotificationService() {
     }

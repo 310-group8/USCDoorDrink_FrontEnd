@@ -13,7 +13,9 @@ import android.widget.Toast;
 
 import com.example.uscdoordrink_frontend.Constants.Constants;
 import com.example.uscdoordrink_frontend.entity.User;
+import com.example.uscdoordrink_frontend.entity.UserType;
 import com.example.uscdoordrink_frontend.service.CallBack.OnSuccessCallBack;
+import com.example.uscdoordrink_frontend.service.OrderNotificationService;
 import com.example.uscdoordrink_frontend.service.UserService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,6 +28,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.core.OrderBy;
 
 /**
  * @Author: Yuxiang Zhang
@@ -72,9 +75,21 @@ public class LoginActivity extends AppCompatActivity {
                                         User u = documentSnapshot.toObject(User.class);
                                         if(u.getPassword().equals(p)){
                                             Log.d(TAG, "auth correct");
+                                            Constants.currentUser = u;
                                             Toast.makeText(LoginActivity.this, "----- Logging you in ------", Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(LoginActivity.this, MapsActivity.class);
-                                            startActivity(intent);
+                                            Intent i;
+                                            if(Constants.currentUser.getUserType() == UserType.CUSTOMER){
+                                                i = new Intent(LoginActivity.this, MapsActivity.class);
+                                            } else{
+                                                OrderNotificationService s = new OrderNotificationService();
+                                                s.orderListener();
+                                                if(Constants.currentUser.getStoreUID().equals("toBeAssigned")){
+                                                    i = new Intent(LoginActivity.this, AddStoreActivity.class);
+                                                }else{
+                                                    i = new Intent(LoginActivity.this, MapsActivity.class);
+                                                }
+                                            }
+                                            startActivity(i);
                                             finish();
                                         } else{
                                             Toast.makeText(LoginActivity.this, "Wrong password, please try again.", Toast.LENGTH_SHORT).show();

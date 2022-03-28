@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -49,7 +50,8 @@ public class CartActivity extends AppCompatActivity {
             buttonOrder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (textViewPrice.getText().toString().equals("$0.00"))
+                    Log.d("CartActivity", textViewPrice.getText().toString().trim());
+                    if (textViewPrice.getText().toString().trim().equals("$0.0"))
                         Toast.makeText(CartActivity.this, "Cart is empty", Toast.LENGTH_SHORT).show();
                     else
                         sendData();

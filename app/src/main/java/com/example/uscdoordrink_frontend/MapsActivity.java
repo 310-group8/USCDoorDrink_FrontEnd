@@ -17,6 +17,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
+import com.example.uscdoordrink_frontend.Constants.Constants;
+import com.example.uscdoordrink_frontend.entity.UserType;
 import com.example.uscdoordrink_frontend.entity.Store;
 import com.example.uscdoordrink_frontend.service.CallBack.OnFailureCallBack;
 import com.example.uscdoordrink_frontend.service.CallBack.OnSuccessCallBack;
@@ -156,9 +158,18 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "cart is pressed successfully");
-                Intent i = new Intent(MapsActivity.this, CartActivity.class);
-                startActivity(i);
-                finish();
+                if(Constants.currentUser == null){
+                    Toast.makeText(MapsActivity.this, "Please login first.",Toast.LENGTH_SHORT).show();
+                }else {
+                    Intent i;
+                    if (Constants.currentUser.getUserType() == UserType.CUSTOMER) {
+                        i = new Intent(MapsActivity.this, CartActivity.class);
+                    } else {
+                        i = new Intent(MapsActivity.this, ViewMenuActivity.class);
+                    }
+                    startActivity(i);
+                    finish();
+                }
             }
         });
 
@@ -176,9 +187,18 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "order is pressed successfully");
-                Intent i = new Intent(MapsActivity.this, ViewOrderActivity.class);
-                startActivity(i);
-                finish();
+                if(Constants.currentUser == null){
+                    Toast.makeText(MapsActivity.this, "Please login to view or manage your order.",Toast.LENGTH_SHORT).show();
+                }else {
+                    Intent i;
+                    if (Constants.currentUser.getUserType() == UserType.CUSTOMER) {
+                        i = new Intent(MapsActivity.this, ViewOrderActivity.class);
+                    } else {
+                        i = new Intent(MapsActivity.this, OrderManagementActivity.class);
+                    }
+                    startActivity(i);
+                    finish();
+                }
             }
         });
 
@@ -186,9 +206,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "profile is pressed successfully");
-                Intent i = new Intent(MapsActivity.this, ProfileActivity.class);
-                startActivity(i);
-                finish();
+                if(Constants.currentUser == null){
+                    Toast.makeText(MapsActivity.this, "Please login to view or manage your profile.",Toast.LENGTH_SHORT).show();
+                }else {
+                    Intent i = new Intent(MapsActivity.this, ProfileActivity.class);
+                    startActivity(i);
+                    finish();
+                }
             }
         });
 
@@ -196,9 +220,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "recommendation is pressed successfully");
-                Intent i = new Intent(MapsActivity.this, RecommendationActivity.class);
-                startActivity(i);
-                finish();
+                if(Constants.currentUser == null){
+                    Toast.makeText(MapsActivity.this, "Please login to see recommendations.",Toast.LENGTH_SHORT).show();
+                }else {
+                    Intent i = new Intent(MapsActivity.this, RecommendationActivity.class);
+                    startActivity(i);
+                    finish();
+                }
             }
         });
     }

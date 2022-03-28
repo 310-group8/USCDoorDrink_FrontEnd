@@ -27,7 +27,8 @@ public class Store {
 
     private List<Drink> menu = new ArrayList<>();
 
-    private Map<Drink, Double> discounts;
+
+    private String drinkUID;
 
     private String hashLocation;
 
@@ -60,12 +61,16 @@ public class Store {
     public void setMenu(List<Drink> menu) {
         this.menu = menu;
     }
-
-    public Map<Drink, Double> getDiscounts() {
-        return discounts;
+    public String getDrinkUID() {
+        return drinkUID;
     }
 
-    public void setDiscounts(Map<Drink, Double> discounts) {
-        this.discounts = discounts;
+    public void setDrinkUID(String drinkUID) {
+        this.drinkUID = drinkUID;
     }
+
+    public void setHashLocation(String hashLocation) {
+        this.hashLocation = hashLocation;
+    }
+
 }

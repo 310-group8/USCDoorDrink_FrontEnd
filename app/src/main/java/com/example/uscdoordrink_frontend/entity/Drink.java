@@ -17,6 +17,8 @@ public class Drink {
 
     private String drinkName;
 
+    private double discount;
+
 
     private List<String> ingredients = new ArrayList<>();
 
@@ -53,5 +55,13 @@ public class Drink {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
     }
 }
