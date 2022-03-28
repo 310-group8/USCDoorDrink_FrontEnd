@@ -246,16 +246,18 @@ public class StoreService {
                 });
     }
 
-    public String updateDrinkUID(Menu m, final OnSuccessCallBack<Void> successCallBack,
+    public String updateDrinkUID(Store s, Menu m, final OnSuccessCallBack<Void> successCallBack,
                                  final OnFailureCallBack<Exception> failureCallBack){
 
         DocumentReference documentReference = db.collection("Drink").document();
         final String UID = documentReference.getId();
-
+        s.setDrinkUID(UID);
+        DocumentReference ref = db.collection("Store").document(s.getStoreUID());
+        ref.update("drinkUID", UID);
         documentReference.set(m).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                Log.d(TAG, "DocumentSnapshot added with ID: " + UID);
+                Log.d(TAG, "drink added with ID: " + UID);
                 successCallBack.onSuccess(unused);
             }
         }).addOnFailureListener(new OnFailureListener() {
