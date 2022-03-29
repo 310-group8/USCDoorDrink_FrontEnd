@@ -9,7 +9,7 @@
    This app only shows the stores that are not farther than 2 miles away from the device's location.
    We already prepared 3 test stores for you near USC. You can change your emulator's location to a 
    place near USC to see them. The app also works in other places, but you will have to add stores 
-   by yourself. The stores can be added when registering as a seller.
+   by yourself. The stores can be added when login as a seller and click button on map.
 
 2. About Location:
   a. Please give permission of precise location when prompted by the app.
@@ -17,8 +17,8 @@
    please click on the right half side of the button.
    
 3. About store
-  a. Please login when view store menu
-  b. When entering store address, please select from the drop down menu.
+  a. When entering store address, please select from the drop down menu.
+  b. Please click the floating button, and then click upper right button that looks like a cart to add store/menu/drink etc.
    
 3. Order management
   a. Users can only receive order notification on profile page.
@@ -33,3 +33,4 @@
   a. You can add item to cart by clicking the add button. It can be clicked multiple times to add 
    multiple drinks.
   b. Clicking on drink name will display the ingredients of drinks.
+  c. Please login when view store menu

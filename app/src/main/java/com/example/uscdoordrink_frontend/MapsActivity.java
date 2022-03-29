@@ -208,10 +208,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "cart is pressed successfully");
-                if(Constants.currentUser == null){
+                if(Constants.currentUser == null ){
                     Toast.makeText(MapsActivity.this, "Please login first.",Toast.LENGTH_SHORT).show();
                 }else {
-                    Intent i = new Intent(MapsActivity.this, CartActivity.class);
+                    Intent i;
+                    if(Constants.currentUser.getUserType() == UserType.CUSTOMER){
+                        i = new Intent(MapsActivity.this, CartActivity.class);
+                    } else{
+                        i = new Intent(MapsActivity.this, AddStoreActivity.class);
+                    }
                     startActivity(i);
                     finish();
                 }
