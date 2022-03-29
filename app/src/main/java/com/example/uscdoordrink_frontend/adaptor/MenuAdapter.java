@@ -1,7 +1,6 @@
 package com.example.uscdoordrink_frontend.adaptor;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,31 +8,33 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.uscdoordrink_frontend.ViewMenuActivity;
+import com.example.uscdoordrink_frontend.Constants.Constants;
 import com.example.uscdoordrink_frontend.entity.Drink;
 import com.example.uscdoordrink_frontend.R;
+import com.example.uscdoordrink_frontend.entity.Order;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder> {
 
+
     Context context;
     ArrayList<Drink> drinks;
-    private ButtonInterface buttonInterface;
 
     public MenuAdapter(Context context, ArrayList<Drink> drinks) {
         this.context = context;
         this.drinks = drinks;
     }
 
-    public void buttonSetOnclick(ButtonInterface buttonInterface){
-        this.buttonInterface=buttonInterface;
+    public void onclick(View view, int position, boolean isLongClick) {
+//        Toast.makeText(CartActivity.this, orders.get(position).getDrink(), Toast.LENGTH_SHORT).show();
     }
 
-    public interface ButtonInterface{
-        public void onclick( View view,int position);
-    }
+
 
 
     @NonNull
@@ -46,16 +47,27 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
     @Override
     public void onBindViewHolder(@NonNull MenuAdapter.MenuViewHolder holder, int position) {
 
-        Drink drink = drinks.get(holder.getAdapterPosition());
+        Drink drink = drinks.get(position);
         holder.drinkName.setText(drink.getDrinkName());
         holder.price.setText(String.valueOf(drink.getPrice()));
-        holder.id_button.setOnClickListener(new View.OnClickListener() {
+        holder.ingredients.setText("Ingredients: " + drink.getIngredients().toString());
+        boolean isVisibility = drink.isVisibility();
+        holder.constraintLayout.setVisibility(isVisibility ? View.VISIBLE: View.GONE);
+        holder.drinkName.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if(buttonInterface!=null) {
-                    buttonInterface.onclick(v,holder.getAdapterPosition());
-                }
-
+            public void onClick(View view) {
+                Drink drink = drinks.get(holder.getAdapterPosition());
+                drink.setVisibility(!drink.isVisibility());
+                notifyItemChanged(holder.getAdapterPosition());
+            }
+        });
+        holder.select.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Drink drink = drinks.get(holder.getAdapterPosition());
+                List<Order> temp = Constants.currentUser.getCurrentOrder();
+                temp.add(new Order(drink.getDrinkName(), drink.getStoreUID(), 1, drink.getPrice(), drink.getDiscount()));
+                Constants.currentUser.setCurrentOrder(temp);
             }
         });
     }
@@ -69,12 +81,16 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.MenuViewHolder
 
         TextView drinkName;
         TextView price;
-        Button id_button;
+        TextView ingredients;
+        Button select;
+        ConstraintLayout constraintLayout;
         public MenuViewHolder(@NonNull View itemView) {
             super(itemView);
             drinkName = itemView.findViewById(R.id.itemName);
             price = itemView.findViewById(R.id.price);
-            id_button = itemView.findViewById(R.id.select);
+            select = itemView.findViewById(R.id.select);
+            ingredients = itemView.findViewById(R.id.ingredientsDetail);
+            constraintLayout = itemView.findViewById(R.id.expandedLayout);
         }
     }
 }

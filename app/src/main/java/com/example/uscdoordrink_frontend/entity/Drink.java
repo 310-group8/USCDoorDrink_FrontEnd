@@ -22,8 +22,19 @@ public class Drink {
 
     private List<String> ingredients = new ArrayList<>();
 
-
     private double price;
+
+    private boolean visibility = false;
+
+    public boolean isVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(boolean visibility) {
+        this.visibility = visibility;
+    }
+
+    public Drink(){}
 
     public String getStoreUID() {
         return storeUID;

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.uscdoordrink_frontend">
+
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -13,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.USCDoorDrink_FrontEnd.NoActionBar">
         <activity
+            android:name=".ChartDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".ProfileActivity"
             android:exported="false" />
         <activity
@@ -20,19 +24,26 @@
             android:exported="false" />
         <activity
             android:name=".ViewMenuActivity"
-            android:exported="false"/>
+            android:exported="true">
+<!--         <intent-filter>-->
+<!--         <action android:name="android.intent.action.MAIN" />-->
+
+<!--         <category android:name="android.intent.category.LAUNCHER" />-->
+<!--         </intent-filter>-->
+        </activity>
         <activity
             android:name=".RecommendationActivity"
             android:exported="true"
             android:label="@string/title_activity_recommendation"
-            android:theme="@style/Theme.USCDoorDrink_FrontEnd.NoActionBar" >
-<!--                <intent-filter>-->
-<!--                    <action android:name="android.intent.action.MAIN" />-->
+            android:theme="@style/Theme.USCDoorDrink_FrontEnd.NoActionBar">
 
-<!--                    <category android:name="android.intent.category.LAUNCHER" />-->
-<!--                </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
-
         <activity
             android:name=".OrderManagementActivity"
             android:exported="false" />
@@ -40,18 +51,18 @@
             android:name=".AddStoreActivity"
             android:exported="true">
 
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
 
         <service
             android:name=".service.OrderNotificationService"
             android:enabled="true"
             android:exported="true" />
-
         <service
             android:name=".service.DirectionService"
             android:enabled="true"
@@ -59,10 +70,17 @@
 
         <activity
             android:name=".OrderActivity"
-            android:exported="false" />
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".ViewMenuActivity" -->
+        <!-- android:exported="true" > -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
         <activity
             android:name=".ViewChartActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".CartActivity"
             android:exported="false" />

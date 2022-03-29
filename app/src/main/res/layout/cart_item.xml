@@ -8,43 +8,49 @@
         android:layout_height="match_parent"
         android:padding="8dp">
 
+
         <TextView
             android:id="@+id/cart_item_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="item name"
             android:padding="4dp"
+            android:text="item name"
             android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/cart_item_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="item price"
             android:layout_below="@id/cart_item_name"
+            android:layout_marginTop="1dp"
             android:padding="4dp"
+            android:text="item price"
             android:textSize="16sp"
-            android:textStyle="normal"/>
+            android:textStyle="normal" />
 
         <ImageView
             android:id="@+id/cart_item_image"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
+            android:layout_marginEnd="23dp"
             android:contentDescription="item image" />
 
-
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/cart_item_price"
+            android:layout_width="153dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="193dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="57dp"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/cart_decrement"
-                android:layout_width="@dimen/dp_60"
+                android:layout_width="@dimen/dp_40"
                 android:layout_height="wrap_content"
                 android:text="-" />
 
@@ -59,7 +65,7 @@
 
             <Button
                 android:id="@+id/cart_increment"
-                android:layout_width="@dimen/dp_60"
+                android:layout_width="@dimen/dp_40"
                 android:layout_height="wrap_content"
                 android:text="+" />
 
