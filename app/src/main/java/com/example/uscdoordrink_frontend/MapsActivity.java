@@ -44,6 +44,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.okhttp.OkHttpClient;
@@ -73,7 +75,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Polyline mPolyline;
     private boolean mBound = false;
     private DirectionService mService;
-    private List<Marker> markers;
+    private boolean directionShown = false;
+    private Chip orderHere;
+    private Chip driving;
+    private Chip walking;
+    private Chip bicycling;
+    private ChipGroup modes;
+    private Store currentViewingStore;
+    private Chip currentCheckedChip;
 
     private Animation rotateOpen, rotateClose, fromBottom, toBottom;
     private FloatingActionButton fab_main, fab_profile, fab_cart, fab_recommendation, fab_order, fab_login;
@@ -111,6 +120,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         setUpButtons();
+        setUpDirectionDetails();
     }
     @Override
     protected void onStart() {
@@ -190,6 +200,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onClick(View view) {
                 Log.d(TAG, "Fab is pressed successfully");
                 onAddButtonClicked();
+                clearDirectionDetails();
             }
         });
 
@@ -301,6 +312,107 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             fab_profile.startAnimation(toBottom);
             fab_login.startAnimation(toBottom);
             fab_main.startAnimation(rotateClose);
+        }
+    }
+
+    private void setUpDirectionDetails(){
+        orderHere = (Chip) findViewById(R.id.order_here);
+        driving = (Chip) findViewById(R.id.driving);
+        walking = (Chip) findViewById(R.id.walking);
+        bicycling = (Chip) findViewById(R.id.bicycling);
+        modes = (ChipGroup) findViewById(R.id.modes);
+
+        orderHere.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MapsActivity.this, ViewMenuActivity.class);
+                i.putExtra("storeUID", currentViewingStore.getStoreUID());
+                startActivity(i);
+                finish();
+            }
+        });
+        driving.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (currentCheckedChip != driving){
+                    drawPoly(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()),
+                            currentViewingStore.getStoreAddress(),
+                            DirectionHelper.Modes.driving);
+                    currentCheckedChip = driving;
+                }
+            }
+        });
+        walking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (currentCheckedChip != walking){
+                    drawPoly(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()),
+                            currentViewingStore.getStoreAddress(),
+                            DirectionHelper.Modes.walking);
+                    currentCheckedChip = walking;
+                }
+            }
+        });
+        bicycling.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (currentCheckedChip != bicycling){
+                    drawPoly(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()),
+                            currentViewingStore.getStoreAddress(),
+                            DirectionHelper.Modes.bicycling);
+                    currentCheckedChip = bicycling;
+                }
+            }
+        });
+    }
+
+    private void showDirectionDetails(String time){
+        if (!directionShown){
+            setDirectionDetailsVisibility();
+            showDirectionDetailsAnimation();
+            directionShown = true;
+        }
+        updateDirectionDetails(time);
+    }
+
+    private void clearDirectionDetails(){
+        if (directionShown){
+            setDirectionDetailsVisibility();
+            showDirectionDetailsAnimation();
+            if(mPolyline != null){
+                mPolyline.remove();
+                mPolyline = null;
+            }
+            directionShown = false;
+            currentViewingStore = null;
+            currentCheckedChip = null;
+        }
+    }
+
+    private void updateDirectionDetails(String time){
+        driving.setText("");
+        walking.setText("");
+        bicycling.setText("");
+        ((Chip)findViewById(modes.getCheckedChipId())).setText(time);
+    }
+
+    private void setDirectionDetailsVisibility(){
+        if (!directionShown){
+            orderHere.setVisibility(View.VISIBLE);
+            modes.setVisibility(View.VISIBLE);
+        }else{
+            orderHere.setVisibility(View.INVISIBLE);
+            modes.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void showDirectionDetailsAnimation(){
+        if (!directionShown){
+            orderHere.startAnimation(fromBottom);
+            modes.startAnimation(fromBottom);
+        }else{
+            orderHere.startAnimation(toBottom);
+            modes.startAnimation(toBottom);
         }
     }
 
@@ -417,6 +529,13 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                             public boolean onMarkerClick(@NonNull final Marker marker){
 
                                 Log.d(TAG, "Yes you did it");
+                                if (clicked){
+                                    onAddButtonClicked();
+                                }
+                                driving.setChecked(true);
+                                currentCheckedChip = driving;
+                                showDirectionDetails(null);
+                                currentViewingStore = (Store)marker.getTag();
                                 drawPoly(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()),
                                         ((Store)marker.getTag()).getStoreAddress(),
                                         DirectionHelper.Modes.driving);
@@ -453,6 +572,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                         if (time == null){
                                             throw new NullPointerException();
                                         }
+                                        showDirectionDetails(time);
                                         mPolyline = mMap.addPolyline(new PolylineOptions().addAll(result));
                                     }catch (NullPointerException e){
                                         Toast.makeText(getApplicationContext(), "Failed to get directions", Toast.LENGTH_SHORT).show();
