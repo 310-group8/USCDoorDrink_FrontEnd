@@ -78,8 +78,10 @@ public class AddStoreDrink extends Fragment {
         EditText textIngredientOne = (EditText) mainView.findViewById(R.id.editTextAddDrinkIngredientOne);
         EditText textIngredientTwo = (EditText) mainView.findViewById(R.id.editTextAddDrinkIngredientTwo);
         EditText textIngredientThree = (EditText) mainView.findViewById(R.id.editTextAddDrinkIngredientThree);
-        EditText textPrice = (EditText) mainView.findViewById(R.id.editTextAddDrinkPrice);
         String defaultIngredient = textIngredientOne.getText().toString();
+        EditText textPrice = (EditText) mainView.findViewById(R.id.editTextAddDrinkPrice);
+        EditText textDiscount = (EditText) mainView.findViewById(R.id.editTextAddDrinkDiscount);
+        String defaultDiscount = textDiscount.getText().toString();
         Button confirmDrink = (Button) mainView.findViewById(R.id.button_confirm_drink);
         @NonNull Store store = Objects.requireNonNull(((AddStoreActivity) requireActivity()).theStore.mStoreModel.getValue());
 
@@ -99,13 +101,19 @@ public class AddStoreDrink extends Fragment {
                         double price = Double.parseDouble(textPrice.getText().toString());
                         drink.setPrice(price);
 
-                        //added drink discount
-                        drink.setDiscount(0.0);
-
+                        if (defaultDiscount.equals(textDiscount.getText().toString())){
+                            drink.setDiscount(0.0);
+                        }else{
+                            double discount = Double.parseDouble(textDiscount.getText().toString());
+                            if (discount > price || discount < 0){
+                                throw new NumberFormatException();
+                            }
+                            drink.setDiscount(discount);
+                        }
                         store.getMenu().add(drink);
                         Navigation.findNavController(view).navigate(R.id.action_drink_to_menu);
                     }catch (NumberFormatException e){
-                        Toast.makeText(getContext(), "Please Enter a valid price", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Please Enter a valid price/discount", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

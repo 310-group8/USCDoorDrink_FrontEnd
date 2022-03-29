@@ -22,6 +22,7 @@
     <string name="add_drink_name">Drink Name</string>
     <string name="add_drink_ingredient">Ingredient</string>
     <string name="add_drink_price">Price</string>
+    <string name="add_drink_discounted_price">Discounts($x off)</string>
     <string name="add_store_processing">Processing…</string>
     <string name="add_store_successful">Registration Successful!</string>
     <string name="continue_to_map">Continue</string>
@@ -38,4 +39,6 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="maps_api_key">AIzaSyCoj0HiPuANRmMbBN4fA51oCiRa8y_q8fA</string>
     <string name="submit">Add to cart</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
