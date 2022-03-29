@@ -18,53 +18,37 @@ import com.example.uscdoordrink_frontend.R;
 import com.example.uscdoordrink_frontend.entity.Drink;
 import com.example.uscdoordrink_frontend.entity.Store;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link AddStoreDrink#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AddStoreDrink extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private Drink currentDrink;
 
     public AddStoreDrink() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AddStoreDrink.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AddStoreDrink newInstance(String param1, String param2) {
-        AddStoreDrink fragment = new AddStoreDrink();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            String storeUID = getArguments().getString("storeUID");
+            String drinkName = getArguments().getString("drinkName");
+            double discount = getArguments().getDouble("discount");
+            ArrayList<String> ingredients = getArguments().getStringArrayList("ingredients");
+            double price = getArguments().getDouble("price");
+            if (drinkName != null && ingredients != null ){
+                currentDrink = new Drink();
+                currentDrink.setStoreUID(storeUID);
+                currentDrink.setDrinkName(drinkName);
+                currentDrink.setDiscount(discount);
+                currentDrink.setIngredients((List<String>) ingredients);
+                currentDrink.setPrice(price);
+            }
         }
     }
 
@@ -78,6 +62,10 @@ public class AddStoreDrink extends Fragment {
         EditText textIngredientOne = (EditText) mainView.findViewById(R.id.editTextAddDrinkIngredientOne);
         EditText textIngredientTwo = (EditText) mainView.findViewById(R.id.editTextAddDrinkIngredientTwo);
         EditText textIngredientThree = (EditText) mainView.findViewById(R.id.editTextAddDrinkIngredientThree);
+        List<EditText> textIngredients = new ArrayList<>();
+        textIngredients.add(textIngredientOne);
+        textIngredients.add(textIngredientTwo);
+        textIngredients.add(textIngredientThree);
         String defaultIngredient = textIngredientOne.getText().toString();
         EditText textPrice = (EditText) mainView.findViewById(R.id.editTextAddDrinkPrice);
         EditText textDiscount = (EditText) mainView.findViewById(R.id.editTextAddDrinkDiscount);
@@ -85,6 +73,14 @@ public class AddStoreDrink extends Fragment {
         Button confirmDrink = (Button) mainView.findViewById(R.id.button_confirm_drink);
         @NonNull Store store = Objects.requireNonNull(((AddStoreActivity) requireActivity()).theStore.mStoreModel.getValue());
 
+        if (currentDrink != null){
+            textName.setText(currentDrink.getDrinkName());
+            textDiscount.setText(String.valueOf(currentDrink.getDiscount()));
+            for (int i = 0; i < currentDrink.getIngredients().size(); i++) {
+                textIngredients.get(i).setText(currentDrink.getIngredients().get(i));
+            }
+            textPrice.setText(String.valueOf(currentDrink.getPrice()));
+        }
 
         confirmDrink.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +106,22 @@ public class AddStoreDrink extends Fragment {
                             }
                             drink.setDiscount(discount);
                         }
-                        store.getMenu().add(drink);
+
+                        boolean found = false;
+                        for (Drink d : store.getMenu()){
+                            if (Objects.equals(drink.getDrinkName(), d.getDrinkName())){
+                                found = true;
+                                d.setStoreUID(drink.getStoreUID());
+                                d.setDrinkName(drink.getDrinkName());
+                                d.setDiscount(drink.getDiscount());
+                                d.setIngredients(drink.getIngredients());
+                                d.setPrice(drink.getPrice());
+                                break;
+                            }
+                        }
+                        if (!found){
+                            store.getMenu().add(drink);
+                        }
                         Navigation.findNavController(view).navigate(R.id.action_drink_to_menu);
                     }catch (NumberFormatException e){
                         Toast.makeText(getContext(), "Please Enter a valid price/discount", Toast.LENGTH_SHORT).show();
