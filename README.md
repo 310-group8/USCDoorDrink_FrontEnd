@@ -9,28 +9,33 @@
    This app only shows the stores that are not farther than 2 miles away from the device's location.
    We already prepared 3 test stores for you near USC. You can change your emulator's location to a 
    place near USC to see them. The app also works in other places, but you will have to add stores 
-   by yourself. The stores can be added when login as a seller and click button on map.
+   by yourself. The stores can be added when registering as a user.
+   
+2. Launching the app:
+   Please give permission of precise location when prompted by the app.
 
-2. About Location:
-  a. Please give permission of precise location when prompted by the app.
-  b. When viewing route or changing modes of traffic, if you want to see the route by bicycling, 
-   please click on the right half side of the button.
+3. Map
+   a. A Map will be displayed once the app is launched. You can click on the floating button on 
+   bottom left of the screen to access more functionalities (eg: login, view cart, view order,
+   manage order, see recommendations, see profile), but most of them will need logging in!
+   b. Store around you will appear as markers on the map. Markers might take a few seconds to load. 
+   You can tap on them to see the route and the time needed for the deliveryman to reach your place.
+   You can switch the mode of transportation, 
    
-3. About store
-  a. When entering store address, please select from the drop down menu.
-  b. Please click the floating button, and then click upper right button that looks like a cart to add store/menu/drink etc.
+   BUT DO NOTE that if you want to show bicycling, please tap the right TIP of the bicycling chip.
    
-3. Order management
-  a. Users can only receive order notification on profile page.
-  b. After creating store, sellers must go to profile page to receive order notification.
+   c. If you do not want to order at the current store, you can tap another marker or tap the floating 
+   button on the bottom left. If you do want to order at the current store, click "Order at this 
+   store". This requires login as well.
    
-4. Map
-  a. Map will be displayed once the app is launched. You can click on the floating button on bottom 
-   left of the screen to access more functionalities (eg: login, view cart, view order, 
-   manage order, see recommendations, see profile)
+4. Login/Register
+   a. At anytime on the map, you can tap the floating button on the bottom left, and select the one 
+   with a cell phone icon to login.
+   b. After successful registration, you will be prompted back to the login page. If you chose to
+   register as a seller, you will be prompted to add a store for yourself.
+   c. When entering the store address, please select one from the drop down menu.
    
-5. Store menu
-  a. You can add item to cart by clicking the add button. It can be clicked multiple times to add 
-   multiple drinks.
-  b. Clicking on drink name will display the ingredients of drinks.
-  c. Please login when view store menu
+5. Order management:
+   a. After logging in, you will be able to use all the buttons from the map.j
+   b. You can receive order notification on profile page.
+

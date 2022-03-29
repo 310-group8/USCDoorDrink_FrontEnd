@@ -187,6 +187,15 @@
             android:layout_marginBottom="-1dp"
             android:text="return to map" />
 
+        <Button
+            android:id="@+id/manage_store"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="105dp"
+            android:text="Manage your store"
+            android:visibility="invisible" />
+
     </RelativeLayout>
 
 </RelativeLayout>

@@ -71,7 +71,7 @@ public class AddStoreSuccessful extends Fragment {
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((AddStoreActivity)requireActivity()).toMap();
+                ((AddStoreActivity)requireActivity()).toProfile();
             }
         });
         return mainView;

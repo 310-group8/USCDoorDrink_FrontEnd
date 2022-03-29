@@ -78,12 +78,12 @@ public class LoginActivity extends AppCompatActivity {
                                             Constants.currentUser = u;
                                             Toast.makeText(LoginActivity.this, "----- Logging you in ------", Toast.LENGTH_SHORT).show();
 
-                                            if (u.getUserType() == UserType.CUSTOMER){
-                                                Intent i = new Intent(LoginActivity.this, MapsActivity.class);
+                                            if (u.getUserType() == UserType.SELLER && u.getStoreUID() == null){
+                                                Intent i = new Intent(LoginActivity.this, AddStoreActivity.class);
                                                 startActivity(i);
                                                 finish();
                                             }else{
-                                                Intent i = new Intent(LoginActivity.this, AddStoreActivity.class);
+                                                Intent i = new Intent(LoginActivity.this, ProfileActivity.class);
                                                 startActivity(i);
                                                 finish();
                                             }

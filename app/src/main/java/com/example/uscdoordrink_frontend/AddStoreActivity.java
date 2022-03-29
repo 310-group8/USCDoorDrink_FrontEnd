@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.uscdoordrink_frontend.Constants.Constants;
 import com.example.uscdoordrink_frontend.entity.Store;
 import com.example.uscdoordrink_frontend.fragments.AddStoreMenu;
 import com.example.uscdoordrink_frontend.fragments.AddStoreName;
@@ -19,6 +20,8 @@ import com.example.uscdoordrink_frontend.service.CallBack.OnSuccessCallBack;
 import com.example.uscdoordrink_frontend.service.StoreService;
 import com.example.uscdoordrink_frontend.viewmodels.AddStoreViewModel;
 import com.google.android.libraries.places.api.Places;
+
+import java.util.Objects;
 
 public class AddStoreActivity extends AppCompatActivity {
 
@@ -37,28 +40,13 @@ public class AddStoreActivity extends AppCompatActivity {
         if (storeUID == null){
             theStore.mStoreModel.setValue(new Store());
         }else{
-            StoreService storeService = new StoreService();
-            storeService.getStoreByUID(storeUID,
-                    new OnSuccessCallBack<Store>() {
-                        @Override
-                        public void onSuccess(Store input) {
-                            theStore.mStoreModel.setValue(input);
-                        }
-                    },
-                    new OnFailureCallBack<Exception>() {
-                        @Override
-                        public void onFailure(Exception input) {
-                            Toast.makeText(getApplicationContext(),
-                                    "cannot get your Store Information",
-                                    Toast.LENGTH_SHORT).show();
-                            theStore.mStoreModel.setValue(new Store());
-                        }
-                    });
+            theStore.mStoreModel.setValue(Constants.currentStore);
+            Constants.currentStore = null;
         }
     }
 
-    public void toMap(){
-        Intent intent = new Intent(this, MapsActivity.class);
+    public void toProfile(){
+        Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
         finish();
     }

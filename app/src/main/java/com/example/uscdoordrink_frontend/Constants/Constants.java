@@ -5,10 +5,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.example.uscdoordrink_frontend.entity.Request;
+import com.example.uscdoordrink_frontend.entity.Store;
 import com.example.uscdoordrink_frontend.entity.User;
 
 public class Constants {
     public static User currentUser;
+    public static Store currentStore;
     public static Request currentRequest;
     public final static String UPDATE = "Update";
     public final static String DELETE = "Delete";
