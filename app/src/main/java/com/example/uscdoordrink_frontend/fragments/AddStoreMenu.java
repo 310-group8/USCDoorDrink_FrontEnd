@@ -91,12 +91,24 @@ public class AddStoreMenu extends Fragment {
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, drinkNames);
         listView.setAdapter(adapter);
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//
-//            }
-//        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String drinkName = adapter.getItem(i);
+                Bundle drinkData = new Bundle();
+                for (Drink d : theStore.getMenu()){
+                    if (Objects.equals(d.getDrinkName(), drinkName)){
+                        drinkData.putString("storeUID", d.getStoreUID());
+                        drinkData.putString("drinkName", d.getDrinkName());
+                        drinkData.putDouble("discount", d.getDiscount());
+                        drinkData.putStringArrayList("ingredients", (ArrayList<String>) d.getIngredients());
+                        drinkData.putDouble("price", d.getPrice());
+                        break;
+                    }
+                }
+                Navigation.findNavController(view).navigate(R.id.action_menu_to_drink, drinkData);
+            }
+        });
 
 
         Button addButton = (Button) mainView.findViewById(R.id.button_add_item);
