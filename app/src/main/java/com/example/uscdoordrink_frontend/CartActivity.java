@@ -15,8 +15,6 @@ import android.widget.Toast;
 import com.example.uscdoordrink_frontend.Constants.Constants;
 import com.example.uscdoordrink_frontend.adaptor.CartAdapter;
 import com.example.uscdoordrink_frontend.entity.Order;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +28,12 @@ public class CartActivity extends AppCompatActivity {
         double subtotal = 0;
         double discount = 0;
 
+//        Order a = new Order("Pineapple Lemonade", "7PqA0Yca8mKTntrvIHPT", 1, 5, 0);
+
+
         CartAdapter cartAdapter;
-        List<Order> orders = new ArrayList<>();
+        ArrayList<Order> orders = new ArrayList<>();
+
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,7 @@ public class CartActivity extends AppCompatActivity {
             recyclerView = findViewById(R.id.recycler_cart);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-
+//            orders.add(a);
             loadCart();
 
             buttonOrder.setOnClickListener(new View.OnClickListener() {
@@ -62,7 +64,7 @@ public class CartActivity extends AppCompatActivity {
 
             //Helper Methods
             private void loadCart () {
-                orders = Constants.currentUser.getCurrentOrder();
+                orders = (ArrayList<Order>) Constants.currentUser.getCurrentOrder();
                 cartAdapter = new CartAdapter(this, orders) {
                     @Override
                     public void onclick(View view, int position, boolean isLongClick) {
@@ -81,8 +83,8 @@ public class CartActivity extends AppCompatActivity {
 
             private void sendData(){
                 Intent i = new Intent(CartActivity.this, OrderActivity.class);
-                i.putExtra(OrderActivity.SUBTOTAL, subtotal);
-                i.putExtra(OrderActivity.DISCOUNTS, discount);
+                i.putExtra("subtotal", subtotal);
+                i.putExtra("discounts", discount);
                 startActivity(i);
                 finish();
             }

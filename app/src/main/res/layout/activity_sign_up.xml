@@ -229,24 +229,34 @@
         android:background="@drawable/btn_maroon_selector"
         android:textColor="@android:color/white"
         android:textSize="@dimen/text_size_normal"/>
-    <TextView
-        android:id="@+id/toLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_large"
-        android:layout_marginRight="@dimen/margin_large"
-        android:layout_marginTop="@dimen/margin_small"
-        android:text="Already have an account? Login now -->"
-        android:textSize="@dimen/text_size_normal"/>
 
-    <Button
-        android:id="@+id/Login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_huge"
-        android:layout_marginRight="@dimen/margin_large"
-        android:background="@drawable/btn_maroon_selector"
-        android:text="login"
-        android:textColor="@android:color/white"
-        android:textSize="8dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/toLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_small"
+            android:text="Already have an account? Login now -->"
+            android:textSize="@dimen/text_size_normal" />
+
+        <Button
+            android:id="@+id/Login"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_small"
+            android:background="@drawable/btn_maroon_selector"
+            android:text="login"
+            android:textColor="@android:color/white"
+            android:textSize="8dp" />
+
+    </LinearLayout>
+
 </LinearLayout>

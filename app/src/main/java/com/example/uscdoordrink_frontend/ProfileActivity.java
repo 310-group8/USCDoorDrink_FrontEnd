@@ -10,12 +10,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.uscdoordrink_frontend.Constants.Constants;
+import com.example.uscdoordrink_frontend.entity.UserType;
+import com.example.uscdoordrink_frontend.service.OrderNotificationService;
 
 public class ProfileActivity extends AppCompatActivity {
-    Button btProfile;
+    Button btProfile, bOrder, bBack;
     TextView username;
     TextView contactInfo;
     TextView password;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +36,46 @@ public class ProfileActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(ProfileActivity.this, ViewChartActivity.class);
                 startActivity(i);
+                finish();
             }
         });
+        bOrder = findViewById(R.id.manage_order);
+        bOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i;
+                if (Constants.currentUser.getUserType() == UserType.SELLER) {
+                    i = new Intent(ProfileActivity.this, OrderManagementActivity.class);
+                } else {
+                    i = new Intent(ProfileActivity.this, ViewOrderActivity.class);
+                }
+                startActivity(i);
+                finish();
+            }
+        });
+
+        bBack = findViewById(R.id.back_to_map);
+        bBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ProfileActivity.this, MapsActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
+        // start order Listening Service
+        if (Constants.currentUser.getUserType() == UserType.CUSTOMER) {
+            Intent service = new Intent(ProfileActivity.this, OrderNotificationService.class);
+            service.putExtra("path", Constants.currentUser.getUserName());
+            startService(service);
+        } else {
+            if (!Constants.currentUser.getStoreUID().equals("toBeAssigned")) {
+                Intent service = new Intent(ProfileActivity.this, OrderNotificationService.class);
+                service.putExtra("path", Constants.currentUser.getStoreUID());
+                startService(service);
+            }
+        }
+
     }
 }

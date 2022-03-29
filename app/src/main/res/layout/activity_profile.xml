@@ -30,7 +30,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/Title">
+        android:layout_below="@+id/Title"
+        android:layout_marginTop="19dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -84,10 +85,10 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/contactInfo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:id="@+id/contactInfo"
                     android:text="xxxxxxxxx"
                     android:textColor="#000000"
                     android:textSize="18sp" />
@@ -114,10 +115,10 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/Password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:id="@+id/Password"
                     android:text="xxxxxxxxx"
                     android:textColor="#000000"
                     android:textSize="18sp" />
@@ -144,13 +145,13 @@
                     android:textSize="13sp" />
 
                 <Button
+                    android:id="@+id/btn_ViewChart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:text="View"
                     android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:id="@+id/btn_ViewChart"/>
+                    android:textSize="18sp" />
 
 
                 <View
@@ -163,6 +164,28 @@
 
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/manage_order"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="218dp"
+            android:layout_marginBottom="79dp"
+            android:text="Current Order" />
+
+        <Button
+            android:id="@+id/back_to_map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/manage_order"
+            android:layout_alignTop="@+id/manage_order"
+            android:layout_alignBottom="@+id/manage_order"
+            android:layout_marginStart="181dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="-1dp"
+            android:text="return to map" />
 
     </RelativeLayout>
 

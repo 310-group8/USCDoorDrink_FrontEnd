@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginTop="144dp"
         android:text="Username: "
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -34,15 +34,15 @@
         app:layout_constraintStart_toStartOf="@+id/c_i"
         app:layout_constraintTop_toBottomOf="@+id/c_i" />
 
+
     <TextView
         android:id="@+id/change_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="296dp"
+        android:layout_marginTop="240dp"
         android:text="Change Order Status:"
         app:layout_constraintStart_toStartOf="@+id/address"
         app:layout_constraintTop_toBottomOf="@+id/address" />
-
 
     <SeekBar
         android:id="@+id/seekBar"
@@ -76,7 +76,7 @@
 
     <TextView
         android:id="@+id/b"
-        android:layout_width="4dp"
+        android:layout_width="wrap_content"
         android:layout_height="22dp"
         android:layout_marginStart="100dp"
         android:layout_marginTop="24dp"
@@ -98,12 +98,38 @@
         android:id="@+id/complete_order"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="140dp"
+        android:layout_marginTop="100dp"
         android:text="Return to Map"
         android:textSize="@dimen/margin_normal"
-        app:layout_constraintEnd_toEndOf="@+id/seekBar"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar"
+        app:layout_constraintVertical_bias="0.466" />
+
+    <TextView
+        android:id="@+id/title_order_management"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="OrderManagement"
+        android:textSize="@dimen/margin_large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/apply_change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="72dp"
+        android:text="Apply"
+        android:textSize="@dimen/text_size_tiny"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar"
+        app:layout_constraintVertical_bias="0.05" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

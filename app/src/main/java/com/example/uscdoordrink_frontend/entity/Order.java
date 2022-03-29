@@ -65,7 +65,7 @@ public class Order {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setOrderPrice(double price) {
         this.price = price;
     }
 

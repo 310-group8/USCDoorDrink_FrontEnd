@@ -21,9 +21,12 @@
             android:exported="false" />
         <activity
             android:name=".ViewOrderActivity"
-            android:exported="false" />
+            android:exported="false">
+        </activity>
+
         <activity
             android:name=".ViewMenuActivity"
+
             android:exported="true">
 <!--         <intent-filter>-->
 <!--         <action android:name="android.intent.action.MAIN" />-->
@@ -31,6 +34,14 @@
 <!--         <category android:name="android.intent.category.LAUNCHER" />-->
 <!--         </intent-filter>-->
         </activity>
+
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+
         <activity
             android:name=".RecommendationActivity"
             android:exported="true"
@@ -57,10 +68,12 @@
 
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
+
         </activity>
 
         <service
             android:name=".service.OrderNotificationService"
+            android:label="OrderNotificationService"
             android:enabled="true"
             android:exported="true" />
         <service
@@ -83,24 +96,37 @@
             android:exported="false" />
         <activity
             android:name=".CartActivity"
-            android:exported="false" />
+            android:exported="false" >
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+
+
         <activity
             android:name=".SignUpActivity"
-            android:exported="false" />
+            android:exported="false" >
+
+        </activity>
+
         <activity
             android:name=".LoginActivity"
-            android:exported="false" />
-        <!--
-             TODO: Before you run your application, you need a Google Maps API key.
+            android:exported="false" >
 
-             To get one, follow the directions here:
+        </activity>
 
-                https://developers.google.com/maps/documentation/android-sdk/get-api-key
+<!--             TODO: Before you run your application, you need a Google Maps API key.-->
 
-             Once you have your API key (it starts with "AIza"), define a new property in your
-             project's local.properties file (e.g. MAPS_API_KEY=Aiza...), and replace the
-             "YOUR_API_KEY" string in this file with "${MAPS_API_KEY}".
-        -->
+<!--             To get one, follow the directions here:-->
+
+<!--                https://developers.google.com/maps/documentation/android-sdk/get-api-key-->
+
+<!--             Once you have your API key (it starts with "AIza"), define a new property in your-->
+<!--             project's local.properties file (e.g. MAPS_API_KEY=Aiza...), and replace the-->
+<!--             "YOUR_API_KEY" string in this file with "${MAPS_API_KEY}".-->
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCoj0HiPuANRmMbBN4fA51oCiRa8y_q8fA" />

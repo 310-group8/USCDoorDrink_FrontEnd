@@ -1,8 +1,12 @@
 package com.example.uscdoordrink_frontend.entity;
 
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: Yuxuan Liao
@@ -24,31 +28,23 @@ public class User {
 
     private UserType userType;
 
-    private int dailyCaffineConsume;
 
     private String storeUID;
 
     public User(){}
 
-    public int getDailyCaffineConsume() {
-        return dailyCaffineConsume;
-    }
-
-    public void setDailyCaffineConsume(int dailyCaffineConsume) {
-        this.dailyCaffineConsume = dailyCaffineConsume;
-    }
 
     public User(String u, String p, String c, UserType t) {
         this.userName = u;
         this.contactInformation = c;
         this.password = p;
-        this.dailyCaffineConsume = 0;
         if(t == userType.CUSTOMER){
             this.userType = userType.CUSTOMER;
         } else {
             this.userType = userType.SELLER;
         }
         this.storeUID = "toBeAssigned";
+
         currentOrder = new ArrayList<Order>();
         orderHistory = new ArrayList<Request>();
     }
