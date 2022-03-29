@@ -28,7 +28,7 @@ public class CartActivity extends AppCompatActivity {
         double subtotal = 0;
         double discount = 0;
 
-        Order a = new Order("Pineapple Lemonade", "7PqA0Yca8mKTntrvIHPT", 1, 5, 0);
+//        Order a = new Order("Pineapple Lemonade", "7PqA0Yca8mKTntrvIHPT", 1, 5, 0);
 
 
         CartAdapter cartAdapter;
@@ -46,7 +46,7 @@ public class CartActivity extends AppCompatActivity {
             recyclerView = findViewById(R.id.recycler_cart);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-            orders.add(a);
+//            orders.add(a);
             loadCart();
 
             buttonOrder.setOnClickListener(new View.OnClickListener() {
@@ -64,7 +64,7 @@ public class CartActivity extends AppCompatActivity {
 
             //Helper Methods
             private void loadCart () {
-//                orders = Constants.currentUser.getCurrentOrder();
+                orders = (ArrayList<Order>) Constants.currentUser.getCurrentOrder();
                 cartAdapter = new CartAdapter(this, orders) {
                     @Override
                     public void onclick(View view, int position, boolean isLongClick) {

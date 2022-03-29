@@ -31,9 +31,6 @@
         </activity>
 
         <activity
-            android:name=".ViewMenuActivity"
-            android:exported="false"/>
-        <activity
             android:name=".RecommendationActivity"
             android:exported="true"
             android:label="@string/title_activity_recommendation"
@@ -73,21 +70,24 @@
         <activity
             android:name=".CartActivity"
             android:exported="false" >
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
 
 
         <activity
             android:name=".SignUpActivity"
-            android:exported="false" />
+            android:exported="false" >
+
+        </activity>
+
         <activity
             android:name=".LoginActivity"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="false" >
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
              TODO: Before you run your application, you need a Google Maps API key.

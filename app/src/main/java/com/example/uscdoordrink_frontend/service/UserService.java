@@ -77,4 +77,9 @@ public class UserService {
         docRef.update("orderHistory", FieldValue.arrayUnion(r));
     }
 
+    public void updateUser(User u){
+        DocumentReference docRef = db.collection("User").document(u.getUserName());
+        docRef.set(u);
+    }
+
 }

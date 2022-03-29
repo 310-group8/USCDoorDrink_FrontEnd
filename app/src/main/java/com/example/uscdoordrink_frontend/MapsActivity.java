@@ -215,7 +215,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     if (Constants.currentUser.getUserType() == UserType.CUSTOMER) {
                         i = new Intent(MapsActivity.this, CartActivity.class);
                     } else {
-                        i = new Intent(MapsActivity.this, ViewMenuActivity.class);
+                        i = new Intent(MapsActivity.this, AddStoreActivity.class);
                     }
                     startActivity(i);
                     finish();
@@ -244,10 +244,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     if (Constants.currentUser.getUserType() == UserType.CUSTOMER) {
                         i = new Intent(MapsActivity.this, ViewOrderActivity.class);
                     } else {
-                        i = new Intent(MapsActivity.this, OrderManagementActivity.class);
+                        if(Constants.currentRequest == null){
+                            Toast.makeText(MapsActivity.this, "You don't have any order currently.", Toast.LENGTH_SHORT).show();
+                        }else{
+                            i = new Intent(MapsActivity.this, OrderManagementActivity.class);
+                            startActivity(i);
+                            finish();
+                        }
                     }
-                    startActivity(i);
-                    finish();
                 }
             }
         });

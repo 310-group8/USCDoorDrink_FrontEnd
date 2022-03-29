@@ -38,8 +38,6 @@ import java.time.format.DateTimeFormatter;
 
 public class OrderNotificationService extends Service {
 
-
-    private UserService service = new UserService();
     private ListenerRegistration registration;
     final FirebaseFirestore db = FirebaseFirestore.getInstance();
     String TAG = "OrderNotificationService";
@@ -109,7 +107,7 @@ public class OrderNotificationService extends Service {
     }
 
 
-
+//listen to database request changes and update current request
     public void orderListener(String path){
         final DocumentReference docRef = db.collection("Request").document(path);
         registration = docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -124,6 +122,7 @@ public class OrderNotificationService extends Service {
                 if (snapshot != null && snapshot.exists()) {
                     Log.d(TAG, "Current data: " + snapshot.getData());
                     Request r = snapshot.toObject(Request.class);;
+                    Constants.currentRequest = r;
 
                     // seller receive order
                     if((r.getStatus().equals("0")) && (Constants.currentUser.getUserType() == UserType.SELLER)) {
@@ -131,36 +130,26 @@ public class OrderNotificationService extends Service {
                         // When user submit current order to firebase, current order will be reset, and add request to order history.
                         // Seller's request will be added to order history when completing order.
                         Log.d(TAG, "!!!!!!!!!!!!!!!!!!");
-                        Constants.currentRequest = r;
                         Constants.currentUser.setCurrentOrder(r.getOrders());
                         showNotification("You have a new order! See in app for more details ---->", r.getStatus());
                     }
 
                     // customer get notified when drinks are on the way
                     if((r.getStatus().equals("1")) && (Constants.currentUser.getUserType() == UserType.CUSTOMER)){
-                        Constants.currentRequest = r;
                         showNotification("Your drinks are one the way ---->", r.getStatus());
                     }
 
                     // notify customer drinks have arrived
                     if((r.getStatus().equals("2"))  && (Constants.currentUser.getUserType() == UserType.CUSTOMER)) {
-                        Constants.currentRequest = null;
                         String s = r.getStart();
                         String e = r.getEnd();
-                        final DateTimeFormatter formatter = DateTimeFormatter
-                                .ofPattern("yyyy-MM-dd HH:mm:ss")
-                                .withZone(ZoneId.systemDefault());
-                        Instant instant_s = Instant.from(formatter.parse(s));
-                        Instant instant_e = Instant.from(formatter.parse(e));
+                        Instant instant_s = Instant.parse(s);
+                        Instant instant_e = Instant.parse(e);
                         Duration timeElapsed = Duration.between(instant_s, instant_e);
-                        Constants.currentUser.addOrderToHistory(r);
-                        service.addUserRequest(Constants.currentUser.getUserName(), r);
-                        //TODO: detatch listner
-                        showNotification("Your drinks have arrived at"+ e.toString() +"! ---->\n" + "Your delivery takes " + timeElapsed.toMinutes() + "minutes.", r.getStatus());
+                        showNotification("Your drinks have arrived at "+ e.toString()  + " Your delivery takes " + timeElapsed.toMinutes() + "minutes.", r.getStatus());
                     }
 
-                    if((r.getStatus().equals("0"))  && (Constants.currentUser.getUserType() == UserType.CUSTOMER)){
-
+                    if((r.getStatus().equals("3"))  && (Constants.currentUser.getUserType() == UserType.CUSTOMER)){
                         Constants.currentRequest.setStatus("3");
                         showNotification("Cannot track your order ---->", r.getStatus());
                     }

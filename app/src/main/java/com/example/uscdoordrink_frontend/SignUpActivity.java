@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +19,11 @@ import com.example.uscdoordrink_frontend.entity.UserType;
 import com.example.uscdoordrink_frontend.service.CallBack.OnFailureCallBack;
 import com.example.uscdoordrink_frontend.service.CallBack.OnSuccessCallBack;
 import com.example.uscdoordrink_frontend.service.UserService;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
 /**
@@ -27,9 +33,11 @@ import com.example.uscdoordrink_frontend.service.UserService;
 
 public class SignUpActivity extends AppCompatActivity {
 
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     EditText userName, password, contactInformation;
     Button login, register;
     RadioGroup select;
+    String TAG = "SignUpActivity";
 
 
     @Override
@@ -49,52 +57,29 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 UserService s = new UserService();
-                if (s.isRegistered(userName.getText().toString()).equals("true")) {
-                    Toast.makeText(SignUpActivity.this, "Username already exits, please log in.", Toast.LENGTH_SHORT).show();
-                } else {
-                    int id = select.getCheckedRadioButtonId();
-                    switch (id) {
-                        case R.id.customer:
-                            User u1 = new User(userName.getText().toString(), password.getText().toString(), contactInformation.getText().toString(), UserType.CUSTOMER);
-                            s.register(u1, new OnSuccessCallBack<Void>() {
-                                @Override
-                                public void onSuccess(Void input) {
-                                    Toast.makeText(SignUpActivity.this, "Customer sign up successfully!", Toast.LENGTH_SHORT).show();
-                                    setRegister();
-                                }
-                            }, new OnFailureCallBack<Exception>() {
-                                @Override
-                                public void onFailure(Exception input) {
-                                    Toast.makeText(getApplicationContext(),
-                                            "sign up failed",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                            break;
 
-                            case R.id.seller:
-                                User u2 = new User(userName.getText().toString(), password.getText().toString(), contactInformation.getText().toString(), UserType.SELLER);
-                                s.register(u2, new OnSuccessCallBack<Void>() {
-                                @Override
-                                public void onSuccess(Void input) {
-                                    Toast.makeText(SignUpActivity.this, "Seller sign up successfully!", Toast.LENGTH_SHORT).show();
-                                    setRegister();
-                                }
-                            }, new OnFailureCallBack<Exception>() {
-                                @Override
-                                public void onFailure(Exception input) {
-                                    Toast.makeText(getApplicationContext(),
-                                            "sign up failed",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                                break;
-                                default:
-                                    Toast.makeText(SignUpActivity.this, "Please select your user type!", Toast.LENGTH_SHORT).show();
-                                    break;
-
+                //check if username already exists
+                DocumentReference docRef = db.collection("User").document(userName.getText().toString());
+                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                Toast.makeText(SignUpActivity.this, "Username already exits, please log in.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Log.d(TAG, "No such document");
+                                //sign up
+                                signUp();
+                            }
+                        } else {
+                            Log.d(TAG, "get failed with ", task.getException());
+                            Toast.makeText(SignUpActivity.this, "Failed.", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                }
+                });
+
             }
         });
 
@@ -116,5 +101,49 @@ public class SignUpActivity extends AppCompatActivity {
         finish();
     }
 
+    public void signUp(){
+            int id = select.getCheckedRadioButtonId();
+            UserService s = new UserService();
+            switch (id) {
+                case R.id.customer:
+                    User u1 = new User(userName.getText().toString(), password.getText().toString(), contactInformation.getText().toString(), UserType.CUSTOMER);
+                    s.register(u1, new OnSuccessCallBack<Void>() {
+                        @Override
+                        public void onSuccess(Void input) {
+                            Toast.makeText(SignUpActivity.this, "Customer sign up successfully!", Toast.LENGTH_SHORT).show();
+                            setRegister();
+                        }
+                    }, new OnFailureCallBack<Exception>() {
+                        @Override
+                        public void onFailure(Exception input) {
+                            Toast.makeText(getApplicationContext(),
+                                    "sign up failed",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    break;
 
-}
+                case R.id.seller:
+                    User u2 = new User(userName.getText().toString(), password.getText().toString(), contactInformation.getText().toString(), UserType.SELLER);
+                    s.register(u2, new OnSuccessCallBack<Void>() {
+                        @Override
+                        public void onSuccess(Void input) {
+                            Toast.makeText(SignUpActivity.this, "Seller sign up successfully!", Toast.LENGTH_SHORT).show();
+                            setRegister();
+                        }
+                    }, new OnFailureCallBack<Exception>() {
+                        @Override
+                        public void onFailure(Exception input) {
+                            Toast.makeText(getApplicationContext(),
+                                    "sign up failed",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    break;
+                default:
+                    Toast.makeText(SignUpActivity.this, "Please select your user type!", Toast.LENGTH_SHORT).show();
+                    break;
+
+            }
+        }
+    }

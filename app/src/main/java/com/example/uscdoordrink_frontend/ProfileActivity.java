@@ -14,7 +14,7 @@ import com.example.uscdoordrink_frontend.entity.UserType;
 import com.example.uscdoordrink_frontend.service.OrderNotificationService;
 
 public class ProfileActivity extends AppCompatActivity {
-    Button btProfile, bOrder;
+    Button btProfile, bOrder, bBack;
     TextView username;
     TextView contactInfo;
     TextView password;
@@ -54,6 +54,16 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        bBack = findViewById(R.id.back_to_map);
+        bBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ProfileActivity.this, MapsActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
+
         // start order Listening Service
         if (Constants.currentUser.getUserType() == UserType.CUSTOMER) {
             Intent service = new Intent(ProfileActivity.this, OrderNotificationService.class);
@@ -66,5 +76,6 @@ public class ProfileActivity extends AppCompatActivity {
                 startService(service);
             }
         }
+
     }
 }

@@ -94,7 +94,6 @@ public class OrderManagementActivity extends AppCompatActivity {
                 if(progress == 2) {
                     Instant end = Instant.now();
                     String endS = end.toString();
-                    orderService.updateRequest(req);
                     req.setEnd(endS);
                     req.setStatus(String.valueOf(progress));
 

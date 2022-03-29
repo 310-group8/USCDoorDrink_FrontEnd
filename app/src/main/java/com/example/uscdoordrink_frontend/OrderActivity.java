@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.icu.text.CaseMap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.uscdoordrink_frontend.Constants.Constants;
+import com.example.uscdoordrink_frontend.entity.Drink;
 import com.example.uscdoordrink_frontend.entity.Order;
 import com.example.uscdoordrink_frontend.entity.Request;
 import com.example.uscdoordrink_frontend.entity.User;
@@ -26,6 +28,7 @@ import com.example.uscdoordrink_frontend.service.UserService;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.time.Instant;
 import java.util.List;
@@ -39,9 +42,12 @@ public class OrderActivity extends AppCompatActivity {
     String TAG = "UserService";
 
     Button order;
+    UserService user = new UserService();
     TextView priceSub, pricedc, pricetax, priceSt, priceTotal;
     String address = null;
     double total;
+    int cartQuantity = 0;
+    int newQuantity = 0;
 
 
 
@@ -51,12 +57,12 @@ public class OrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
 
-        User u = new User("Wade", "Lyz007354", "3233560454", UserType.CUSTOMER);
-        List<Order> orders = new ArrayList<>();
-        Order a = new Order("Pineapple Lemonade", "7PqA0Yca8mKTntrvIHPT", 1, 5, 0);
-        orders.add(a);
-        u.setCurrentOrder(orders);
-        Constants.currentUser = u;
+//        User u = new User("Wade", "Lyz007354", "3233560454", UserType.CUSTOMER);
+//        List<Order> orders = new ArrayList<>();
+//        Order a = new Order("Pineapple Lemonade", "7PqA0Yca8mKTntrvIHPT", 1, 5, 0);
+//        orders.add(a);
+//        u.setCurrentOrder(orders);
+//        Constants.currentUser = u;
 
         subtotal = getIntent().getDoubleExtra("subtotal", 0.0);
         discounts = getIntent().getDoubleExtra("discounts", 0.0);
@@ -85,10 +91,21 @@ public class OrderActivity extends AppCompatActivity {
         priceSt.setText(String.valueOf(deliverFee));
         priceTotal.setText(String.valueOf(total));
 
+
+
         order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                for(Order o : Constants.currentUser.getCurrentOrder()){
+                    cartQuantity += o.getQuantity();
+                }
+
+                int oldQuantity = checkDrinkQuantityInPastDay();
+                if(oldQuantity + cartQuantity >= 5) {
+                    showAlert(oldQuantity);
+                }else{
                     showDialog();
+                }
             }
 
         });
@@ -110,31 +127,25 @@ public class OrderActivity extends AppCompatActivity {
         builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                if(Constants.currentUser.getDailyCaffineConsume() >= 5){
-                    Toast.makeText(OrderActivity.this, "Quote from USDA: Currently, strong evidence shows that consumption " +
-                            "of coffee within the moderate range (3 to 5 cups per day or up to 400 mg/d caffeine) " +
-                            "is not associated with increased long-term health risks among healthy individuals.", Toast.LENGTH_SHORT).show();
-
-                }
 
                 Instant instant = Instant.now();
                 String start = instant.toString();
 
                 Request req = new Request(start, Constants.currentUser.getUserName(),
                         Constants.currentUser.getContactInformation(),
-                        address,
+                        editText.getText().toString(),
                         Constants.currentUser.getCurrentOrder().get(0).getStoreUID(),
                         total,
                         Constants.currentUser.getCurrentOrder());
 
                 //sending request to firebase
-
                 OrderService s = new OrderService();
                 s.addRequest(req, new OnSuccessCallBack<Void>() {
                     @Override
                     public void onSuccess(Void input) {
                         Constants.currentUser.setCurrentOrder(new ArrayList<Order>());
                         Constants.currentRequest = req;
+
                         //request will only be added to user order history when completed
                         Toast.makeText(OrderActivity.this, "Order is placed. Thank You!", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(OrderActivity.this, ViewOrderActivity.class);
@@ -163,5 +174,40 @@ public class OrderActivity extends AppCompatActivity {
         builder.show();
     }
 
+    private void showAlert(int oldQuantity){
+        AlertDialog.Builder b = new AlertDialog.Builder(OrderActivity.this);
+        b.setTitle("Attention!");
+        b.setMessage("You have already drunk " + oldQuantity + " cups of tea or coffee today, Your caffeine intake is too much.");
+        b.setPositiveButton("Dismiss, continue ordering", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                showDialog();
+            }
+        });
 
+        b.setNegativeButton("cancel order, back to map", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent(OrderActivity.this, MapsActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        b.show();
+    }
+
+    public int checkDrinkQuantityInPastDay(){
+        int result = 0;
+        for (Request request : Constants.currentUser.getOrderHistory()) {
+            if (Duration.between(Instant.parse(request.getStart()), Instant.now()).getSeconds() <= 86400) {
+                for (Order order : request.getOrders()) {
+                    for (int i = 1; i <= order.getQuantity(); i++) {
+                        result += 1;
+                    }
+                }
+            }
+        }
+        return result;
+    }
 }
