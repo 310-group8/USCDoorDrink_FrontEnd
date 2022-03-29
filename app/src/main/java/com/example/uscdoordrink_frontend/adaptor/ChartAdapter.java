@@ -69,7 +69,7 @@ public class ChartAdapter extends RecyclerView.Adapter<ChartAdapter.ChartViewHol
         TextView storeName;
         public ChartViewHolder(@NonNull View itemView) {
             super(itemView);
-            drinkName = itemView.findViewById(R.id.itemName);
+            drinkName = itemView.findViewById(R.id.itemNameChart);
             storeName = itemView.findViewById(R.id.storeName);
         }
     }

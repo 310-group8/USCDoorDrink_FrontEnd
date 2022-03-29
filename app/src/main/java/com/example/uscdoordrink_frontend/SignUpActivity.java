@@ -3,6 +3,7 @@ package com.example.uscdoordrink_frontend;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -95,11 +96,6 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    public void setRegister(){
-        Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-        startActivity(intent);
-        finish();
-    }
 
     public void signUp(){
             int id = select.getCheckedRadioButtonId();
@@ -111,7 +107,9 @@ public class SignUpActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void input) {
                             Toast.makeText(SignUpActivity.this, "Customer sign up successfully!", Toast.LENGTH_SHORT).show();
-                            setRegister();
+                            Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            finish();
                         }
                     }, new OnFailureCallBack<Exception>() {
                         @Override
@@ -129,7 +127,9 @@ public class SignUpActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void input) {
                             Toast.makeText(SignUpActivity.this, "Seller sign up successfully!", Toast.LENGTH_SHORT).show();
-                            setRegister();
+                            Intent intent = new Intent(SignUpActivity.this, AddStoreActivity.class);
+                            startActivity(intent);
+                            finish();
                         }
                     }, new OnFailureCallBack<Exception>() {
                         @Override

@@ -35,7 +35,7 @@ public class ChartDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_daily_detail);
         drinkName = findViewById(R.id.itemNameChart);
         storeName = findViewById(R.id.storeName);
-        if (getIntent().getStringExtra("Basis") == "Daily") {
+        if (getIntent().getStringExtra("Basis").equals("Daily")) {
             for (Request request : Constants.currentUser.getOrderHistory()) {
                 if (Duration.between(Instant.parse(request.getStart()), Instant.now()).getSeconds() <= 86400) {
                     for (Order order : request.getOrders()) {
@@ -48,7 +48,7 @@ public class ChartDetailActivity extends AppCompatActivity {
                     }
                 }
             }
-        } else if (getIntent().getStringExtra("Basis") == "Weekly") {
+        } else if (getIntent().getStringExtra("Basis").equals("Weekly")) {
             for (Request request : Constants.currentUser.getOrderHistory()) {
                 if (Duration.between(Instant.parse(request.getStart()), Instant.now()).getSeconds() <= 604800) {
                     for (Order order : request.getOrders()) {
@@ -61,7 +61,7 @@ public class ChartDetailActivity extends AppCompatActivity {
                     }
                 }
             }
-        }else if (getIntent().getStringExtra("Basis") == "Monthly") {
+        }else if (getIntent().getStringExtra("Basis").equals("Monthly")) {
             for (Request request : Constants.currentUser.getOrderHistory()) {
                 if (Duration.between(Instant.parse(request.getStart()), Instant.now()).getSeconds() <= 2592000) {
                     for (Order order : request.getOrders()) {
