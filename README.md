@@ -38,4 +38,8 @@
 5. Order management:
    a. After logging in, you will be able to use all the buttons from the map.j
    b. You can receive order notification on profile page.
+   c. For sellers, update and complete your order in "Current Order";
+   
+6. Store management:
+   Sellers can manage their stores in their profile page.
 
