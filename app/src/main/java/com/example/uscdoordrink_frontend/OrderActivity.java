@@ -177,7 +177,7 @@ public class OrderActivity extends AppCompatActivity {
     private void showAlert(int oldQuantity){
         AlertDialog.Builder b = new AlertDialog.Builder(OrderActivity.this);
         b.setTitle("Attention!");
-        b.setMessage("You have already drunk " + oldQuantity + " cups of tea or coffee today, Your caffeine intake is too much.");
+        b.setMessage("You have already drunk " + oldQuantity + " cups of tea or coffee today, you are about to order " + cartQuantity +" cups of drink. Your caffeine intake is too much.");
         b.setPositiveButton("Dismiss, continue ordering", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

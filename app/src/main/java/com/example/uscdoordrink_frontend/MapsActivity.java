@@ -329,10 +329,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         orderHere.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MapsActivity.this, ViewMenuActivity.class);
-                i.putExtra("storeUID", currentViewingStore.getStoreUID());
-                startActivity(i);
-                finish();
+                if(Constants.currentUser == null){
+                    Toast.makeText(MapsActivity.this, "Please login to view store menu", Toast.LENGTH_SHORT).show();
+                }else{
+                    Intent i = new Intent(MapsActivity.this, ViewMenuActivity.class);
+                    i.putExtra("storeUID", currentViewingStore.getStoreUID());
+                    startActivity(i);
+                    finish();
+                }
             }
         });
         driving.setOnClickListener(new View.OnClickListener() {

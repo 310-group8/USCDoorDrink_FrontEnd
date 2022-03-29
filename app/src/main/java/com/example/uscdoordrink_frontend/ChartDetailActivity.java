@@ -37,7 +37,7 @@ public class ChartDetailActivity extends AppCompatActivity {
         storeName = findViewById(R.id.storeName);
         if (getIntent().getStringExtra("Basis") == "Daily") {
             for (Request request : Constants.currentUser.getOrderHistory()) {
-                if (Duration.between(request.getStart(), Instant.now()).getSeconds() <= 86400) {
+                if (Duration.between(Instant.parse(request.getStart()), Instant.now()).getSeconds() <= 86400) {
                     for (Order order : request.getOrders()) {
                         Drink drink = new Drink();
                         drink.setStoreUID(order.getStoreUID());
@@ -50,7 +50,7 @@ public class ChartDetailActivity extends AppCompatActivity {
             }
         } else if (getIntent().getStringExtra("Basis") == "Weekly") {
             for (Request request : Constants.currentUser.getOrderHistory()) {
-                if (Duration.between(request.getStart(), Instant.now()).getSeconds() <= 604800) {
+                if (Duration.between(Instant.parse(request.getStart()), Instant.now()).getSeconds() <= 604800) {
                     for (Order order : request.getOrders()) {
                         Drink drink = new Drink();
                         drink.setStoreUID(order.getStoreUID());
@@ -63,7 +63,7 @@ public class ChartDetailActivity extends AppCompatActivity {
             }
         }else if (getIntent().getStringExtra("Basis") == "Monthly") {
             for (Request request : Constants.currentUser.getOrderHistory()) {
-                if (Duration.between(request.getStart(), Instant.now()).getSeconds() <= 2592000) {
+                if (Duration.between(Instant.parse(request.getStart()), Instant.now()).getSeconds() <= 2592000) {
                     for (Order order : request.getOrders()) {
                         Drink drink = new Drink();
                         drink.setStoreUID(order.getStoreUID());

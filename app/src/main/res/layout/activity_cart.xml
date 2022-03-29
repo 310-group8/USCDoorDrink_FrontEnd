@@ -18,14 +18,23 @@
         android:textSize="30sp"
         />
 
+    <Button
+        android:id="@+id/r_to_map"
+        android:layout_width="120dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="25dp"
+        android:text="return to map"
+        android:textSize="@dimen/margin_small" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_cart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"
         android:layout_above="@id/card"
         android:layout_below="@+id/Cart"
-        android:background="@android:color/transparent"/>
+        android:background="@android:color/transparent"
+        android:scrollbars="vertical" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card"
@@ -46,6 +55,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp">
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="312dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
                 <TextView
                     android:id="@+id/order_price"
                     android:layout_width="wrap_content"

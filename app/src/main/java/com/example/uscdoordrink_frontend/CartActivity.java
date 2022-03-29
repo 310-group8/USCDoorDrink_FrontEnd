@@ -24,7 +24,7 @@ public class CartActivity extends AppCompatActivity {
 
         RecyclerView recyclerView;
         public TextView textViewPrice;
-        Button buttonOrder;
+        Button buttonOrder, bR;
         double subtotal = 0;
         double discount = 0;
 

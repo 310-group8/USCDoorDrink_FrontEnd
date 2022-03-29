@@ -35,9 +35,7 @@ public class Drink {
     }
 
     public Drink(){}
-    public Drink() {}
-
-
+    
     public String getStoreUID() {
         return storeUID;
     }

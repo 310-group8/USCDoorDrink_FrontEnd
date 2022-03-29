@@ -44,13 +44,17 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i;
-                if (Constants.currentUser.getUserType() == UserType.SELLER) {
-                    i = new Intent(ProfileActivity.this, OrderManagementActivity.class);
-                } else {
-                    i = new Intent(ProfileActivity.this, ViewOrderActivity.class);
+                if (Constants.currentRequest == null){
+                    Toast.makeText(ProfileActivity.this, "You don't have a current order.", Toast.LENGTH_LONG).show();
+                }else{
+                    if (Constants.currentUser.getUserType() == UserType.SELLER) {
+                        i = new Intent(ProfileActivity.this, OrderManagementActivity.class);
+                    } else {
+                        i = new Intent(ProfileActivity.this, ViewOrderActivity.class);
+                    }
+                    startActivity(i);
+                    finish();
                 }
-                startActivity(i);
-                finish();
             }
         });
 

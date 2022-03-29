@@ -155,6 +155,10 @@ public class OrderNotificationService extends Service {
                     }
 
                 } else {
+                    boolean a = snapshot.exists();
+                    boolean b = snapshot == null;
+                    Log.d("exist", String.valueOf(a));
+                    Log.d("null", String.valueOf(b));
                     Log.d(TAG, "Current data: null");
                 }
             }
