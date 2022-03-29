@@ -24,7 +24,7 @@ public class CartActivity extends AppCompatActivity {
 
         RecyclerView recyclerView;
         public TextView textViewPrice;
-        Button buttonOrder, bR;
+        Button buttonOrder, rToMap;
         double subtotal = 0;
         double discount = 0;
 
@@ -42,12 +42,22 @@ public class CartActivity extends AppCompatActivity {
 
             textViewPrice = findViewById(R.id.order_price);
             buttonOrder = findViewById(R.id.btnPlaceOrder);
+            rToMap = findViewById(R.id.r_to_map);
 
             recyclerView = findViewById(R.id.recycler_cart);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 //            orders.add(a);
             loadCart();
+
+            rToMap.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(CartActivity.this, MapsActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+            });
 
             buttonOrder.setOnClickListener(new View.OnClickListener() {
                 @Override
