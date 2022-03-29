@@ -1,48 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-    <component name="DesignSurface">
-        <option name="filePathToZoomLevelMap">
-            <map>
-                <entry key="../../../../../layout/custom_preview.xml" value="0.15" />
-                <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/activity_add_store.xml" value="0.3" />
-                <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/activity_cart.xml" value="0.3" />
-                <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/activity_login.xml" value="0.3" />
-                <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/activity_maps.xml" value="0.3" />
-                <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/activity_order.xml" value="0.3" />
-                <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/activity_sign_up.xml" value="0.3" />
-                <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/activity_view_chart.xml" value="0.3" />
-                <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/activity_view_menu.xml" value="0.3" />
-                <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/cart_item.xml" value="0.3" />
-                <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/fragment_add_store_discounts.xml" value="0.3" />
-                <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/fragment_add_store_drink.xml" value="0.3" />
-                <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/fragment_add_store_menu.xml" value="0.2225705329153605" />
-                <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/fragment_add_store_name.xml" value="0.3" />
-                <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/fragment_add_store_successful.xml" value="0.3" />
-                <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/list_drink_menu.xml" value="0.3" />
-                <entry key="app/src/main/res/layout/activity_add_cart.xml" value="0.23020833333333332" />
-                <entry key="app/src/main/res/layout/activity_add_store.xml" value="0.24427083333333333" />
-                <entry key="app/src/main/res/layout/activity_cart.xml" value="0.18050587972005205" />
-                <entry key="app/src/main/res/layout/activity_login.xml" value="0.2726816813151042" />
-                <entry key="app/src/main/res/layout/activity_map.xml" value="0.1" />
-                <entry key="app/src/main/res/layout/activity_maps.xml" value="0.24427083333333333" />
-                <entry key="app/src/main/res/layout/activity_order.xml" value="0.17407407407407408" />
-                <entry key="app/src/main/res/layout/activity_order_management.xml" value="0.32100728352864577" />
-                <entry key="app/src/main/res/layout/activity_profile.xml" value="0.23556564525546786" />
-                <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.10439758300781252" />
-                <entry key="app/src/main/res/layout/activity_view_menu.xml" value="0.24427083333333333" />
-                <entry key="app/src/main/res/layout/activity_view_order.xml" value="0.14177703857421872" />
-                <entry key="app/src/main/res/layout/cart_item.xml" value="0.24427083333333333" />
-                <entry key="app/src/main/res/layout/fragment_add_store_menu.xml" value="0.24427083333333333" />
-                <entry key="app/src/main/res/layout/fragment_add_store_name.xml" value="0.24427083333333333" />
-                <entry key="app/src/main/res/layout/fragment_add_store_successful.xml" value="0.24427083333333333" />
-                <entry key="app/src/main/res/layout/list_drink_menu.xml" value="0.24427083333333333" />
-            </map>
-        </option>
-    </component>
-    <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
-        <output url="file://$PROJECT_DIR$/build/classes" />
-    </component>
-    <component name="ProjectType">
-        <option name="id" value="Android" />
-    </component>
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="../../../../../layout/custom_preview.xml" value="0.15" />
+        <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/activity_add_store.xml" value="0.3" />
+        <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/activity_cart.xml" value="0.3" />
+        <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/activity_login.xml" value="0.3" />
+        <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/activity_maps.xml" value="0.3" />
+        <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/activity_order.xml" value="0.3" />
+        <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/activity_sign_up.xml" value="0.3" />
+        <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/activity_view_chart.xml" value="0.3" />
+        <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/activity_view_menu.xml" value="0.3" />
+        <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/cart_item.xml" value="0.3" />
+        <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/fragment_add_store_discounts.xml" value="0.3" />
+        <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/fragment_add_store_drink.xml" value="0.3" />
+        <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/fragment_add_store_menu.xml" value="0.2225705329153605" />
+        <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/fragment_add_store_name.xml" value="0.3" />
+        <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/fragment_add_store_successful.xml" value="0.3" />
+        <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/list_drink_menu.xml" value="0.3" />
+        <entry key="app/src/main/res/layout/activity_add_cart.xml" value="0.23020833333333332" />
+        <entry key="app/src/main/res/layout/activity_add_store.xml" value="0.24427083333333333" />
+        <entry key="app/src/main/res/layout/activity_cart.xml" value="0.18050587972005205" />
+        <entry key="app/src/main/res/layout/activity_daily_detail.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.2726816813151042" />
+        <entry key="app/src/main/res/layout/activity_map.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_maps.xml" value="0.24427083333333333" />
+        <entry key="app/src/main/res/layout/activity_order.xml" value="0.17407407407407408" />
+        <entry key="app/src/main/res/layout/activity_order_management.xml" value="0.32100728352864577" />
+        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.23556564525546786" />
+        <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.10439758300781252" />
+        <entry key="app/src/main/res/layout/activity_view_chart.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/activity_view_menu.xml" value="0.24427083333333333" />
+        <entry key="app/src/main/res/layout/activity_view_order.xml" value="0.14177703857421872" />
+        <entry key="app/src/main/res/layout/cart_item.xml" value="0.24427083333333333" />
+        <entry key="app/src/main/res/layout/fragment_add_store_menu.xml" value="0.24427083333333333" />
+        <entry key="app/src/main/res/layout/fragment_add_store_name.xml" value="0.24427083333333333" />
+        <entry key="app/src/main/res/layout/fragment_add_store_successful.xml" value="0.24427083333333333" />
+        <entry key="app/src/main/res/layout/list_drink_menu.xml" value="0.24427083333333333" />
+        <entry key="app/src/main/res/layout/list_item_chart.xml" value="0.3098958333333333" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
 </project>
