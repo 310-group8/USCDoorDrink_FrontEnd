@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                                             Constants.currentUser = u;
                                             Toast.makeText(LoginActivity.this, "----- Logging you in ------", Toast.LENGTH_SHORT).show();
 
-                                            if (u.getUserType() == UserType.SELLER && u.getStoreUID() == null){
+                                            if (u.getUserType() == UserType.SELLER && (u.getStoreUID() == null || "toBeAssigned".equals(u.getStoreUID()))){
                                                 Intent i = new Intent(LoginActivity.this, AddStoreActivity.class);
                                                 startActivity(i);
                                                 finish();
