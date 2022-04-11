@@ -133,21 +133,6 @@ public class AddStoreMenu extends Fragment {
                                     @Override
                                     public void onSuccess(Void input) {
 
-                                        //update drinkUID
-                                        Menu m = new Menu(theStore.getMenu());
-                                        storeService.updateDrinkUID(theStore, m,new OnSuccessCallBack<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void input) {
-                                                        Toast.makeText(getContext(), "successfully uploading drinkUID", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                },
-                                                new OnFailureCallBack<Exception>() {
-                                                    @Override
-                                                    public void onFailure(Exception input) {
-                                                        Toast.makeText(getContext(), "failed to upload drinkUID", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                });
-
                                         // add storeUID to user
                                         Constants.currentUser.setStoreUID(theStore.getStoreUID());
                                         UserService service = new UserService();
@@ -165,26 +150,10 @@ public class AddStoreMenu extends Fragment {
                                     }
                                 });
                     }else{
-                        storeService.UpdateStore(theStore,
+                        storeService.updateStore(theStore,
                                 new OnSuccessCallBack<Void>() {
                                     @Override
                                     public void onSuccess(Void input) {
-
-                                        //update drinkUID
-                                        Menu m = new Menu(theStore.getMenu());
-                                        storeService.updateDrinkUID(theStore, m,new OnSuccessCallBack<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void input) {
-                                                        Toast.makeText(getContext(), "successfully uploading drinkUID", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                },
-                                                new OnFailureCallBack<Exception>() {
-                                                    @Override
-                                                    public void onFailure(Exception input) {
-                                                        Toast.makeText(getContext(), "failed to upload drinkUID", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                });
-
                                         Navigation.findNavController(view).navigate(R.id.action_menu_to_successful);
                                     }
                                 },

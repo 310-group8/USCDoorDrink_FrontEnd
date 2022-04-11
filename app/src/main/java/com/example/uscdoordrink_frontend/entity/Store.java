@@ -35,8 +35,6 @@ public class Store {
 
     private List<Drink> menu = new ArrayList<>();
 
-    private String drinkUID;
-
     private String hashLocation;
 
     public String getStoreName(){return storeName;}
@@ -77,13 +75,6 @@ public class Store {
     public void setMenu(List<Drink> menu) {
         this.menu = menu;
     }
-    public String getDrinkUID() {
-        return drinkUID;
-    }
-
-    public void setDrinkUID(String drinkUID) {
-        this.drinkUID = drinkUID;
-    }
 
     private void setHashLocation(String hashLocation) {
         this.hashLocation = hashLocation;
@@ -92,5 +83,22 @@ public class Store {
     public void setAddressString(String newAddressString){addressString = newAddressString;}
 
     public String getAddressString(){return addressString;}
+
+    @Override
+    public boolean equals(Object o){
+        if (o == this){
+            return true;
+        }
+        if (!(o instanceof Store)){
+            return false;
+        }
+        Store s = (Store) o;
+        return Objects.equals(this.storeUID, s.getStoreUID()) &&
+                Objects.equals(this.storeName, s.getStoreName()) &&
+                Objects.equals(this.getStoreAddress(), s.getStoreAddress()) &&
+                Objects.equals(this.addressString, s.getAddressString()) &&
+                menu.equals(s.getMenu()) &&
+                Objects.equals(this.hashLocation, s.getHashLocation());
+    }
 
 }

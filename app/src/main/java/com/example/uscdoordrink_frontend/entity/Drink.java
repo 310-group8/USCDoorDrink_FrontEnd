@@ -4,6 +4,7 @@ package com.example.uscdoordrink_frontend.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @Author: Yuxuan Liao
@@ -75,4 +76,22 @@ public class Drink {
     public void setDiscount(double discount) {
         this.discount = discount;
     }
+
+
+    @Override
+    public boolean equals(Object o){
+        if (o == this){
+            return true;
+        }
+        if (!(o instanceof Drink)){
+            return false;
+        }
+        Drink d = (Drink) o;
+        return Objects.equals(this.storeUID, d.getStoreUID()) &&
+                Objects.equals(this.drinkName, d.getDrinkName()) &&
+                this.discount == d.getDiscount() &&
+                this.ingredients.equals(d.getIngredients()) &&
+                this.price == d.getPrice();
+    }
+
 }
