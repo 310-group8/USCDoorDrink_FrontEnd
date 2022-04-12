@@ -15,9 +15,6 @@ import android.widget.Toast;
 
 import com.example.uscdoordrink_frontend.adaptor.MenuAdapter;
 import com.example.uscdoordrink_frontend.entity.Drink;
-import com.example.uscdoordrink_frontend.entity.Menu;
-import com.example.uscdoordrink_frontend.entity.Store;
-import com.example.uscdoordrink_frontend.service.CallBack.OnSuccessCallBack;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 

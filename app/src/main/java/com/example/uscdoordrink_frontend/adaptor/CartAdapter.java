@@ -55,7 +55,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_item, parent, false);
         final ViewHolder viewHolder = new ViewHolder(view);
-
         return viewHolder;
     }
 
@@ -120,8 +119,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
             }
         });
 
-//        TextDrawable textDrawable = TextDrawable.builder().buildRound(orders.get(position).getQuantity(), Color.RED);
-//        holder.imageView.setImageDrawable(textDrawable);
     }
 
 

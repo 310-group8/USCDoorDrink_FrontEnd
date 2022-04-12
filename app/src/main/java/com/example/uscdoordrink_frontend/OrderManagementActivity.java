@@ -24,6 +24,7 @@ import java.util.List;
 
 public class OrderManagementActivity extends AppCompatActivity {
     int progress;
+    int position;
 
 
     @Override
@@ -38,7 +39,9 @@ public class OrderManagementActivity extends AppCompatActivity {
         TextView address = (TextView) findViewById(R.id.c);
         Button b = findViewById(R.id.complete_order);
         Button apply = findViewById(R.id.apply_change);
-        Request req = Constants.currentRequest;
+
+        position = getIntent().getIntExtra("position", 0);
+        Request req = Constants.currentUser.getOrderHistory().get(position);
         OrderService orderService = new OrderService();
         UserService userService = new UserService();
         progress = 0;
@@ -81,9 +84,6 @@ public class OrderManagementActivity extends AppCompatActivity {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(OrderManagementActivity.this, "Return to map.", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(OrderManagementActivity.this, MapsActivity.class);
-                startActivity(i);
                 finish();
             }
         });
@@ -98,19 +98,19 @@ public class OrderManagementActivity extends AppCompatActivity {
                     req.setStatus(String.valueOf(progress));
 
                     // update local variable
-                    // current request, add request to current user order history
+                    // current request
                     Constants.currentRequest = null;
                     Constants.currentUser.setCurrentOrder(new ArrayList<Order>());
-                    Constants.currentUser.addOrderToHistory(req);
 
                     // update firestore data: request and user order history
-                    orderService.updateRequest(req);
+                    orderService.updateRequest(req, "status","2");
+                    orderService.updateRequest(req, "end", req.getEnd());
                     userService.addUserRequest(Constants.currentUser.getUserName(), req);
-                    Toast.makeText(OrderManagementActivity.this, "----- Order completed -----", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(OrderManagementActivity.this, "----- Order arrived -----", Toast.LENGTH_SHORT).show();
                 }else{
                     req.setStatus(String.valueOf(progress));
                     Constants.currentRequest = req;
-                    orderService.updateRequest(req);
+                    orderService.updateRequest(req, "status", req.getStatus());
                     Toast.makeText(OrderManagementActivity.this, "Order status successfully changed!", Toast.LENGTH_SHORT).show();
                 }
 

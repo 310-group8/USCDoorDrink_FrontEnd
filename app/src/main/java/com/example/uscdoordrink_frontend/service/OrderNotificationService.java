@@ -22,19 +22,25 @@ import com.example.uscdoordrink_frontend.entity.Request;
 import com.example.uscdoordrink_frontend.entity.UserType;
 import com.example.uscdoordrink_frontend.service.CallBack.OnFailureCallBack;
 import com.example.uscdoordrink_frontend.service.CallBack.OnSuccessCallBack;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class OrderNotificationService extends Service {
 
@@ -42,6 +48,7 @@ public class OrderNotificationService extends Service {
     final FirebaseFirestore db = FirebaseFirestore.getInstance();
     String TAG = "OrderNotificationService";
     String path;
+    UserService userService = new UserService();
 
 
 
@@ -70,7 +77,7 @@ public class OrderNotificationService extends Service {
     }
 
 
-    public void showNotification(String msg, String status){
+    public void showNotification(String msg){
         Intent i;
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -83,11 +90,7 @@ public class OrderNotificationService extends Service {
         notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
         notificationManager.createNotificationChannel(notificationChannel);
 
-        if(status.equals("0")){
-            i = new Intent(OrderNotificationService.this, OrderManagementActivity.class);
-        }else{
-            i = new Intent(OrderNotificationService.this, ViewOrderActivity.class);
-        }
+        i = new Intent(OrderNotificationService.this, ViewOrderActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity
                 (getBaseContext(), 0,  i, PendingIntent.FLAG_IMMUTABLE);
 
@@ -109,60 +112,73 @@ public class OrderNotificationService extends Service {
 
 //listen to database request changes and update current request
     public void orderListener(String path){
-        final DocumentReference docRef = db.collection("Request").document(path);
-        registration = docRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot snapshot,
-                                @Nullable FirebaseFirestoreException ex) {
-                if (ex != null) {
-                    Log.w(TAG, "Listen failed.", ex);
-                    return;
-                }
+        registration = db.collection("Request")
+                .document(path)
+                .collection("Orders").whereIn("status", Arrays.asList("0", "1", "2", "3", "4"))
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value,
+                                        @Nullable FirebaseFirestoreException ex) {
+                        if (ex != null) {
+                            Log.w(TAG, "Listen failed.", ex);
+                            return;
+                        }
+                        if (value != null && !value.isEmpty()) {
+                            //add all requests online to arraylist requests
+                            ArrayList<Request> requests = new ArrayList<>();
+                            for (QueryDocumentSnapshot doc : value) {
+                                Request req = doc.toObject(Request.class);
+                                requests.add(req);
+                            }
 
-                if (snapshot != null && snapshot.exists()) {
-                    Log.d(TAG, "Current data: " + snapshot.getData());
-                    Request r = snapshot.toObject(Request.class);;
-                    Constants.currentRequest = r;
+                            //check status and send notification for each request
+                            for (Request r : requests) {
+                                Constants.currentRequest = r;
+                                // seller receive order
+                                if ((r.getStatus().equals("0")) && (Constants.currentUser.getUserType() == UserType.SELLER)) {
+                                    // Current order for seller is to manage order, current order for user is cart.
+                                    // When user submit current order to firebase, current order will be reset, and add request to order history.
+                                    // Seller's request will be added to order history when completing order.
+                                    Log.d(TAG, "seller received new order");
+                                    Constants.currentUser.setCurrentOrder(r.getOrders());
+                                    Constants.currentUser.addOrderToHistory(r);
+                                    userService.addUserRequest(Constants.currentUser.getUserName(), r);
+                                    showNotification("You have a new order! See in app for more details ---->");
+                                }
 
-                    // seller receive order
-                    if((r.getStatus().equals("0")) && (Constants.currentUser.getUserType() == UserType.SELLER)) {
-                        // Current order for seller is to manage order, current order for user is cart.
-                        // When user submit current order to firebase, current order will be reset, and add request to order history.
-                        // Seller's request will be added to order history when completing order.
-                        Log.d(TAG, "!!!!!!!!!!!!!!!!!!");
-                        Constants.currentUser.setCurrentOrder(r.getOrders());
-                        showNotification("You have a new order! See in app for more details ---->", r.getStatus());
+                                // customer get notified when drinks are on the way
+                                if ((r.getStatus().equals("1")) && (Constants.currentUser.getUserType() == UserType.CUSTOMER)) {
+                                    showNotification("Your drinks are one the way ---->");
+                                }
+
+                                // notify customer drinks have arrived
+                                if ((r.getStatus().equals("2")) && (Constants.currentUser.getUserType() == UserType.CUSTOMER)) {
+                                    String s = r.getStart();
+                                    String e = r.getEnd();
+                                    Instant instant_s = Instant.parse(s);
+                                    Instant instant_e = Instant.parse(e);
+                                    Duration timeElapsed = Duration.between(instant_s, instant_e);
+                                    DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                                            .withZone(ZoneId.systemDefault());
+                                    String time = DATE_TIME_FORMATTER.format(instant_e);
+                                    showNotification("Your drinks have arrived at " + time + " Your delivery takes " + timeElapsed.toMinutes() + " minutes. ");
+                                }
+
+                                if ((r.getStatus().equals("3")) && (Constants.currentUser.getUserType() == UserType.CUSTOMER)) {
+                                    showNotification("Cannot track your order ---->");
+                                }
+                            }
+                            if (requests.size() > 0) {
+                                //update user's request history and user order history locally and online
+                                Constants.currentUser.setOrderHistory(requests);
+                                userService.changeUserRequest(Constants.currentUser.getUserName(), requests);
+
+                            }
+                        }
+
                     }
+                });
 
-                    // customer get notified when drinks are on the way
-                    if((r.getStatus().equals("1")) && (Constants.currentUser.getUserType() == UserType.CUSTOMER)){
-                        showNotification("Your drinks are one the way ---->", r.getStatus());
-                    }
-
-                    // notify customer drinks have arrived
-                    if((r.getStatus().equals("2"))  && (Constants.currentUser.getUserType() == UserType.CUSTOMER)) {
-                        String s = r.getStart();
-                        String e = r.getEnd();
-                        Instant instant_s = Instant.parse(s);
-                        Instant instant_e = Instant.parse(e);
-                        Duration timeElapsed = Duration.between(instant_s, instant_e);
-                        showNotification("Your drinks have arrived at "+ e.toString()  + " Your delivery takes " + timeElapsed.toMinutes() + "minutes.", r.getStatus());
-                    }
-
-                    if((r.getStatus().equals("3"))  && (Constants.currentUser.getUserType() == UserType.CUSTOMER)){
-                        Constants.currentRequest.setStatus("3");
-                        showNotification("Cannot track your order ---->", r.getStatus());
-                    }
-
-                } else {
-                    boolean a = snapshot.exists();
-                    boolean b = snapshot == null;
-                    Log.d("exist", String.valueOf(a));
-                    Log.d("null", String.valueOf(b));
-                    Log.d(TAG, "Current data: null");
-                }
-            }
-        });
     }
 
 

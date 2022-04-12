@@ -12,31 +12,22 @@ public class Constants {
     public static User currentUser;
     public static Store currentStore;
     public static Request currentRequest;
-    public final static String UPDATE = "Update";
-    public final static String DELETE = "Delete";
-    public final static String USER_PHONE = "UserPhone";
-    public final static String USER_PASSWORD = "UserPassword";
-    public final static String USER_NAME = "UserName";
-    public final static String CLIENT = "client";
-    public final static String SERVER = "server";
 
     public static String getOrderStatus(String status) {
         switch (status) {
             case "0":
-                return "Your order has placed.";
+                return "Order placed. ";
             case "1":
-                return "Your order is delivering in progress.";
+                return "Delivering in progress. ";
             case "2":
-                return "Congratulations! Your order has delivered.";
+                return "Order delivered. " ;
+            case "3":
+                return "Cannot track order. ";
+            case "4":
+                return "Order completed. ";
             default:
-                return "Sorry, your  order status is currently not available.";
+                return "Sorry, your order status is currently not available.";
         }
     }
 
-    public static boolean isInternetAvailable(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        assert connectivityManager != null;
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
 }

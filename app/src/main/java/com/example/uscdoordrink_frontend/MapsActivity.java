@@ -231,22 +231,14 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         fab_order.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO: change navigation
                 Log.d(TAG, "order is pressed successfully");
                 if(Constants.currentUser == null){
                     Toast.makeText(MapsActivity.this, "Please login to view or manage your order.",Toast.LENGTH_SHORT).show();
                 }else {
-                    Intent i;
-                    if (Constants.currentUser.getUserType() == UserType.CUSTOMER) {
-                        i = new Intent(MapsActivity.this, ViewOrderActivity.class);
-                    } else {
-                        if(Constants.currentRequest == null){
-                            Toast.makeText(MapsActivity.this, "You don't have any order currently.", Toast.LENGTH_SHORT).show();
-                        }else{
-                            i = new Intent(MapsActivity.this, OrderManagementActivity.class);
-                            startActivity(i);
-                            finish();
-                        }
-                    }
+                    Intent i = new Intent(MapsActivity.this, ViewOrderActivity.class);
+                    startActivity(i);
+                    finish();
                 }
             }
         });

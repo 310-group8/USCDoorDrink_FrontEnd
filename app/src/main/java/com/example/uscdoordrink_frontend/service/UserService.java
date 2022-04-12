@@ -19,6 +19,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserService {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     String TAG = "UserService";
@@ -43,30 +46,6 @@ public class UserService {
     }
 
 
-    public String isRegistered(String name) {
-        String[] status = {"false"};
-        DocumentReference docRef = db.collection("User").document(name);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        status[0] = "true";
-                    } else {
-                        Log.d(TAG, "No such document");
-                        status[0] = "false";
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                    status[0] = "failed";
-                }
-            }
-        });
-        return status[0];
-    }
-
     public void updateStoreUID(String name, String UID){
         DocumentReference docRef = db.collection("User").document(name);
         docRef.update("storeUID", UID);
@@ -77,9 +56,16 @@ public class UserService {
         docRef.update("orderHistory", FieldValue.arrayUnion(r));
     }
 
-    public void updateUser(User u){
-        DocumentReference docRef = db.collection("User").document(u.getUserName());
-        docRef.set(u);
+    public void changeUserRequest(String name, ArrayList<Request> request){
+        DocumentReference docRef = db.collection("User").document(name);
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                User u = documentSnapshot.toObject(User.class);
+                u.setOrderHistory(request);
+                docRef.set(u);
+            }
+        });
     }
 
 }

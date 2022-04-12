@@ -46,10 +46,6 @@ public class Request {
         return ContactInformation;
     }
 
-    public void setPhone(String contactInformation) {
-        ContactInformation = contactInformation;
-    }
-
     public String getAddress() {
         return Address;
     }

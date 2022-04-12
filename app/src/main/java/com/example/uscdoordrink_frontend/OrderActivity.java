@@ -57,13 +57,6 @@ public class OrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
 
-//        User u = new User("Wade", "Lyz007354", "3233560454", UserType.CUSTOMER);
-//        List<Order> orders = new ArrayList<>();
-//        Order a = new Order("Pineapple Lemonade", "7PqA0Yca8mKTntrvIHPT", 1, 5, 0);
-//        orders.add(a);
-//        u.setCurrentOrder(orders);
-//        Constants.currentUser = u;
-
         subtotal = getIntent().getDoubleExtra("subtotal", 0.0);
         discounts = getIntent().getDoubleExtra("discounts", 0.0);
 
@@ -145,8 +138,9 @@ public class OrderActivity extends AppCompatActivity {
                     public void onSuccess(Void input) {
                         Constants.currentUser.setCurrentOrder(new ArrayList<Order>());
                         Constants.currentRequest = req;
+                        user.addUserRequest(Constants.currentUser.getUserName(), req);
 
-                        //request will only be added to user order history when completed
+
                         Toast.makeText(OrderActivity.this, "Order is placed. Thank You!", Toast.LENGTH_SHORT).show();
                         Intent i = new Intent(OrderActivity.this, ViewOrderActivity.class);
                         startActivity(i);

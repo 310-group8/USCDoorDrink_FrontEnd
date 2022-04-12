@@ -20,26 +20,30 @@
         <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/fragment_add_store_name.xml" value="0.3" />
         <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/fragment_add_store_successful.xml" value="0.3" />
         <entry key="..\:/Files/AndroidProjects/USCDoorDrink_FrontEnd/app/src/main/res/layout/list_drink_menu.xml" value="0.3" />
+        <entry key="app/src/main/res/drawable/app_rating_stars.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_add_cart.xml" value="0.23020833333333332" />
         <entry key="app/src/main/res/layout/activity_add_store.xml" value="0.24427083333333333" />
-        <entry key="app/src/main/res/layout/activity_cart.xml" value="0.18050587972005205" />
+        <entry key="app/src/main/res/layout/activity_cart.xml" value="0.3124501546223958" />
         <entry key="app/src/main/res/layout/activity_daily_detail.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.2726816813151042" />
         <entry key="app/src/main/res/layout/activity_map.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_maps.xml" value="0.24427083333333333" />
         <entry key="app/src/main/res/layout/activity_order.xml" value="0.17407407407407408" />
+        <entry key="app/src/main/res/layout/activity_order_detail.xml" value="0.24580228641561797" />
         <entry key="app/src/main/res/layout/activity_order_management.xml" value="0.32100728352864577" />
-        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.23556564525546786" />
+        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.10439758300781252" />
         <entry key="app/src/main/res/layout/activity_view_chart.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/activity_view_menu.xml" value="0.24427083333333333" />
-        <entry key="app/src/main/res/layout/activity_view_order.xml" value="0.14177703857421872" />
+        <entry key="app/src/main/res/layout/activity_view_order.xml" value="0.20780792236328127" />
         <entry key="app/src/main/res/layout/cart_item.xml" value="0.24427083333333333" />
         <entry key="app/src/main/res/layout/fragment_add_store_menu.xml" value="0.24427083333333333" />
         <entry key="app/src/main/res/layout/fragment_add_store_name.xml" value="0.24427083333333333" />
         <entry key="app/src/main/res/layout/fragment_add_store_successful.xml" value="0.24427083333333333" />
+        <entry key="app/src/main/res/layout/fragment_view_orders.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/list_drink_menu.xml" value="0.24427083333333333" />
         <entry key="app/src/main/res/layout/list_item_chart.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/order_item.xml" value="0.5210133870442708" />
       </map>
     </option>
   </component>

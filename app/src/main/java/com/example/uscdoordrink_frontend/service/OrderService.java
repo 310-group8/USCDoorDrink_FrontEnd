@@ -19,7 +19,7 @@ public class OrderService {
 
     public void addRequest(@NonNull Request r, final OnSuccessCallBack<Void> successCallBack,
                            final OnFailureCallBack<Exception> failureCallBack) {
-        DocumentReference customerRef = db.collection("Request").document(r.getName());
+        DocumentReference customerRef = db.collection("Request").document(r.getName()).collection("Orders").document(r.getStart());
         customerRef.set(r).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
@@ -34,7 +34,7 @@ public class OrderService {
             }
         });
 
-        DocumentReference sellerRef = db.collection("Request").document(r.getStoreUID());
+        DocumentReference sellerRef = db.collection("Request").document(r.getStoreUID()).collection("Orders").document(r.getStart());
         sellerRef.set(r).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
@@ -49,11 +49,12 @@ public class OrderService {
             }
         });
     }
-    public void updateRequest(Request r) {
+    public void updateRequest(Request r, String type, String value) {
         //update request(status) for both customers and sellers
-        DocumentReference customRef = db.collection("Request").document(r.getName());
-        DocumentReference sellerRef = db.collection("Request").document(r.getStoreUID());
-        customRef.set(r);
-        sellerRef.set(r);
+        DocumentReference customRef = db.collection("Request").document(r.getName()).collection("Orders").document(r.getStart());
+        DocumentReference sellerRef = db.collection("Request").document(r.getStoreUID()).collection("Orders").document(r.getStart());
+        customRef.update(type, value);
+        sellerRef.update(type, value);
     }
+
 }
