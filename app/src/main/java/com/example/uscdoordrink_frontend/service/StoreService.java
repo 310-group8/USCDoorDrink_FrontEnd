@@ -7,7 +7,6 @@ package com.example.uscdoordrink_frontend.service;
 
 import com.example.uscdoordrink_frontend.entity.Store;
 import com.example.uscdoordrink_frontend.entity.Drink;
-import com.example.uscdoordrink_frontend.entity.Menu;
 import com.example.uscdoordrink_frontend.service.CallBack.OnFailureCallBack;
 import com.example.uscdoordrink_frontend.service.CallBack.OnSuccessCallBack;
 import com.firebase.geofire.GeoFireUtils;

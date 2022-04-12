@@ -77,16 +77,14 @@ public class LoginActivity extends AppCompatActivity {
                                             Log.d(TAG, "auth correct");
                                             Constants.currentUser = u;
                                             Toast.makeText(LoginActivity.this, "----- Logging you in ------", Toast.LENGTH_SHORT).show();
-
+                                            Intent i;
                                             if (u.getUserType() == UserType.SELLER && (u.getStoreUID() == null || "toBeAssigned".equals(u.getStoreUID()))){
-                                                Intent i = new Intent(LoginActivity.this, AddStoreActivity.class);
-                                                startActivity(i);
-                                                finish();
+                                                i = new Intent(LoginActivity.this, AddStoreActivity.class);
                                             }else{
-                                                Intent i = new Intent(LoginActivity.this, ProfileActivity.class);
-                                                startActivity(i);
-                                                finish();
+                                                i = new Intent(LoginActivity.this, ProfileActivity.class);
                                             }
+                                            startActivity(i);
+                                            finish();
                                         } else{
                                             Toast.makeText(LoginActivity.this, "Wrong password, please try again.", Toast.LENGTH_SHORT).show();
                                         }

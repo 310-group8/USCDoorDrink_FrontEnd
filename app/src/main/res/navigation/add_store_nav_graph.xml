@@ -40,4 +40,5 @@
         android:name="com.example.uscdoordrink_frontend.fragments.AddStoreSuccessful"
         android:label="fragment_add_store_successful"
         tools:layout="@layout/fragment_add_store_successful" />
+
 </navigation>
