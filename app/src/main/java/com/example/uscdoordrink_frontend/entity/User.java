@@ -38,10 +38,10 @@ public class User {
         this.userName = u;
         this.contactInformation = c;
         this.password = p;
-        if(t == userType.CUSTOMER){
-            this.userType = userType.CUSTOMER;
+        if(t == UserType.CUSTOMER){
+            this.userType = UserType.CUSTOMER;
         } else {
-            this.userType = userType.SELLER;
+            this.userType = UserType.SELLER;
         }
         this.storeUID = "toBeAssigned";
 

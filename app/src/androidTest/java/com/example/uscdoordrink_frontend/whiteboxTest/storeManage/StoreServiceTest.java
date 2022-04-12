@@ -79,7 +79,7 @@ public class StoreServiceTest {
                         Log.w(TAG, "fetching failed", input);
                     }
                 });
-        await().atMost(10, TimeUnit.SECONDS).until(hasStore());
+        await().atMost(3, TimeUnit.SECONDS).until(hasStore());
         assertEquals("storeUID", storeUID, testStore.getStoreUID());
         assertEquals("storeName", "boba time", testStore.getStoreName());
         assertEquals("addressString", "3617 S Vermont Ave, Los Angeles, CA 90007, USA",
@@ -96,7 +96,6 @@ public class StoreServiceTest {
         ingredients.add("milk");
         drink.setIngredients(ingredients);
         ArrayList<Drink> menu = new ArrayList<>();
-        boolean test = drink.equals(testStore.getMenu().get(0));
         menu.add(drink);
         assertEquals("menu", menu, testStore.getMenu());
 
@@ -116,7 +115,7 @@ public class StoreServiceTest {
                         failGetResult.complete(false, "expected failure");
                     }
                 });
-        await().atMost(10, TimeUnit.SECONDS).until(failGetResult.hasCompleted());
+        await().atMost(3, TimeUnit.SECONDS).until(failGetResult.hasCompleted());
         assertFalse("failGetResult", failGetResult.success);
         assertEquals("failGetResultMsg", "expected failure", failGetResult.message);
     }
@@ -160,7 +159,7 @@ public class StoreServiceTest {
                 addStoreResult.complete(false, input.getMessage());
             }
         });
-        await().atMost(10, TimeUnit.SECONDS).until(addStoreResult.hasCompleted());
+        await().atMost(3, TimeUnit.SECONDS).until(addStoreResult.hasCompleted());
         assertNotNull("storeUID", storeUID);
         assertTrue("addStoreResult", addStoreResult.success);
         assertEquals("addStoreResult msg", "add store successful", addStoreResult.message);
@@ -180,7 +179,7 @@ public class StoreServiceTest {
                         Log.w(TAG, "fetching failed", input);
                     }
                 });
-        await().atMost(10, TimeUnit.SECONDS).until(hasStore());
+        await().atMost(3, TimeUnit.SECONDS).until(hasStore());
         assertEquals("compare s and store from the database", s, testStore);
 
         //Remove the store just added
@@ -199,7 +198,7 @@ public class StoreServiceTest {
                         removeStoreResult.complete(false, input.getMessage());
                     }
                 });
-        await().atMost(10, TimeUnit.SECONDS).until(removeStoreResult.hasCompleted());
+        await().atMost(3, TimeUnit.SECONDS).until(removeStoreResult.hasCompleted());
         assertTrue("removeStoreResult", removeStoreResult.success);
         assertEquals("removeStoreResultMsg", "remove store successful", removeStoreResult.message);
 
@@ -219,7 +218,7 @@ public class StoreServiceTest {
                         failGetResult.complete(false, "expected failure");
                     }
                 });
-        await().atMost(10, TimeUnit.SECONDS).until(failGetResult.hasCompleted());
+        await().atMost(3, TimeUnit.SECONDS).until(failGetResult.hasCompleted());
         assertFalse("failGetResultMsg", failGetResult.success);
         assertEquals("failGetResultMsg", "expected failure", failGetResult.message);
     }
@@ -252,7 +251,7 @@ public class StoreServiceTest {
                 addStoreResult.complete(false, input.getMessage());
             }
         });
-        await().atMost(10, TimeUnit.SECONDS).until(addStoreResult.hasCompleted());
+        await().atMost(3, TimeUnit.SECONDS).until(addStoreResult.hasCompleted());
         assertNotNull("storeUID", storeUID);
         assertTrue("addStoreResult", addStoreResult.success);
         assertEquals("addStoreResult msg", "add store successful", addStoreResult.message);
@@ -284,7 +283,7 @@ public class StoreServiceTest {
                 updateStoreResult.complete(false, input.getMessage());
             }
         });
-        await().atMost(10, TimeUnit.SECONDS).until(updateStoreResult.hasCompleted());
+        await().atMost(3, TimeUnit.SECONDS).until(updateStoreResult.hasCompleted());
         assertTrue("updateStoreResult", updateStoreResult.success);
         assertEquals("updateStoreResultMsg", "update store successful",updateStoreResult.message);
 
@@ -303,7 +302,7 @@ public class StoreServiceTest {
                         Log.w(TAG, "fetching failed", input);
                     }
                 });
-        await().atMost(10, TimeUnit.SECONDS).until(hasStore());
+        await().atMost(3, TimeUnit.SECONDS).until(hasStore());
         assertEquals("compare s and store from the database", s, testStore);
 
         //Remove the store just added
@@ -322,7 +321,7 @@ public class StoreServiceTest {
                         removeStoreResult.complete(false, input.getMessage());
                     }
                 });
-        await().atMost(10, TimeUnit.SECONDS).until(removeStoreResult.hasCompleted());
+        await().atMost(3, TimeUnit.SECONDS).until(removeStoreResult.hasCompleted());
         assertTrue("removeStoreResult", removeStoreResult.success);
         assertEquals("removeStoreResultMsg", "remove store successful", removeStoreResult.message);
     }
@@ -343,7 +342,7 @@ public class StoreServiceTest {
                         Log.w(TAG, "failed to fetch store list", input);
                     }
                 });
-        await().atMost(10, TimeUnit.SECONDS).until(() -> !storeList.isEmpty());
+        await().atMost(3, TimeUnit.SECONDS).until(() -> !storeList.isEmpty());
         assertEquals("size of nearby list", 5, storeList.size());
         List<String> UIDList = new ArrayList<>();
         UIDList.add("09a6rdzbl1SFxQOPXkuT");
@@ -384,7 +383,7 @@ public class StoreServiceTest {
                 addStoreResult.complete(false, input.getMessage());
             }
         });
-        await().atMost(10, TimeUnit.SECONDS).until(addStoreResult.hasCompleted());
+        await().atMost(3, TimeUnit.SECONDS).until(addStoreResult.hasCompleted());
         assertNotNull("storeUID", storeUID);
         assertTrue("addStoreResult", addStoreResult.success);
         assertEquals("addStoreResult msg", "add store successful", addStoreResult.message);
@@ -404,7 +403,7 @@ public class StoreServiceTest {
                         Log.w(TAG, "failed to fetch store list", input);
                     }
                 });
-        await().atMost(10, TimeUnit.SECONDS).until(() -> !storeList2.isEmpty());
+        await().atMost(3, TimeUnit.SECONDS).until(() -> !storeList2.isEmpty());
         assertEquals("size of nearby list", 5, storeList2.size());
         List<String> actualList2 = new ArrayList<>();
         for (Store s2 : storeList2){
@@ -439,7 +438,7 @@ public class StoreServiceTest {
                 addUSCResult.complete(false, input.getMessage());
             }
         });
-        await().atMost(10, TimeUnit.SECONDS).until(addUSCResult.hasCompleted());
+        await().atMost(3, TimeUnit.SECONDS).until(addUSCResult.hasCompleted());
         assertNotNull("storeUID", uscUID);
         assertTrue("addUSCResult", addUSCResult.success);
         assertEquals("addUSCResult msg", "add store successful", addUSCResult.message);
@@ -459,7 +458,7 @@ public class StoreServiceTest {
                         Log.w(TAG, "failed to fetch store list", input);
                     }
                 });
-        await().atMost(10, TimeUnit.SECONDS).until(() -> !storeList3.isEmpty());
+        await().atMost(3, TimeUnit.SECONDS).until(() -> !storeList3.isEmpty());
         assertEquals("size of nearby list", 6, storeList3.size());
         List<String> actualList3 = new ArrayList<>();
         for (Store s3 : storeList3){
@@ -488,7 +487,7 @@ public class StoreServiceTest {
                         removeStoreResult.complete(false, input.getMessage());
                     }
                 });
-        await().atMost(10, TimeUnit.SECONDS).until(removeStoreResult.hasCompleted());
+        await().atMost(3, TimeUnit.SECONDS).until(removeStoreResult.hasCompleted());
         assertTrue("removeStoreResult", removeStoreResult.success);
         assertEquals("removeStoreResultMsg", "remove store successful", removeStoreResult.message);
 
@@ -508,7 +507,7 @@ public class StoreServiceTest {
                         removeUSCResult.complete(false, input.getMessage());
                     }
                 });
-        await().atMost(10, TimeUnit.SECONDS).until(removeUSCResult.hasCompleted());
+        await().atMost(3, TimeUnit.SECONDS).until(removeUSCResult.hasCompleted());
         assertTrue("removeUSCResult", removeUSCResult.success);
         assertEquals("removeUSCResultMsg", "remove store successful", removeUSCResult.message);
     }

@@ -1,6 +1,7 @@
 package com.example.uscdoordrink_frontend;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -12,6 +13,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationRequest;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -40,6 +42,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
@@ -48,24 +51,27 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.squareup.okhttp.Call;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.Callable;
 //import com.example.uscdoordrink_frontend.databinding.ActivityMapsBinding;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback{
 
     private GoogleMap mMap;
     //    private ActivityMapsBinding binding;
-    private static String TAG = "MapsActivity";
-    private static int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private static float DEFAULT_ZOOM = 14.0f;
-    private static LatLng defaultLocation = new LatLng(34.022415, -118.285530);
+    private static final String TAG = "MapsActivity";
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private static final float DEFAULT_ZOOM = 13.5f;
+    private static final LatLng defaultLocation = new LatLng(34.022415, -118.285530);
     private static final String KEY_LOCATION = "location";
     private boolean locationPermissionGranted = false;
     private Location lastKnownLocation;
@@ -88,6 +94,29 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private FloatingActionButton fab_main, fab_profile, fab_cart, fab_recommendation, fab_order, fab_login;
     boolean clicked = false;
 
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    public Location getLastKnownLocation() {
+        return lastKnownLocation;
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    public void setLastKnownLocation(Location l){
+        lastKnownLocation = l;
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    public Polyline getMPolyline() { return mPolyline; }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    public List<Store> getStoresNearby() {return storesNearby;}
+
+    public boolean hasDirectionService() {return mService != null;}
+    public boolean isLocationPermissionGranted() {return locationPermissionGranted;}
+    public boolean isMyLocationEnabled() {return mMap != null && mMap.isMyLocationEnabled();}
+    public boolean isMyLocationButtonEnabled() {return mMap != null && mMap.getUiSettings().isMyLocationButtonEnabled();}
+    public static LatLng getDefaultLocation() {return defaultLocation;}
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
@@ -102,7 +131,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        Objects.requireNonNull(mapFragment).getMapAsync(this);
 //        SupportMapFragment mapFragment = SupportMapFragment.newInstance();
 //        getSupportFragmentManager()
 //                .beginTransaction()
@@ -167,16 +196,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.clear();
-        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        getLocationPermission();
+
         updateLocationUI();
-        getDeviceLocation();
     }
 
-    public void onAddButtonClicked(){
+
+    private void onAddButtonClicked(){
         setVisibility(clicked);
         setAnimation(clicked);
         clicked = !clicked;
@@ -419,6 +444,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+
     private void updateLocationUI() {
         if (mMap == null) {
             return;
@@ -427,6 +453,32 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             if (locationPermissionGranted) {
                 mMap.setMyLocationEnabled(true);
                 mMap.getUiSettings().setMyLocationButtonEnabled(true);
+                getDeviceLocation();
+                mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+                    @Override
+                    public boolean onMyLocationButtonClick() {
+                        CancellationTokenSource cs = new CancellationTokenSource();
+                        Task<Location> locationResult = fusedLocationProviderClient
+                                .getCurrentLocation(LocationRequest.QUALITY_HIGH_ACCURACY, cs.getToken());
+                        locationResult.addOnCompleteListener(new OnCompleteListener<Location>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Location> task) {
+                                if (task.isSuccessful()) {
+                                    // Set the map's camera position to the current location of the device.
+                                    lastKnownLocation = task.getResult();
+                                    if (lastKnownLocation != null) {
+                                        setUpMarkers();
+                                    }
+                                } else {
+                                    Log.d(TAG, "Current location is null. Using defaults.");
+                                    Log.e(TAG, "Exception: %s", task.getException());
+                                    Toast.makeText(getApplicationContext(), "Current location unavailable", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                        return false;
+                    }
+                });
             } else {
                 mMap.setMyLocationEnabled(false);
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
@@ -448,6 +500,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             locationPermissionGranted = true;
+            updateLocationUI();
         } else {
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
@@ -515,7 +568,9 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onSaveInstanceState(outState);
     }
 
-    private void setUpMarkers(){
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    public void setUpMarkers(){
+        Objects.requireNonNull(mMap).clear();
         StoreService storeService = new StoreService();
         storeService.getNearbyStore(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()),
                 new OnSuccessCallBack<List<Store>>() {
@@ -540,7 +595,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                                 showDirectionDetails(null);
                                 currentViewingStore = (Store)marker.getTag();
                                 drawPoly(new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude()),
-                                        ((Store)marker.getTag()).getStoreAddress(),
+                                        Objects.requireNonNull((Store)marker.getTag()).getStoreAddress(),
                                         DirectionHelper.Modes.driving);
                                 return false;
                             }
@@ -555,8 +610,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 });
     }
 
-
-    private void drawPoly(LatLng origin, LatLng destination, DirectionHelper.Modes mode){
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    public void drawPoly(LatLng origin, LatLng destination, DirectionHelper.Modes mode){
         if (mPolyline != null){
             mPolyline.remove();
         }

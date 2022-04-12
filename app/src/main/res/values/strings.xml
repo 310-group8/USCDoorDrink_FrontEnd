@@ -24,7 +24,7 @@
     <string name="add_drink_price">Price</string>
     <string name="add_drink_discounted_price">Discounts($x off)</string>
     <string name="add_store_processing">Processing…</string>
-    <string name="add_store_successful">Registration Successful!</string>
+    <string name="add_store_successful">Store Updated Successfully!</string>
     <string name="continue_to_map">Continue</string>
     <string name="view_menu">Order At This Store</string>
     <string name="personal_page">Personal Profiles</string>
