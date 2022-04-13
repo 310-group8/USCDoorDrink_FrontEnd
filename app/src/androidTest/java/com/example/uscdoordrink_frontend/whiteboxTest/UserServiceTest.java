@@ -13,6 +13,7 @@ import com.example.uscdoordrink_frontend.entity.UserType;
 import com.example.uscdoordrink_frontend.service.CallBack.OnFailureCallBack;
 import com.example.uscdoordrink_frontend.service.CallBack.OnSuccessCallBack;
 import com.example.uscdoordrink_frontend.service.UserService;
+import com.example.uscdoordrink_frontend.whiteboxTest.storeManage.StoreServiceTest;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -131,5 +132,27 @@ public class UserServiceTest {
                 assertEquals("changeUserRequestResult", "4", u.getOrderHistory().get(0).getStatus());
             }
         });
+    }
+
+    @Test
+    public void e_deleteUserByNameTest(){
+        final Result removeUserResult = new Result();
+        userService.deleteUserByName(testUser.getUserName(),
+                new OnSuccessCallBack<Void>() {
+                    @Override
+                    public void onSuccess(Void input) {
+                        Log.d(TAG, "remove user successful");
+                        removeUserResult.complete(true, "remove user successful");
+                    }
+                }, new OnFailureCallBack<Exception>() {
+                    @Override
+                    public void onFailure(Exception input) {
+                        Log.w(TAG, "failed to remove user with name:" + testUser.getUserName(), input);
+                        removeUserResult.complete(false, input.getMessage());
+                    }
+                });
+        await().atMost(5, TimeUnit.SECONDS).until(removeUserResult.hasCompleted());
+        assertTrue("removeStoreResult", removeUserResult.success);
+        assertEquals("removeStoreResultMsg", "remove store successful", removeUserResult.message);
     }
 }

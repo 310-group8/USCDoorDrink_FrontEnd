@@ -68,4 +68,23 @@ public class UserService {
         });
     }
 
+    public void deleteUserByName(String name,
+                                 final OnSuccessCallBack<Void> successCallBack,
+                                 final OnFailureCallBack<Exception> failureCallBack){
+        DocumentReference docRef = db.collection("User").document(name);
+        docRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Log.d(TAG, "Successfully deleted User with name: " + name);
+                successCallBack.onSuccess(unused);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG, "delete not successful", e);
+                failureCallBack.onFailure(e);
+            }
+        });
+    }
+
 }
