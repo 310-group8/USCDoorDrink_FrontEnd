@@ -26,6 +26,7 @@ public class AddStoreDrink extends Fragment {
 
 
     private Drink currentDrink;
+    private String previousName;
 
     public AddStoreDrink() {
         // Required empty public constructor
@@ -74,6 +75,7 @@ public class AddStoreDrink extends Fragment {
         @NonNull Store store = Objects.requireNonNull(((AddStoreActivity) requireActivity()).theStore.mStoreModel.getValue());
 
         if (currentDrink != null){
+            previousName = currentDrink.getDrinkName();
             textName.setText(currentDrink.getDrinkName());
             textDiscount.setText(String.valueOf(currentDrink.getDiscount()));
             for (int i = 0; i < currentDrink.getIngredients().size(); i++) {
@@ -120,7 +122,20 @@ public class AddStoreDrink extends Fragment {
                             }
                         }
                         if (!found){
-                            store.getMenu().add(drink);
+                            if (currentDrink != null && previousName != null){
+                                for (Drink d : store.getMenu()){
+                                    if (Objects.equals(previousName, d.getDrinkName())){
+                                        d.setStoreUID(drink.getStoreUID());
+                                        d.setDrinkName(drink.getDrinkName());
+                                        d.setDiscount(drink.getDiscount());
+                                        d.setIngredients(drink.getIngredients());
+                                        d.setPrice(drink.getPrice());
+                                        break;
+                                    }
+                                }
+                            }else{
+                                store.getMenu().add(drink);
+                            }
                         }
                         Navigation.findNavController(view).navigate(R.id.action_drink_to_menu);
                     }catch (NumberFormatException e){

@@ -1,5 +1,6 @@
 package com.example.uscdoordrink_frontend.blackboxTest.storeManage;
 
+import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -34,9 +35,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasEntry;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.*;
 
+import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.uscdoordrink_frontend.AddStoreActivity;
 import com.example.uscdoordrink_frontend.Constants.Constants;
@@ -54,6 +60,7 @@ import com.example.uscdoordrink_frontend.service.UserService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.SortedMap;
 import java.util.concurrent.Callable;
@@ -262,6 +269,160 @@ public class AddStoreFragmentsTest{
             onView(withId(R.id.button_add_item)).perform(click());
 
             //add drink two
+            assertEquals("Fifth nav Destination", Objects.requireNonNull(navController.getCurrentDestination()).getId(), R.id.addStoreDrink);
+            onView(withId(R.id.editTextAddDrinkName)).perform(replaceText(localStore.getMenu().get(1).getDrinkName()));
+            onView(withId(R.id.editTextAddDrinkPrice)).perform(replaceText(String.valueOf(localStore.getMenu().get(1).getPrice())));
+            onView(withId(R.id.editTextAddDrinkDiscount)).perform(replaceText(String.valueOf(localStore.getMenu().get(1).getDiscount())));
+            onView(withId(R.id.button_confirm_drink)).perform(click());
+
+            //back to store menu again
+            assertEquals("Sixth nav Destination", Objects.requireNonNull(navController.getCurrentDestination()).getId(), R.id.addStoreMenu);
+            onView(withId(R.id.button_confirm_menu)).perform(click());
+
+            //to successful page
+            Thread.sleep(5000);
+            assertEquals("Seventh nav Destination", Objects.requireNonNull(navController.getCurrentDestination()).getId(), R.id.addStoreSuccessful);
+
+
+            final Result getStoreResult = new Result();
+            storeService.getStoreByUID(Constants.currentUser.getStoreUID(),
+                    new OnSuccessCallBack<Store>() {
+                        @Override
+                        public void onSuccess(Store input) {
+                            remoteStore = input;
+                            getStoreResult.complete(true, "get store successful");
+                        }
+                    }, new OnFailureCallBack<Exception>() {
+                        @Override
+                        public void onFailure(Exception input) {
+                            getStoreResult.complete(false, input.getMessage());
+                        }
+                    });
+            await().atMost(5, TimeUnit.SECONDS).until(getStoreResult.hasCompleted());
+            assertTrue("getStoreResult", getStoreResult.success);
+            assertTrue("compare content", localStore.equalContent(remoteStore));
+        }catch (InterruptedException e){
+            fail(e.getMessage());
+        }
+        final Result deleteStoreResult = new Result();
+        storeService.deleteStoreByUID(Constants.currentUser.getStoreUID(),
+                new OnSuccessCallBack<Void>() {
+                    @Override
+                    public void onSuccess(Void input) {
+                        deleteStoreResult.complete(true, "success");
+                    }
+                }, new OnFailureCallBack<Exception>() {
+                    @Override
+                    public void onFailure(Exception input) {
+                        deleteStoreResult.complete(false, input.getMessage());
+                    }
+                });
+        await().atMost(5, TimeUnit.SECONDS).until(deleteStoreResult.hasCompleted());
+        assertTrue("deleteStoreResult", deleteStoreResult.success);
+
+        final Result deleteUserResult = new Result();
+        userService.deleteUserByName(Constants.currentUser.getUserName(),
+                new OnSuccessCallBack<Void>() {
+                    @Override
+                    public void onSuccess(Void input) {
+                        deleteUserResult.complete(true, "success");
+                    }
+                }, new OnFailureCallBack<Exception>() {
+                    @Override
+                    public void onFailure(Exception input) {
+                        deleteUserResult.complete(false, input.getMessage());
+                    }
+                });
+        await().atMost(5, TimeUnit.SECONDS).until(deleteUserResult.hasCompleted());
+        assertTrue("deleteUserResult", deleteUserResult.success);
+    }
+
+    @Test
+    public void testWithRegisteredSeller(){
+        User u = new User("Black", "1234", "1234", UserType.SELLER);
+        UserService userService = new UserService();
+        final Result addUserResult = new Result();
+        userService.register(u, new OnSuccessCallBack<Void>() {
+            @Override
+            public void onSuccess(Void input) {
+                addUserResult.complete(true, "add user successful");
+            }
+        }, new OnFailureCallBack<Exception>() {
+            @Override
+            public void onFailure(Exception input) {
+                addUserResult.complete(false, input.getMessage());
+            }
+        });
+
+        await().atMost(10, TimeUnit.SECONDS).until(addUserResult.hasCompleted());
+        assertTrue("addUserResult", addUserResult.success);
+
+        Constants.currentUser = u;
+        StoreService storeService = new StoreService();
+
+        Store old = new Store();
+        old.setStoreName("naka");
+        old.setStoreAddress(34.025128, -118.4122067);
+        old.setAddressString("3455 Overland Ave, Los Angeles, CA 90034, USA");
+        Drink drink1 = new Drink();
+        drink1.setDrinkName("Suntory Hibiki");
+        drink1.setPrice(50);
+        drink1.setIngredients(Arrays.asList("Malt", "Water"));
+        Drink drink2 = new Drink();
+        drink2.setDrinkName("Baijiu");
+        drink2.setPrice(30);
+        List<Drink> menu = new ArrayList<>();
+        menu.add(drink1);
+        menu.add(drink2);
+        old.setMenu(menu);
+
+        final Result addStoreResult = new Result();
+        storeService.addStore(old,
+                new OnSuccessCallBack<Void>() {
+                    @Override
+                    public void onSuccess(Void input) {
+
+                        // add storeUID to user
+                        Constants.currentUser.setStoreUID(old.getStoreUID());
+                        userService.updateStoreUID(Constants.currentUser.getUserName(), old.getStoreUID());
+
+                        addStoreResult.complete(true, "success");
+                    }
+                },
+                new OnFailureCallBack<Exception>() {
+                    @Override
+                    public void onFailure(Exception input) {
+                        addStoreResult.complete(false, "fail");
+                    }
+                });
+        await().atMost(10, TimeUnit.SECONDS).until(addStoreResult.hasCompleted());
+        assertTrue("assStoreResult", addStoreResult.success);
+
+        Intent intent = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), AddStoreActivity.class);
+        intent.putExtra("storeUID", old.getStoreUID());
+
+        Constants.currentStore = old;
+
+        try (ActivityScenario<AddStoreActivity> scenario = ActivityScenario.launch(intent)){
+            //prepare navController
+            scenario.onActivity(activity -> {
+                assertNotNull(activity.theStore);
+                assertEquals("Stores from other activities", old, activity.theStore.mStoreModel.getValue());
+                Fragment fragment = activity.getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+                assertNotNull("NavHostFragment", fragment);
+                navController = NavHostFragment.findNavController(fragment);
+            });
+            //add store name and address
+            assertEquals("First nav Destination", Objects.requireNonNull(navController.getCurrentDestination()).getId(), R.id.addStoreName);
+            onView(withId(R.id.editTextStoreName)).check(matches(withText(old.getStoreName())));
+            onView(withId(R.id.editTextStoreName)).perform(replaceText(localStore.getStoreName()));
+            onView(withId(R.id.button_confirm_name_and_address)).perform(click());
+
+            //add store menu
+            assertEquals("Second nav Destination", Objects.requireNonNull(navController.getCurrentDestination()).getId(), R.id.addStoreMenu);
+            onData(allOf(is(String.class), equalTo("Baijiu"))).perform(click());
+
+            //update drink two
             assertEquals("Fifth nav Destination", Objects.requireNonNull(navController.getCurrentDestination()).getId(), R.id.addStoreDrink);
             onView(withId(R.id.editTextAddDrinkName)).perform(replaceText(localStore.getMenu().get(1).getDrinkName()));
             onView(withId(R.id.editTextAddDrinkPrice)).perform(replaceText(String.valueOf(localStore.getMenu().get(1).getPrice())));
