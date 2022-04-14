@@ -111,8 +111,7 @@ public class Store {
         return Objects.equals(this.storeName, s.getStoreName()) &&
                 Objects.equals(this.getStoreAddress(), s.getStoreAddress()) &&
                 Objects.equals(this.addressString, s.getAddressString()) &&
-                compareMenuContent(this.menu, s.getMenu()) &&
-                Objects.equals(this.hashLocation, s.getHashLocation());
+                compareMenuContent(this.menu, s.getMenu());
     }
 
     public boolean compareMenuContent(List<Drink> m1, List<Drink> m2){

@@ -90,8 +90,8 @@ public class AddStoreFragmentsTest{
         remoteStore = null;
         localStore = new Store();
         localStore.setStoreName("n/naka");
-        localStore.setStoreAddress(34.0251, -118.4122);
-        localStore.setAddressString("3455 Overland Avenue");
+        localStore.setStoreAddress(34.025128, -118.4122067);
+        localStore.setAddressString("3455 Overland Ave, Los Angeles, CA 90034, USA");
         Drink drink1 = new Drink();
         drink1.setDrinkName("Suntory Hibiki");
         drink1.setPrice(50);
@@ -109,6 +109,11 @@ public class AddStoreFragmentsTest{
     @Test
     public void testWithEmptyName(){
         try (ActivityScenario<AddStoreActivity> scenario = ActivityScenario.launch(AddStoreActivity.class)){
+            scenario.onActivity(activity -> {
+                Fragment fragment = activity.getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+                assertNotNull("NavHostFragment", fragment);
+                navController = NavHostFragment.findNavController(fragment);
+            });
             onView(withId(R.id.autocomplete_fragment)).perform(click());
             Thread.sleep(1000);
             InstrumentationRegistry.getInstrumentation().getUiAutomation().executeShellCommand("input text 3455%sOverland%sAve");
@@ -117,6 +122,83 @@ public class AddStoreFragmentsTest{
             Thread.sleep(3000);
             onView(withId(R.id.button_confirm_name_and_address)).perform(click());
 
+            assertEquals("Should still stay at the page", Objects.requireNonNull(navController.getCurrentDestination()).getId(), R.id.addStoreName);
+        }catch (InterruptedException e){
+            fail(e.getMessage());
+        }
+    }
+
+    @Test
+    public void testWithEmptyMenu(){
+        try (ActivityScenario<AddStoreActivity> scenario = ActivityScenario.launch(AddStoreActivity.class)){
+            //prepare navController
+            scenario.onActivity(activity -> {
+                Fragment fragment = activity.getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+                assertNotNull("NavHostFragment", fragment);
+                navController = NavHostFragment.findNavController(fragment);
+            });
+            //add store name and address
+            assertEquals("First nav Destination", Objects.requireNonNull(navController.getCurrentDestination()).getId(), R.id.addStoreName);
+            onView(withId(R.id.editTextStoreName)).perform(replaceText(localStore.getStoreName()));
+            onView(withId(R.id.autocomplete_fragment)).perform(click());
+            Thread.sleep(1000);
+            InstrumentationRegistry.getInstrumentation().getUiAutomation().executeShellCommand("input text 3455%sOverland%sAve");
+            Thread.sleep(10000);
+            InstrumentationRegistry.getInstrumentation().getUiAutomation().executeShellCommand("input tap 540 300");
+            Thread.sleep(3000);
+            onView(withId(R.id.button_confirm_name_and_address)).perform(click());
+
+            //add store menu
+            assertEquals("Second nav Destination", Objects.requireNonNull(navController.getCurrentDestination()).getId(), R.id.addStoreMenu);
+            onView(withId(R.id.button_confirm_menu)).perform(click());
+            assertEquals("Should stay", Objects.requireNonNull(navController.getCurrentDestination()).getId(), R.id.addStoreMenu);
+        }catch (InterruptedException e){
+            fail(e.getMessage());
+        }
+    }
+
+    @Test
+    public void testWithEmptyDrinkNameOrPrice(){
+        try (ActivityScenario<AddStoreActivity> scenario = ActivityScenario.launch(AddStoreActivity.class)){
+            //prepare navController
+            scenario.onActivity(activity -> {
+                Fragment fragment = activity.getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+                assertNotNull("NavHostFragment", fragment);
+                navController = NavHostFragment.findNavController(fragment);
+            });
+            //add store name and address
+            assertEquals("First nav Destination", Objects.requireNonNull(navController.getCurrentDestination()).getId(), R.id.addStoreName);
+            onView(withId(R.id.editTextStoreName)).perform(replaceText(localStore.getStoreName()));
+            onView(withId(R.id.autocomplete_fragment)).perform(click());
+            Thread.sleep(1000);
+            InstrumentationRegistry.getInstrumentation().getUiAutomation().executeShellCommand("input text 3455%sOverland%sAve");
+            Thread.sleep(10000);
+            InstrumentationRegistry.getInstrumentation().getUiAutomation().executeShellCommand("input tap 540 300");
+            Thread.sleep(3000);
+            onView(withId(R.id.button_confirm_name_and_address)).perform(click());
+
+            //add store menu
+            assertEquals("Second nav Destination", Objects.requireNonNull(navController.getCurrentDestination()).getId(), R.id.addStoreMenu);
+            onView(withId(R.id.button_add_item)).perform(click());
+
+            //add drink one
+            assertEquals("Third nav Destination", Objects.requireNonNull(navController.getCurrentDestination()).getId(), R.id.addStoreDrink);
+
+            onView(withId(R.id.editTextAddDrinkIngredientOne)).perform(replaceText(localStore.getMenu().get(0).getIngredients().get(0)));
+            onView(withId(R.id.editTextAddDrinkIngredientTwo)).perform(replaceText(localStore.getMenu().get(0).getIngredients().get(1)));
+            onView(withId(R.id.editTextAddDrinkPrice)).perform(replaceText(String.valueOf(localStore.getMenu().get(0).getPrice())));
+            onView(withId(R.id.button_confirm_drink)).perform(click());
+
+            assertEquals("Should stay", Objects.requireNonNull(navController.getCurrentDestination()).getId(), R.id.addStoreDrink);
+            onView(withId(R.id.editTextAddDrinkName)).perform(replaceText(localStore.getMenu().get(0).getDrinkName()));
+            onView(withId(R.id.editTextAddDrinkPrice)).perform(clearText());
+            onView(withId(R.id.button_confirm_drink)).perform(click());
+
+            assertEquals("Should stay", Objects.requireNonNull(navController.getCurrentDestination()).getId(), R.id.addStoreDrink);
+            onView(withId(R.id.editTextAddDrinkPrice)).perform(replaceText(String.valueOf(localStore.getMenu().get(0).getPrice())));
+            onView(withId(R.id.button_confirm_drink)).perform(click());
+
+            assertEquals("Come back to menu", Objects.requireNonNull(navController.getCurrentDestination()).getId(), R.id.addStoreMenu);
         }catch (InterruptedException e){
             fail(e.getMessage());
         }
@@ -231,7 +313,20 @@ public class AddStoreFragmentsTest{
         await().atMost(5, TimeUnit.SECONDS).until(deleteStoreResult.hasCompleted());
         assertTrue("deleteStoreResult", deleteStoreResult.success);
 
-
-
+        final Result deleteUserResult = new Result();
+        userService.deleteUserByName(Constants.currentUser.getUserName(),
+                new OnSuccessCallBack<Void>() {
+                    @Override
+                    public void onSuccess(Void input) {
+                        deleteUserResult.complete(true, "success");
+                    }
+                }, new OnFailureCallBack<Exception>() {
+                    @Override
+                    public void onFailure(Exception input) {
+                        deleteUserResult.complete(false, input.getMessage());
+                    }
+                });
+        await().atMost(5, TimeUnit.SECONDS).until(deleteUserResult.hasCompleted());
+        assertTrue("deleteUserResult", deleteUserResult.success);
     }
 }
