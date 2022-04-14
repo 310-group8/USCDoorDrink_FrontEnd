@@ -78,6 +78,7 @@ public class ChartDetailActivityTest {
 
     @After
     public void tearDown() throws Exception {
+        Intents.release();
     }
 
     public static Matcher<View> atPosition(final int position, @NonNull final Matcher<View> itemMatcher) {
