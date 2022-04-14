@@ -33,9 +33,7 @@ public class ProfileActivity extends AppCompatActivity {
         username = findViewById(R.id.username);
         contactInfo = findViewById(R.id.contactInfo);
         password = findViewById(R.id.Password);
-        username.setText(Constants.currentUser.getUserName());
-        contactInfo.setText(Constants.currentUser.getContactInformation());
-        password.setText(Constants.currentUser.getPassword());
+
 
         manage_store = (Button) findViewById(R.id.manage_store);
         if (Constants.currentUser != null && Constants.currentUser.getUserType() == UserType.SELLER){
@@ -92,6 +90,10 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        username.setText(Constants.currentUser.getUserName());
+        contactInfo.setText(Constants.currentUser.getContactInformation());
+        password.setText(Constants.currentUser.getPassword());
 
         // start order Listening Service
         if (Constants.currentUser.getUserType() == UserType.CUSTOMER) {

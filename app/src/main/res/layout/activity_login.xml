@@ -31,10 +31,10 @@
             android:layout_width="@dimen/dp_19"
             android:layout_height="@dimen/dp_20"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="@dimen/margin_tiny"
             android:layout_marginLeft="@dimen/margin_tiny"
+            android:layout_marginBottom="@dimen/margin_tiny"
             android:scaleType="fitXY"
-            android:src="@drawable/icon_login_account"/>
+            android:src="@drawable/icon_login_account" />
 
         <EditText
             android:id="@+id/et_account"
