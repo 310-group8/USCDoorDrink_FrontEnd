@@ -46,6 +46,7 @@ import androidx.test.runner.lifecycle.Stage;
 import com.example.uscdoordrink_frontend.Constants.Constants;
 import com.example.uscdoordrink_frontend.entity.User;
 import com.example.uscdoordrink_frontend.entity.UserType;
+import com.example.uscdoordrink_frontend.service.OrderNotificationService;
 import com.google.android.gms.location.ActivityTransition;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
@@ -74,7 +75,7 @@ public class ProfileActivityTest {
         Espresso.onView(withText("Username")).check(matches(isDisplayed()));
         Espresso.onView(withText("ContactInfo")).check(matches(isDisplayed()));
         Espresso.onView(withText("Password")).check(matches(isDisplayed()));
-        Espresso.onView(withText("Order History")).check(matches(isDisplayed()));
+        Espresso.onView(withText("View Chart")).check(matches(isDisplayed()));
     }
 
     @Test
@@ -133,6 +134,8 @@ public class ProfileActivityTest {
     @After
     public void tearDown() throws Exception {
         Constants.currentUser = null;
+        Intent intent = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), OrderNotificationService.class);
+        InstrumentationRegistry.getInstrumentation().getTargetContext().stopService(intent);
         Intents.release();
     }
 }

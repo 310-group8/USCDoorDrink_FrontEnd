@@ -25,7 +25,6 @@ import android.app.Instrumentation;
 import android.content.Intent;
 import android.view.View;
 
-import androidx.test.InstrumentationRegistry;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.Root;
@@ -37,10 +36,12 @@ import androidx.test.espresso.intent.rule.IntentsTestRule;
 import androidx.test.espresso.matcher.RootMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 import androidx.test.runner.lifecycle.Stage;
 
+import com.example.uscdoordrink_frontend.service.OrderNotificationService;
 import com.google.android.gms.location.ActivityTransition;
 
 import org.hamcrest.CoreMatchers;
@@ -125,5 +126,8 @@ public class LoginActivityTest {
     @After
     public void tearDown() throws Exception {
         Intents.release();
-        }
+        Intent intent = new Intent(androidx.test.platform.app.InstrumentationRegistry.getInstrumentation().getTargetContext(), OrderNotificationService.class);
+        InstrumentationRegistry.getInstrumentation().getTargetContext().stopService(intent);
+
+    }
 }
