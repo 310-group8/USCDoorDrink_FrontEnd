@@ -90,7 +90,7 @@ public class AddStoreName extends Fragment {
         EditText textName = (EditText) mainView.findViewById(R.id.editTextStoreName);
 //        EditText textLat = (EditText) mainView.findViewById(R.id.editTextStoreLat);
 //        EditText textLng = (EditText) mainView.findViewById(R.id.editTextStoreLng);
-        String defaultName = textName.getText().toString();
+        String defaultName = textName.getHint().toString();
 
         @NonNull Store store = Objects.requireNonNull(((AddStoreActivity) requireActivity()).theStore.mStoreModel.getValue());
 
@@ -113,7 +113,7 @@ public class AddStoreName extends Fragment {
             autocompleteFragment.setText(store.getAddressString());
             stringAddress = store.getAddressString();
         }else{
-            autocompleteFragment.setText("Store Address");
+            autocompleteFragment.setHint("Store Address");
         }
 
         // Set up a PlaceSelectionListener to handle the response.
@@ -167,10 +167,6 @@ public class AddStoreName extends Fragment {
                     store.setAddressString(stringAddress);
                     Navigation.findNavController(view).navigate(R.id.action_name_to_menu);
                 }
-                Log.d("AddstoreName", textName.getText().toString());
-                Log.d("AddStoreName", stringAddress);
-//                Log.d("AddstoreName", textLat.getText().toString());
-//                Log.d("AddstoreName", textLng.getText().toString());
             }
         });
         return mainView;

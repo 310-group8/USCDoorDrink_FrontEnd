@@ -58,7 +58,7 @@ public class AddStoreDrink extends Fragment {
         // Inflate the layout for this fragment
         View mainView = inflater.inflate(R.layout.fragment_add_store_drink, container, false);
         EditText textName = (EditText) mainView.findViewById(R.id.editTextAddDrinkName);
-        String defaultName = textName.getText().toString();
+        String defaultName = textName.getHint().toString();
         EditText textIngredientOne = (EditText) mainView.findViewById(R.id.editTextAddDrinkIngredientOne);
         EditText textIngredientTwo = (EditText) mainView.findViewById(R.id.editTextAddDrinkIngredientTwo);
         EditText textIngredientThree = (EditText) mainView.findViewById(R.id.editTextAddDrinkIngredientThree);
@@ -66,10 +66,10 @@ public class AddStoreDrink extends Fragment {
         textIngredients.add(textIngredientOne);
         textIngredients.add(textIngredientTwo);
         textIngredients.add(textIngredientThree);
-        String defaultIngredient = textIngredientOne.getText().toString();
+        String defaultIngredient = textIngredientOne.getHint().toString();
         EditText textPrice = (EditText) mainView.findViewById(R.id.editTextAddDrinkPrice);
         EditText textDiscount = (EditText) mainView.findViewById(R.id.editTextAddDrinkDiscount);
-        String defaultDiscount = textDiscount.getText().toString();
+        String defaultDiscount = "";
         Button confirmDrink = (Button) mainView.findViewById(R.id.button_confirm_drink);
         @NonNull Store store = Objects.requireNonNull(((AddStoreActivity) requireActivity()).theStore.mStoreModel.getValue());
 

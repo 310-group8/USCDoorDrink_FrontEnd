@@ -10,11 +10,14 @@ import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.IntStream;
 
 
 /**
@@ -101,4 +104,28 @@ public class Store {
                 Objects.equals(this.hashLocation, s.getHashLocation());
     }
 
+    public boolean equalContent(Store s){
+        if (s == this){
+            return true;
+        }
+        return Objects.equals(this.storeName, s.getStoreName()) &&
+                Objects.equals(this.getStoreAddress(), s.getStoreAddress()) &&
+                Objects.equals(this.addressString, s.getAddressString()) &&
+                compareMenuContent(this.menu, s.getMenu()) &&
+                Objects.equals(this.hashLocation, s.getHashLocation());
+    }
+
+    public boolean compareMenuContent(List<Drink> m1, List<Drink> m2){
+        if (m1.size() != m2.size()){
+            return false;
+        }
+        boolean result = true;
+        for (int i = 0; i < m1.size(); i++) {
+            if (!m1.get(i).equalContent(m2.get(i))){
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
 }

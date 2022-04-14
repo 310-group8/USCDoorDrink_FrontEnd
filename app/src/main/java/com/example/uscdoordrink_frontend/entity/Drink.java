@@ -15,7 +15,6 @@ import java.util.Objects;
 public class Drink {
     private String storeUID;
 
-
     private String drinkName;
 
     private double discount;
@@ -94,4 +93,13 @@ public class Drink {
                 this.price == d.getPrice();
     }
 
+    public boolean equalContent(Drink d){
+        if (d == this){
+            return true;
+        }
+        return Objects.equals(this.drinkName, d.getDrinkName()) &&
+                this.discount == d.getDiscount() &&
+                this.ingredients.equals(d.getIngredients()) &&
+                this.price == d.getPrice();
+    }
 }

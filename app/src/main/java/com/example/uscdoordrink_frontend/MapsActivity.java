@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import android.Manifest;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -64,13 +65,13 @@ import java.util.Objects;
 import java.util.concurrent.Callable;
 //import com.example.uscdoordrink_frontend.databinding.ActivityMapsBinding;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback{
+public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     //    private ActivityMapsBinding binding;
     private static final String TAG = "MapsActivity";
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
-    private static final float DEFAULT_ZOOM = 13.5f;
+    private static final float DEFAULT_ZOOM = 13.0f;
     private static final LatLng defaultLocation = new LatLng(34.022415, -118.285530);
     private static final String KEY_LOCATION = "location";
     private boolean locationPermissionGranted = false;
@@ -78,6 +79,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private PlacesClient placesClient;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private List<Store> storesNearby;
+    private List<Marker> markers;
     private Polyline mPolyline;
     private boolean mBound = false;
     private DirectionService mService;
@@ -100,18 +102,49 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    public void setLastKnownLocation(Location l){
+    public void setLastKnownLocation(Location l) {
         lastKnownLocation = l;
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    public Polyline getMPolyline() { return mPolyline; }
+    public Polyline getMPolyline() {
+        return mPolyline;
+    }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    public List<Store> getStoresNearby() {return storesNearby;}
+    public List<Marker> getMarkersNearby() {
+        return markers;
+    }
+
+    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+    public void updateLocation(OnSuccessCallBack<Location> successCallBack, OnFailureCallBack<Exception> failureCallBack) {
+        CancellationTokenSource cs = new CancellationTokenSource();
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            Task<Location> locationResult = fusedLocationProviderClient
+                    .getCurrentLocation(LocationRequest.QUALITY_HIGH_ACCURACY, cs.getToken());
+            locationResult.addOnCompleteListener(new OnCompleteListener<Location>() {
+                @Override
+                public void onComplete(@NonNull Task<Location> task) {
+                    if (task.isSuccessful()) {
+                        lastKnownLocation = task.getResult();
+                        successCallBack.onSuccess(lastKnownLocation);
+                    } else {
+                        Log.d(TAG, "Current location is null. Using defaults.");
+                        Log.e(TAG, "Exception: %s", task.getException());
+                        failureCallBack.onFailure(task.getException());
+                    }
+                }
+            });
+        }
+    }
 
     public boolean hasDirectionService() {return mService != null;}
-    public boolean isLocationPermissionGranted() {return locationPermissionGranted;}
+    public boolean isLocationPermissionGranted() { return locationPermissionGranted
+            && ContextCompat.checkSelfPermission(this.getApplicationContext(),
+            android.Manifest.permission.ACCESS_FINE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED ; }
     public boolean isMyLocationEnabled() {return mMap != null && mMap.isMyLocationEnabled();}
     public boolean isMyLocationButtonEnabled() {return mMap != null && mMap.getUiSettings().isMyLocationButtonEnabled();}
     public static LatLng getDefaultLocation() {return defaultLocation;}
@@ -124,19 +157,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         super.onCreate(savedInstanceState);
 
-//        binding = ActivityMapsBinding.inflate(getLayoutInflater());
-//        setContentView(binding.getRoot());
         setContentView(R.layout.activity_maps);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         Objects.requireNonNull(mapFragment).getMapAsync(this);
-//        SupportMapFragment mapFragment = SupportMapFragment.newInstance();
-//        getSupportFragmentManager()
-//                .beginTransaction()
-//                .add(R.id.map_container_view, mapFragment)
-//                .commit();
 
         // Construct a PlacesClient
         if (!Places.isInitialized()){
@@ -449,23 +475,17 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
                     @Override
                     public boolean onMyLocationButtonClick() {
-                        CancellationTokenSource cs = new CancellationTokenSource();
-                        Task<Location> locationResult = fusedLocationProviderClient
-                                .getCurrentLocation(LocationRequest.QUALITY_HIGH_ACCURACY, cs.getToken());
-                        locationResult.addOnCompleteListener(new OnCompleteListener<Location>() {
+                        updateLocation(new OnSuccessCallBack<Location>() {
                             @Override
-                            public void onComplete(@NonNull Task<Location> task) {
-                                if (task.isSuccessful()) {
-                                    // Set the map's camera position to the current location of the device.
-                                    lastKnownLocation = task.getResult();
-                                    if (lastKnownLocation != null) {
-                                        setUpMarkers();
-                                    }
-                                } else {
-                                    Log.d(TAG, "Current location is null. Using defaults.");
-                                    Log.e(TAG, "Exception: %s", task.getException());
-                                    Toast.makeText(getApplicationContext(), "Current location unavailable", Toast.LENGTH_SHORT).show();
+                            public void onSuccess(Location input) {
+                                if (lastKnownLocation != null) {
+                                    setUpMarkers();
                                 }
+                            }
+                        }, new OnFailureCallBack<Exception>() {
+                            @Override
+                            public void onFailure(Exception input) {
+                                Toast.makeText(getApplicationContext(), "Current location unavailable", Toast.LENGTH_SHORT).show();
                             }
                         });
                         return false;
@@ -529,17 +549,39 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
                         if (task.isSuccessful()) {
-                            // Set the map's camera position to the current location of the device.
+                            // Set the map's camera position to the last known location of the device.
                             lastKnownLocation = task.getResult();
                             if (lastKnownLocation != null) {
                                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                         new LatLng(lastKnownLocation.getLatitude(),
                                                 lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
-                                setUpMarkers();
+                                Location l = new Location(lastKnownLocation);
+                                updateLocation(new OnSuccessCallBack<Location>() {
+                                    @Override
+                                    public void onSuccess(Location input) {
+                                        if (!Objects.equals(l, lastKnownLocation)) {
+                                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+                                                    new LatLng(lastKnownLocation.getLatitude(),
+                                                            lastKnownLocation.getLongitude()),
+                                                    DEFAULT_ZOOM
+                                            ));
+                                        }
+                                        setUpMarkers();
+                                    }
+                                }, new OnFailureCallBack<Exception>() {
+                                    @Override
+                                    public void onFailure(Exception input) {
+                                        Toast.makeText(getApplicationContext(),
+                                                "Unable to update your location, your location on the map might be incorrect",
+                                                Toast.LENGTH_SHORT).show();
+                                        setUpMarkers();
+                                    }
+                                });
                             }
                         } else {
                             Log.d(TAG, "Current location is null. Using defaults.");
                             Log.e(TAG, "Exception: %s", task.getException());
+                            Toast.makeText(getApplicationContext(), "Current location unavailable", Toast.LENGTH_SHORT).show();
                             mMap.moveCamera(CameraUpdateFactory
                                     .newLatLngZoom(defaultLocation, DEFAULT_ZOOM));
                             mMap.getUiSettings().setMyLocationButtonEnabled(false);
@@ -569,9 +611,11 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     @Override
                     public void onSuccess(List<Store> input) {
                         storesNearby = input;
+                        markers = new ArrayList<>();
                         for (Store store : storesNearby){
                             LatLng storePosition = new LatLng(store.getStoreAddress().latitude, store.getStoreAddress().longitude);
                             @NonNull Marker marker = Objects.requireNonNull(mMap.addMarker(new MarkerOptions().position(storePosition).title(store.getStoreName())));
+                            markers.add(marker);
                             marker.setTag(store);
                         }
                         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -602,8 +646,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 });
     }
 
-    @VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
-    public void drawPoly(LatLng origin, LatLng destination, DirectionHelper.Modes mode){
+    private void drawPoly(LatLng origin, LatLng destination, DirectionHelper.Modes mode){
         if (mPolyline != null){
             mPolyline.remove();
         }

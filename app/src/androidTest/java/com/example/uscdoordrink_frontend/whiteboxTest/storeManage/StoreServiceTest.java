@@ -136,7 +136,7 @@ public class StoreServiceTest {
         Drink drink2 = new Drink();
         drink2.setPrice(75);
         drink2.setDrinkName("Single Malt Whiskey");
-        drink2.setPrice(5);
+        drink2.setDiscount(5);
         List<String> ingredients = new ArrayList<>();
         ingredients.add("Water");
         ingredients.add("Oak");
@@ -260,7 +260,7 @@ public class StoreServiceTest {
         Drink drink2 = new Drink();
         drink2.setPrice(75);
         drink2.setDrinkName("Single Malt Whiskey");
-        drink2.setPrice(5);
+        drink2.setDiscount(5);
         List<String> ingredients = new ArrayList<>();
         ingredients.add("Water");
         ingredients.add("Oak");
@@ -328,6 +328,7 @@ public class StoreServiceTest {
 
     @Test
     public void getNearbyStoreTest(){
+        // get stores nearby, compare the list to the expected result
         List<Store> storeList = new ArrayList<>();
         storeService.getNearbyStore(new LatLng(34.0254, -118.2870),
                 new OnSuccessCallBack<List<Store>>() {
@@ -413,7 +414,7 @@ public class StoreServiceTest {
         Collections.sort(actualList2);
         assertEquals("actual list after sorting", UIDList, actualList2);
 
-        //add another in range store
+        //add another store in range
         Store inRange = new Store();
         inRange.setStoreName("USC Coffee");
         inRange.setStoreAddress(34.0224, -118.2851);
