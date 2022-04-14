@@ -57,4 +57,37 @@ public class OrderService {
         sellerRef.update(type, value);
     }
 
+    public void deleteRequest(Request r, final OnSuccessCallBack<Void> successCallBack,
+                              final OnFailureCallBack<Exception> failureCallBack){
+        DocumentReference customRef = db.collection("Request").document(r.getName()).collection("Orders").document(r.getStart());
+        DocumentReference sellerRef = db.collection("Request").document(r.getStoreUID()).collection("Orders").document(r.getStart());
+        customRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Log.d(TAG, "Successfully deleted customer request");
+                successCallBack.onSuccess(unused);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG, "delete not successful", e);
+                failureCallBack.onFailure(e);
+            }
+        });
+
+        sellerRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Log.d(TAG, "Successfully deleted seller request");
+                successCallBack.onSuccess(unused);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG, "delete not successful", e);
+                failureCallBack.onFailure(e);
+            }
+        });
+    }
+
 }

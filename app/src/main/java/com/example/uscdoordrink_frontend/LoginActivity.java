@@ -76,7 +76,8 @@ public class LoginActivity extends AppCompatActivity {
                                         if(u.getPassword().equals(p)){
                                             Log.d(TAG, "auth correct");
                                             Constants.currentUser = u;
-                                            Toast.makeText(LoginActivity.this, "----- Logging you in ------", Toast.LENGTH_SHORT).show();
+                                            String toast = getString(R.string.login_toast);
+                                            Toast.makeText(LoginActivity.this, toast, Toast.LENGTH_SHORT).show();
                                             Intent i;
                                             if (u.getUserType() == UserType.SELLER && (u.getStoreUID() == null || "toBeAssigned".equals(u.getStoreUID()))){
                                                 i = new Intent(LoginActivity.this, AddStoreActivity.class);

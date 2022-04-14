@@ -27,6 +27,7 @@ public class ViewChartActivity extends AppCompatActivity {
         bt_weeklyBasis = findViewById(R.id.btn_weeklyBasis);
         bt_monthlyBasis = findViewById(R.id.btn_monthlyBasis);
         bt_return = findViewById(R.id.btn_ReturnToProfile);
+
         bt_dailyBasis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -46,7 +46,7 @@ public class ViewOrderAdapter extends RecyclerView.Adapter<ViewOrderAdapter.Orde
 
     @Override
     public void onBindViewHolder(@NonNull final OrderViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-        holder.textViewItemID.setText(requests.get(position).getStart().substring(0, 12));
+        holder.textViewItemID.setText(requests.get(position).getStart().substring(0, 10));
         holder.textViewItemStatus.setText(Constants.getOrderStatus(requests.get(position).getStatus()));
         holder.textViewItemCI.setText(requests.get(position).getContactInformation());
         holder.textViewItemAddress.setText(requests.get(position).getAddress());

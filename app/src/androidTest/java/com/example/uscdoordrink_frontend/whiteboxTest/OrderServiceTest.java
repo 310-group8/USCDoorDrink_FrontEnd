@@ -58,11 +58,11 @@ public class OrderServiceTest {
     public void setUp() throws Exception {
         orders.add(new Order("lemonade", "aaaa", 1, 2.0, 0.0));
         orderService = new OrderService();
-        testRequest = new Request(Instant.now().toString(), "userTest", "33333333", "44444", UID, 10.0, orders);
+        testRequest = new Request("2022-04-13T10:46:57.500Z", "userTest", "33333333", "44444", UID, 10.0, orders);
     }
 
     @Test
-    public void addRequest() {
+    public void addRequestTest() {
         Request r = testRequest;
         testRequest = r;
         final Result addRequestResult = new Result();
@@ -86,16 +86,46 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void updateRequest() {
+    public void updateRequestTest() {
         orderService.updateRequest(testRequest, "status", "2");
-
+        final Result updateRequestResult = new Result();
         DocumentReference docRef = db.collection("Request").document(testRequest.getName()).collection("Orders").document(testRequest.getStart());
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 Request r = documentSnapshot.toObject(Request.class);
                 assertEquals("updateRequestResult ", "2", r.getStatus());
+                updateRequestResult.complete(true, "update request successful");
+
             }
         });
+
+        await().atMost(10, TimeUnit.SECONDS).until(updateRequestResult.hasCompleted());
+        assertTrue("addRequestResult", updateRequestResult.success);
+        assertEquals("addRequestResult msg", "update request successful", updateRequestResult.message);
+
+    }
+
+    @Test
+    public void z_deleteRequestTest(){
+        final Result deleteRequestResult = new Result();
+        orderService.deleteRequest(testRequest,
+                new OnSuccessCallBack<Void>() {
+                    @Override
+                    public void onSuccess(Void input) {
+                        Log.d(TAG, "delete request successful");
+                        deleteRequestResult.complete(true, "delete request successful");
+                    }
+                }, new OnFailureCallBack<Exception>() {
+                    @Override
+                    public void onFailure(Exception input) {
+                        Log.w(TAG, "failed to delete request");
+                        deleteRequestResult.complete(false, input.getMessage());
+                    }
+                });
+        await().atMost(5, TimeUnit.SECONDS).until(deleteRequestResult.hasCompleted());
+        assertTrue("deleteRequestResult", deleteRequestResult.success);
+        assertEquals("deleteRequestResultMsg", "delete request successful", deleteRequestResult.message);
+
     }
 }

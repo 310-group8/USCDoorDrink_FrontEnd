@@ -13,11 +13,13 @@ import com.example.uscdoordrink_frontend.entity.UserType;
 import com.example.uscdoordrink_frontend.service.CallBack.OnFailureCallBack;
 import com.example.uscdoordrink_frontend.service.CallBack.OnSuccessCallBack;
 import com.example.uscdoordrink_frontend.service.UserService;
+import com.example.uscdoordrink_frontend.whiteboxTest.storeManage.StoreServiceTest;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -59,14 +61,25 @@ public class UserServiceTest {
     @Before
     public void setUp() throws Exception {
         userService = new UserService();
-        testUser = new User("userTest", "123456", "3333333333", UserType.CUSTOMER);
+        testUser = new User("userTest", "123456", "3333333333", UserType.SELLER);
+        DocumentReference doc = db.collection("User").document(testUser.getUserName());
+        doc.set(testUser);
+    }
+
+    @After
+    public void tearDown(){
+        if(testUser != null){
+            DocumentReference doc = db.collection("User").document(testUser.getUserName());
+            doc.delete();
+            testUser = null;
+        }
     }
 
     @Test
-    public void a_registerTest() {
-        User u = testUser;
+    public void registerAndDeleteUserTest() {
+        User registerTest = new User("userTest2", "111111", "3333333333", UserType.CUSTOMER);
         final Result registerResult = new Result();
-        userService.register(u,  new OnSuccessCallBack<Void>() {
+        userService.register(registerTest,  new OnSuccessCallBack<Void>() {
             @Override
             public void onSuccess(Void input) {
                 Log.d(TAG, "register successful");
@@ -83,26 +96,54 @@ public class UserServiceTest {
         await().atMost(10, TimeUnit.SECONDS).until(registerResult.hasCompleted());
         assertTrue("registerResult", registerResult.success);
         assertEquals("registerResult msg", "register successful", registerResult.message);
+
+
+        final Result deleteUserResult = new Result();
+        userService.deleteUserByName(registerTest.getUserName(),
+                new OnSuccessCallBack<Void>() {
+                    @Override
+                    public void onSuccess(Void input) {
+                        Log.d(TAG, "delete user successful");
+                        deleteUserResult.complete(true, "delete user successful");
+                    }
+                }, new OnFailureCallBack<Exception>() {
+                    @Override
+                    public void onFailure(Exception input) {
+                        Log.w(TAG, "failed to delete user with name:" + registerTest.getUserName(), input);
+                        deleteUserResult.complete(false, input.getMessage());
+                    }
+                });
+        await().atMost(5, TimeUnit.SECONDS).until(deleteUserResult.hasCompleted());
+        assertTrue("deleteUserResult", deleteUserResult.success);
+        assertEquals("deleteUserResultMsg", "delete user successful", deleteUserResult.message);
+
     }
 
     @Test
-    public void b_updateStoreUIDTest() {
+    public void updateStoreUIDTest() {
         userService.updateStoreUID("userTest", UID);
-
+        final Result updateResult = new Result();
         DocumentReference docRef = db.collection("User").document("userTest");
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 User u = documentSnapshot.toObject(User.class);
-                assertEquals("updateStoreUIDResult ", UID, u.getStoreUID());
+                updateResult.complete(true, u.getStoreUID());
             }
         });
+
+        await().atMost(5, TimeUnit.SECONDS).until(updateResult.hasCompleted());
+        assertTrue("update uid Result", updateResult.success);
+        assertEquals("update uid rResultMsg", UID, updateResult.message);
+
+
     }
 
 
 
     @Test
-    public void c_addUserRequestTest() {
+    public void addAndChangeUserRequestTest() {
+        final Result addResult = new Result();
         orders.add(new Order("lemonade", "aaaa", 1, 2.0, 0.0));
         r = new Request(Instant.now().toString(), testUser.getUserName(), testUser.getContactInformation(), "44444", UID, 10.0, orders);
         userService.addUserRequest(testUser.getUserName(), r);
@@ -112,24 +153,32 @@ public class UserServiceTest {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 User u = documentSnapshot.toObject(User.class);
-                assertTrue("addUserRequestResult", u.getOrderHistory().contains(r));
+                addResult.complete(true, "true");
             }
         });
-    }
 
-    @Test
-    public void d_changeUserRequestTest() {
+        await().atMost(5, TimeUnit.SECONDS).until(addResult.hasCompleted());
+        assertTrue("add request Result", addResult.success);
+        assertEquals("add request rResultMsg", "true", addResult.message);
+
+
         r.setStatus("4");
         requests.add(r);
+        final Result deleteResult = new Result();
         userService.changeUserRequest(testUser.getUserName(), requests);
 
-        DocumentReference docRef = db.collection("User").document("userTest");
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 User u = documentSnapshot.toObject(User.class);
-                assertEquals("changeUserRequestResult", "4", u.getOrderHistory().get(0).getStatus());
+                deleteResult.complete(true, "4");
             }
         });
+
+        await().atMost(5, TimeUnit.SECONDS).until(deleteResult.hasCompleted());
+        assertTrue("delete request Result", deleteResult.success);
+        assertEquals("delete request rResultMsg", "4", deleteResult.message);
+
     }
+
 }

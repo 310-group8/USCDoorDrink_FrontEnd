@@ -27,15 +27,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="650dp">
+
         <Button
+            android:id="@+id/btn_GoToCart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_GoToCart"
+            android:layout_marginLeft="155dp"
             android:background="@drawable/btn_maroon_selector"
             android:text="View Cart"
-            android:textSize="10dp"
-            android:layout_marginLeft="155dp"
-            />
+            android:textSize="10dp" />
     </RelativeLayout>
 
 </RelativeLayout>

@@ -48,36 +48,10 @@ public class OrderDetailActivity extends AppCompatActivity {
         order_lst = findViewById(R.id.order_lst);
 
         position = getIntent().getIntExtra("position", 0);
-        r = Constants.currentUser.getOrderHistory().get(position);
-        ArrayList<Order> orders = (ArrayList<Order>) r.getOrders();
-        String order_string = "";
-        for(Order o : orders){
-            order_string += o.getDrink();
-            order_string += ", " + o.getQuantity();
-        }
 
-        order_name.setText("name: " + r.getName());
-        order_UID.setText("store: " + r.getStoreUID());
-        order_status.setText("order status: " + Constants.getOrderStatus(r.getStatus()));
-        order_ci.setText("contact info: " + r.getContactInformation());
-        order_address.setText("address: " + r.getAddress());
-        order_price.setText("total: " + r.getTotal());
-        order_lst.setText("drinks: \n" + order_string);
 
         manage = findViewById(R.id.order_status_change);
         complete = findViewById(R.id.order_c);
-
-        if(Constants.currentUser.getUserType() == UserType.SELLER && !r.getStatus().equals("4")){
-            manage.setVisibility(View.VISIBLE);
-        }else{
-            manage.setVisibility(View.INVISIBLE);
-        }
-
-        if(Constants.currentUser.getUserType() == UserType.CUSTOMER && !r.getStatus().equals("4")){
-            complete.setVisibility(View.VISIBLE);
-        }else{
-            complete.setVisibility(View.INVISIBLE);
-        }
 
 
         manage.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +69,11 @@ public class OrderDetailActivity extends AppCompatActivity {
                 showMessage();
             }
         });
+
+        showDisplay();
     }
+
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -128,5 +106,35 @@ public class OrderDetailActivity extends AppCompatActivity {
         });
 
         b.show();
+    }
+
+    public void showDisplay(){
+        r = Constants.currentUser.getOrderHistory().get(position);
+        ArrayList<Order> orders = (ArrayList<Order>) r.getOrders();
+        String order_string = "";
+        for(Order o : orders){
+            order_string += o.getDrink();
+            order_string += ", " + o.getQuantity();
+        }
+
+        order_name.setText("name: " + r.getName());
+        order_UID.setText("store: " + r.getStoreUID());
+        order_status.setText("order status: " + Constants.getOrderStatus(r.getStatus()));
+        order_ci.setText("contact info: " + r.getContactInformation());
+        order_address.setText("address: " + r.getAddress());
+        order_price.setText("total: " + r.getTotal());
+        order_lst.setText("drinks: \n" + order_string);
+
+        if(Constants.currentUser.getUserType() == UserType.SELLER && !r.getStatus().equals("4")){
+            manage.setVisibility(View.VISIBLE);
+        }else{
+            manage.setVisibility(View.INVISIBLE);
+        }
+
+        if(Constants.currentUser.getUserType() == UserType.CUSTOMER && !r.getStatus().equals("4")){
+            complete.setVisibility(View.VISIBLE);
+        }else{
+            complete.setVisibility(View.INVISIBLE);
+        }
     }
 }
