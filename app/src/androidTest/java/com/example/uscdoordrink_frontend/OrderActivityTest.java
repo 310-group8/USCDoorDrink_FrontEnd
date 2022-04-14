@@ -63,6 +63,7 @@ public class OrderActivityTest {
     private double tax = subtotal * 0.1;
     private double deliverFee = 1.99;
     private double total = subtotal - discounts + tax + deliverFee;
+    boolean addedRequest = false;
     private Request r = null;
     private String start_time = Instant.now().toString();
 
@@ -122,7 +123,8 @@ public class OrderActivityTest {
                 Constants.currentUser.getCurrentOrder());
         onView(withId(android.R.id.button1)).perform(click());
         Thread.sleep(1000);
-        Intents.intended(hasComponent(ViewOrderActivity.class.getName()), times(2));
+        Intents.intended(hasComponent(ViewOrderActivity.class.getName()));
+        addedRequest = true;
     }
 
     @Test
@@ -154,7 +156,7 @@ public class OrderActivityTest {
         Constants.currentUser = null;
         Constants.currentRequest = null;
         Intents.release();
-        if(r!= null){
+        if(addedRequest){
             //get request start time
             db.collection("Request").document(r.getName()).collection("Orders")
                     .whereEqualTo("total", 22.09)
@@ -188,7 +190,7 @@ public class OrderActivityTest {
                             }
                         }
                     });
-
+            Thread.sleep(1000);
         }
     }
 

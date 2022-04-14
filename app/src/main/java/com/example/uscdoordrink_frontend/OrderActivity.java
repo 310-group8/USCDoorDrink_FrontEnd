@@ -133,14 +133,7 @@ public class OrderActivity extends AppCompatActivity {
                     public void onSuccess(Void input) {
                         Constants.currentUser.setCurrentOrder(new ArrayList<Order>());
                         Constants.currentRequest = req;
-                        Constants.currentUser.addOrderToHistory(req);
                         user.addUserRequest(Constants.currentUser.getUserName(), req);
-
-
-                        Toast.makeText(OrderActivity.this, "Order is placed. Thank You!", Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(OrderActivity.this, ViewOrderActivity.class);
-                        startActivity(i);
-                        finish();
                     }
                 }, new OnFailureCallBack<Exception>() {
                     @Override
@@ -150,7 +143,11 @@ public class OrderActivity extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
-
+                Constants.currentUser.addOrderToHistory(req);
+                Toast.makeText(OrderActivity.this, "Order is placed. Thank You!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(OrderActivity.this, ViewOrderActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 

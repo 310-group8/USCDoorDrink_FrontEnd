@@ -98,6 +98,7 @@ public class OrderDetailActivityTest {
         if(seller != null){
             userService.changeUserRequest(seller.getUserName(), (ArrayList<Request>) customerRequest);
         }
+        Thread.sleep(3000);
     }
 
     @Test
