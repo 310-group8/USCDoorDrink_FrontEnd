@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     android:padding="8dp"
@@ -22,27 +22,21 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_order"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/view_order_card"
+        android:layout_height="550dp"
         android:layout_below="@+id/ViewOrder"
         android:background="@android:color/transparent"
         android:scrollbars="vertical" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/view_order_card"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_alignParentBottom="true"
-        app:cardBackgroundColor="@color/white"
-        app:cardUseCompatPadding="true">
-
-        <Button
-            android:id="@+id/return_to_map"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:text="return to map" />
-
-    </androidx.cardview.widget.CardView>
+    <Button
+        android:id="@+id/return_to_map"
+        android:layout_width="189dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/recycler_view_order"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="120dp"
+        android:layout_marginBottom="4dp"
+        android:text="return to map" />
 
 </RelativeLayout>

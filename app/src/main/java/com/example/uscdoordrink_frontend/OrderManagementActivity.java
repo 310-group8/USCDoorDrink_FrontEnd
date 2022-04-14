@@ -44,7 +44,25 @@ public class OrderManagementActivity extends AppCompatActivity {
         Request req = Constants.currentUser.getOrderHistory().get(position);
         OrderService orderService = new OrderService();
         UserService userService = new UserService();
-        progress = 0;
+        progress = Integer.parseInt(req.getStatus());
+        s.setProgress(progress);
+        switch(progress){
+            case 0:
+                textView.setText("Order created");
+                break;
+            case 1:
+                textView.setText("Start delivering");
+                break;
+            case 2:
+                textView.setText("Delivered");
+                break;
+            case 3:
+                textView.setText("Order Error");
+                break;
+            case 4:
+                textView.setText("Order Completed");
+                break;
+        }
 
         username.setText(req.getName());
         contactInfo.setText(req.getContactInformation());
@@ -66,6 +84,9 @@ public class OrderManagementActivity extends AppCompatActivity {
                         break;
                     case 3:
                         textView.setText("Order Error");
+                        break;
+                    case 4:
+                        textView.setText("Order Completed");
                         break;
                 }
             }
@@ -107,11 +128,15 @@ public class OrderManagementActivity extends AppCompatActivity {
                     orderService.updateRequest(req, "end", req.getEnd());
                     userService.addUserRequest(Constants.currentUser.getUserName(), req);
                     Toast.makeText(OrderManagementActivity.this, "----- Order arrived -----", Toast.LENGTH_SHORT).show();
-                }else{
+                }else if (progress != 4){
                     req.setStatus(String.valueOf(progress));
                     Constants.currentRequest = req;
                     orderService.updateRequest(req, "status", req.getStatus());
                     Toast.makeText(OrderManagementActivity.this, "Order status successfully changed!", Toast.LENGTH_SHORT).show();
+                } else{
+                    s.setProgress(Integer.parseInt(req.getStatus()));
+                    Toast.makeText(OrderManagementActivity.this, "Order status change failed, only customers can change order to complete status, please choose another status!", Toast.LENGTH_SHORT).show();
+
                 }
 
             }

@@ -9,14 +9,13 @@
     tools:context=".CartActivity">
 
     <TextView
+        android:id="@+id/Cart"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Cart"
-        android:id="@+id/Cart"
-        android:textColor="@color/black"
         android:gravity="center"
-        android:textSize="30sp"
-        />
+        android:text="Cart"
+        android:textColor="@color/black"
+        android:textSize="30sp" />
 
     <Button
         android:id="@+id/r_to_map"
@@ -31,13 +30,13 @@
         android:id="@+id/recycler_cart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/card"
+        android:layout_above="@id/cart_card"
         android:layout_below="@+id/Cart"
         android:background="@android:color/transparent"
         android:scrollbars="vertical" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card"
+        android:id="@+id/cart_card"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         app:cardBackgroundColor="@color/white"
@@ -45,16 +44,16 @@
         android:layout_alignParentBottom="true">
 
         <RelativeLayout
-            android:padding="8dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="8dp">
 
             <LinearLayout
                 android:id="@+id/linear"
-                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp">
+                android:layout_marginBottom="4dp"
+                android:orientation="horizontal">
 
                 <View
                     android:id="@+id/view"
@@ -67,8 +66,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="$0.00"
-                    android:textSize="24sp"
-                    android:textColor="@android:color/black"/>
+                    android:textColor="@android:color/black"
+                    android:textSize="24sp" />
             </LinearLayout>
 
             <Button

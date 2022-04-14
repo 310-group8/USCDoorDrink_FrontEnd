@@ -72,12 +72,6 @@ public class OrderActivity extends AppCompatActivity {
 
         total = subtotal - discounts + tax + deliverFee;
 
-        if(Constants.currentUser == null){
-            Toast.makeText(OrderActivity.this, "Please login before placing an order.", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(OrderActivity.this, LoginActivity.class);
-            startActivity(i);
-            finish();
-        }
         priceSub.setText(String.valueOf(subtotal));
         pricedc.setText(String.valueOf(discounts));
         pricetax.setText(String.valueOf(tax));
@@ -109,6 +103,7 @@ public class OrderActivity extends AppCompatActivity {
         builder.setTitle("One more step!");
         builder.setMessage("Enter your Address: ");
         final EditText editText = new EditText(this);
+        editText.setId(R.id.edittext_address);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -138,6 +133,7 @@ public class OrderActivity extends AppCompatActivity {
                     public void onSuccess(Void input) {
                         Constants.currentUser.setCurrentOrder(new ArrayList<Order>());
                         Constants.currentRequest = req;
+                        Constants.currentUser.addOrderToHistory(req);
                         user.addUserRequest(Constants.currentUser.getUserName(), req);
 
 
