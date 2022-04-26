@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".OrderManagementActivity">
 
+    <ImageView
+        android:id="@+id/add_store_logo"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.922"
+        app:srcCompat="@drawable/uscdoordrink_logo" />
+
     <TextView
         android:id="@+id/user_name"
         android:layout_width="wrap_content"
@@ -13,6 +27,7 @@
         android:layout_marginStart="44dp"
         android:layout_marginTop="144dp"
         android:text="Username: "
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -21,6 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:textColor="@color/black"
         android:text="Contact Information: "
         app:layout_constraintStart_toStartOf="@+id/user_name"
         app:layout_constraintTop_toBottomOf="@+id/user_name" />
@@ -30,6 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:textColor="@color/black"
         android:text="Address: "
         app:layout_constraintStart_toStartOf="@+id/c_i"
         app:layout_constraintTop_toBottomOf="@+id/c_i" />
@@ -39,8 +56,9 @@
         android:id="@+id/change_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="240dp"
+        android:layout_marginTop="60dp"
         android:text="Change Order Status:"
+        android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@+id/address"
         app:layout_constraintTop_toBottomOf="@+id/address" />
 
@@ -50,6 +68,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:textColor="@color/black"
         android:max="4"
         android:progress="0"
         app:layout_constraintStart_toEndOf="@+id/change_status"
@@ -61,6 +80,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="68dp"
         android:layout_marginBottom="16dp"
+        android:textColor="@color/black"
         android:text=" "
         app:layout_constraintBottom_toTopOf="@+id/seekBar"
         app:layout_constraintStart_toStartOf="@+id/seekBar" />\09
@@ -68,6 +88,7 @@
         android:id="@+id/a"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
         android:layout_marginStart="164dp"
         android:text=" "
         app:layout_constraintStart_toEndOf="@+id/user_name"
@@ -79,6 +100,7 @@
         android:layout_height="22dp"
         android:layout_marginStart="100dp"
         android:layout_marginTop="24dp"
+        android:textColor="@color/black"
         android:text=" "
         app:layout_constraintStart_toEndOf="@+id/c_i"
         app:layout_constraintTop_toBottomOf="@+id/a" />
@@ -89,6 +111,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="176dp"
         android:layout_marginTop="20dp"
+        android:textColor="@color/black"
         android:text=" "
         app:layout_constraintStart_toEndOf="@+id/address"
         app:layout_constraintTop_toBottomOf="@+id/b" />
@@ -102,16 +125,19 @@
         android:textSize="@dimen/margin_normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/seekBar"
-        app:layout_constraintVertical_bias="0.466" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/title_order_management"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:text="OrderManagement"
+        android:layout_marginTop="@dimen/margin_large"
+        android:text="Order Management"
+        android:textColor="@color/black"
+        android:fontFamily="@font/winkle"
         android:textSize="@dimen/margin_large"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"

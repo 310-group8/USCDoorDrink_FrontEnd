@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15sp"
-            android:fontFamily="sans-serif-light"
+            android:fontFamily="@font/winkle"
             android:text="User Profile"
             android:textColor="@color/black"
             android:textSize="32sp" />
@@ -165,21 +165,33 @@
 
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/img_user"
+            android:layout_width="@dimen/dp_150"
+            android:layout_height="@dimen/dp_150"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/margin_tiny"
+            android:layout_marginEnd="131dp"
+            android:layout_marginBottom="495dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/yonghutouxiang" />
+
         <Button
             android:id="@+id/manage_order"
-            android:layout_width="wrap_content"
+            android:layout_width="165dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="218dp"
-            android:layout_marginBottom="79dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginEnd="220dp"
+            android:layout_marginBottom="126dp"
             android:text="Manage Order" />
 
         <Button
             android:id="@+id/back_to_map"
-            android:layout_width="wrap_content"
+            android:layout_width="165dp"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/manage_order"
             android:layout_alignTop="@+id/manage_order"
@@ -194,9 +206,32 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="105dp"
-            android:text="Manage your store"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginEnd="130dp"
+            android:text="Manage store"
             android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/modify"
+            android:layout_width="@dimen/dp_165"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/manage_store"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="518dp"
+            android:layout_marginEnd="217dp"
+            android:layout_marginBottom="146dp"
+            android:text="Modify Profile" />
+
+        <Button
+            android:id="@+id/about_us"
+            android:layout_width="@dimen/dp_165"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/manage_store"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="518dp"
+            android:layout_marginEnd="35dp"
+            android:layout_marginBottom="146dp"
+            android:text="About Us" />
 
     </RelativeLayout>
 

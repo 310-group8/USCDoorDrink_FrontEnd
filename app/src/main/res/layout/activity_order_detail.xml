@@ -18,6 +18,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:padding="8dp">
 
             <TextView
@@ -25,7 +26,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="4dp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/winkle"
                 android:text="Order Info"
+                android:gravity="center"
                 android:textSize="32sp"
                 android:textStyle="bold" />
 
@@ -33,9 +37,13 @@
                 android:id="@+id/order_n"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/order_info"
+                android:layout_below="@+id/order_info"
+                android:layout_marginTop="9dp"
+                android:layout_marginEnd="71dp"
+                android:gravity="center"
                 android:padding="4dp"
                 android:text="order name"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -46,7 +54,9 @@
                 android:layout_below="@id/order_n"
                 android:layout_marginLeft="4dp"
                 android:layout_marginTop="1dp"
+                android:textColor="@color/black"
                 android:text="store UID"
+                android:gravity="center"
                 android:textSize="16sp"
                 android:textStyle="normal"/>
 
@@ -57,7 +67,9 @@
                 android:layout_below="@id/order_uid"
                 android:layout_marginLeft="4dp"
                 android:layout_marginTop="1dp"
+                android:textColor="@color/black"
                 android:text="Status"
+                android:gravity="center"
                 android:textSize="16sp"
                 android:textStyle="normal" />
 
@@ -68,7 +80,9 @@
                 android:layout_below="@id/order_s"
                 android:layout_marginLeft="4dp"
                 android:layout_marginTop="1dp"
+                android:textColor="@color/black"
                 android:text="123456789"
+                android:gravity="center"
                 android:textSize="16sp"
                 android:textStyle="normal" />
 
@@ -79,7 +93,9 @@
                 android:layout_below="@id/order_ci"
                 android:layout_marginLeft="4dp"
                 android:layout_marginTop="1dp"
+                android:textColor="@color/black"
                 android:text="325 adams st"
+                android:gravity="center"
                 android:textSize="16sp"
                 android:textStyle="normal" />
 
@@ -90,7 +106,9 @@
                 android:layout_below="@id/order_a"
                 android:layout_marginLeft="4dp"
                 android:layout_marginTop="1dp"
+                android:textColor="@color/black"
                 android:text="total price"
+                android:gravity="center"
                 android:textSize="16sp"
                 android:textStyle="normal" />
 
@@ -101,8 +119,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/order_total"
                 android:layout_marginLeft="4dp"
-                android:layout_marginTop="1dp"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
                 android:text="order list"
+                android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="normal" />
 
@@ -111,16 +131,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/order_lst"
-                android:visibility="invisible"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="0dp"
                 android:backgroundTint="@color/veryPeri"
                 android:text="manage order"
-                android:textSize="@dimen/margin_normal" />
+                android:textSize="@dimen/margin_normal"
+                android:visibility="invisible" />
 
             <Button
                 android:id="@+id/order_c"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/order_lst"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="19dp"
+                android:layout_marginTop="-1dp"
                 android:backgroundTint="@color/veryPeri"
                 android:text="complete order"
                 android:textSize="@dimen/margin_normal"

@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
     android:padding="8dp"
     tools:context=".ViewOrderActivity">
 
@@ -13,6 +12,7 @@
         android:layout_height="50dp"
         android:text="@string/viewOrder"
         android:id="@+id/ViewOrder"
+        android:fontFamily="@font/winkle"
         android:textColor="@color/black"
         android:gravity="center"
         android:textSize="30sp"

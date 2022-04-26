@@ -10,6 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="Order History"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/winkle"
         android:id="@+id/Menu"
         android:textColor="@color/black"
         android:gravity="center"

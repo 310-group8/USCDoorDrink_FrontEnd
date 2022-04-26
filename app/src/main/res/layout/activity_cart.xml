@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
     android:padding="8dp"
     tools:context=".CartActivity">
 
@@ -12,7 +11,9 @@
         android:id="@+id/Cart"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:fontFamily="@font/winkle"
         android:gravity="center"
+        android:layout_marginTop="@dimen/text_size_large"
         android:text="Cart"
         android:textColor="@color/black"
         android:textSize="30sp" />
@@ -21,8 +22,10 @@
         android:id="@+id/r_to_map"
         android:layout_width="120dp"
         android:layout_height="30dp"
+        android:layout_alignBottom="@+id/Cart"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="25dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="11dp"
         android:text="return to map"
         android:textSize="@dimen/margin_small" />
 
@@ -39,9 +42,10 @@
         android:id="@+id/cart_card"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        app:cardBackgroundColor="@color/white"
         app:cardUseCompatPadding="true"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:cardElevation="0dp">
 
         <RelativeLayout
             android:layout_width="match_parent"

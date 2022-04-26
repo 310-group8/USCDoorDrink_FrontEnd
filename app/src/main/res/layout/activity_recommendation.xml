@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/background"
     android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginTop="@dimen/margin_large"
         android:text="Some Recommendations"
+        android:fontFamily="@font/winkle"
         android:textColor="@color/black"
         android:textSize="@dimen/margin_large"
         android:gravity="center"
         />
-    <View
-        android:layout_width="match_parent" android:layout_height="@dimen/dp_1"
-        android:background="@color/maroon"
-        />
+
+
+    <ImageView
+        android:id="@+id/add_store_logo"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        app:srcCompat="@drawable/uscdoordrink_logo" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -42,7 +49,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_500"
+        android:layout_height="@dimen/dp_200"
         android:layout_marginTop="@dimen/margin_small"
         android:layout_marginLeft="@dimen/margin_large"
         android:layout_marginRight="@dimen/margin_large">

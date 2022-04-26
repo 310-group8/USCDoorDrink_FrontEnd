@@ -114,7 +114,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         String order_string = "";
         for(Order o : orders){
             order_string += o.getDrink();
-            order_string += ", " + o.getQuantity();
+            order_string += ", " + o.getQuantity() + " cup\n";
         }
 
         order_name.setText("name: " + r.getName());

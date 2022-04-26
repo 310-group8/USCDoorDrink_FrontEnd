@@ -1,30 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="Login Page"
-        android:textColor="@color/black"
-        android:gravity="center"
-        android:textSize="30sp"
-        />
-    <View
-        android:layout_width="match_parent" android:layout_height="@dimen/dp_1"
-        android:background="@color/maroon"
-        />
+
+    <ImageView
+        android:id="@+id/login_logo"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="80dp"
+        app:srcCompat="@drawable/uscdoordrink_logo" />
+
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_height_normal"
         android:layout_marginLeft="@dimen/margin_large"
         android:layout_marginRight="@dimen/margin_large"
-        android:layout_marginTop="@dimen/dp_120">
+        android:layout_marginTop="@dimen/dp_20">
 
         <ImageView
             android:id="@+id/img_account"
@@ -93,15 +90,15 @@
             android:textColor="@android:color/black"
             android:textColorHint="@color/grey"
             android:textSize="@dimen/text_size_normal"/>
+
         <ImageView
             android:id="@+id/iv_see_password"
             android:layout_width="@dimen/image_height_litter"
             android:layout_height="@dimen/image_height_litter"
-            android:src="@drawable/image_password_bg"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:scaleType="fitXY"
-            />
+            android:src="@drawable/image_password_bg" />
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/line_height"
@@ -109,7 +106,16 @@
             android:layout_marginLeft="@dimen/margin_normal"
             android:layout_toRightOf="@+id/img_pw"
             android:background="@color/maroon"/>
+
     </RelativeLayout>
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_large"
+        android:textColor="@color/grey"
+        android:text="Remember me" />
 
     <Button
         android:id="@+id/btn_login"
@@ -117,7 +123,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_large"
         android:layout_marginRight="@dimen/margin_large"
-        android:layout_marginTop="@dimen/margin_huge"
         android:paddingBottom="@dimen/margin_small"
         android:paddingTop="@dimen/margin_small"
         android:text="@string/login"
@@ -127,7 +132,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_normal"
         android:orientation="horizontal">
 
         <TextView
