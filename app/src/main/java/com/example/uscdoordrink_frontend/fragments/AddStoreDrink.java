@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,6 +73,7 @@ public class AddStoreDrink extends Fragment {
         EditText textDiscount = (EditText) mainView.findViewById(R.id.editTextAddDrinkDiscount);
         String defaultDiscount = "";
         Button confirmDrink = (Button) mainView.findViewById(R.id.button_confirm_drink);
+        Button deleteDrink = (Button) mainView.findViewById(R.id.button_delete_drink);
         @NonNull Store store = Objects.requireNonNull(((AddStoreActivity) requireActivity()).theStore.mStoreModel.getValue());
 
         if (currentDrink != null){
@@ -82,6 +84,7 @@ public class AddStoreDrink extends Fragment {
                 textIngredients.get(i).setText(currentDrink.getIngredients().get(i));
             }
             textPrice.setText(String.valueOf(currentDrink.getPrice()));
+            deleteDrink.setVisibility(View.VISIBLE);
         }
 
         confirmDrink.setOnClickListener(new View.OnClickListener() {
@@ -141,6 +144,31 @@ public class AddStoreDrink extends Fragment {
                     }catch (NumberFormatException e){
                         Toast.makeText(getContext(), "Please Enter a valid price/discount", Toast.LENGTH_SHORT).show();
                     }
+                }
+            }
+        });
+
+        deleteDrink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (currentDrink == null || previousName == null){
+                    Toast.makeText(getContext(), "Error: cannot delete an non-existing drink", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                boolean found = false;
+                Drink toRemove = null;
+                for (Drink d : store.getMenu()){
+                    if (Objects.equals(previousName, d.getDrinkName())){
+                        toRemove = d;
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found){
+                    Toast.makeText(getContext(), "Error: cannot delete an non-existing drink", Toast.LENGTH_SHORT).show();
+                }else{
+                    store.getMenu().remove(Objects.requireNonNull(toRemove));
+                    Navigation.findNavController(view).navigate(R.id.action_drink_to_menu);
                 }
             }
         });
