@@ -3,18 +3,18 @@ package com.example.uscdoordrink_frontend;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.example.uscdoordrink_frontend.entity.Store;
 import com.example.uscdoordrink_frontend.entity.User;
 import com.example.uscdoordrink_frontend.entity.UserType;
 import com.example.uscdoordrink_frontend.service.CallBack.OnFailureCallBack;
@@ -38,6 +38,7 @@ public class SignUpActivity extends AppCompatActivity {
     EditText userName, password, contactInformation;
     Button login, register;
     RadioGroup select;
+    ImageView eye;
     String TAG = "SignUpActivity";
 
 
@@ -49,9 +50,24 @@ public class SignUpActivity extends AppCompatActivity {
         userName = findViewById(R.id.et_account);
         password = findViewById(R.id.et_password);
         contactInformation = findViewById((R.id.et_ci));
-        register = findViewById(R.id.btn_register);
+        register = findViewById(R.id.btn_modify);
         login = findViewById(R.id.Login);
         select = (RadioGroup)findViewById(R.id.select);
+
+        eye = findViewById(R.id.iv_see_password);
+
+        eye.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(password.getTransformationMethod().equals(HideReturnsTransformationMethod.getInstance())){
+                    password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    eye.setImageResource(R.drawable.ic_baseline_visibility_off_24);
+                }else{
+                    password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    eye.setImageResource(R.drawable.ic_baseline_visibility_24);
+                }
+            }
+        });
 
 
         register.setOnClickListener(new View.OnClickListener() {

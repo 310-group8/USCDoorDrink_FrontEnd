@@ -86,11 +86,12 @@
             android:textColor="@android:color/black"
             android:textColorHint="@color/grey"
             android:textSize="@dimen/text_size_normal"/>
+
         <ImageView
-            android:id="@+id/iv_see_password"
+            android:id="@+id/if_see_password"
             android:layout_width="@dimen/image_height_litter"
             android:layout_height="@dimen/image_height_litter"
-            android:src="@drawable/image_password_bg"
+            android:src="@drawable/ic_baseline_visibility_off_24"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:scaleType="fitXY"
@@ -191,7 +192,7 @@
 
     </LinearLayout>
     <Button
-        android:id="@+id/btn_register"
+        android:id="@+id/btn_modify"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_large"

@@ -1,5 +1,6 @@
 package com.example.uscdoordrink_frontend;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -7,6 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +24,7 @@ import com.example.uscdoordrink_frontend.service.StoreService;
 import java.util.Objects;
 
 public class ProfileActivity extends AppCompatActivity {
-    Button btProfile, bOrder, bBack, manage_store;
+    Button btProfile, bOrder, bBack, manage_store, btModify, btnAboutUs;
     TextView username;
     TextView contactInfo;
     TextView password;
@@ -33,6 +36,24 @@ public class ProfileActivity extends AppCompatActivity {
         username = findViewById(R.id.username);
         contactInfo = findViewById(R.id.contactInfo);
         password = findViewById(R.id.Password);
+        btModify = findViewById(R.id.modify);
+        btModify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ProfileActivity.this, ModifyProfile.class);
+                startActivity(i);
+                finish();
+            }
+        });
+        btnAboutUs = findViewById(R.id.about_us);
+        btnAboutUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ProfileActivity.this, AboutUsActivity.class);
+                startActivity(i);
+                finish();
+            }
+        });
 
 
         manage_store = (Button) findViewById(R.id.manage_store);
