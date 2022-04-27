@@ -54,7 +54,7 @@ public class SignUpActivity extends AppCompatActivity {
         login = findViewById(R.id.Login);
         select = (RadioGroup)findViewById(R.id.select);
 
-        eye = findViewById(R.id.iv_see_password);
+        eye = findViewById(R.id.if_see_password);
 
         eye.setOnClickListener(new View.OnClickListener() {
             @Override

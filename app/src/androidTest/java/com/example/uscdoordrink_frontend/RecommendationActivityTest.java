@@ -47,7 +47,7 @@ public class RecommendationActivityTest {
     public void testRecommendationsDisplayedScenario(){
         Intent intent = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), RecommendationActivity.class);
         ActivityScenario<RecommendationActivity> scenario = ActivityScenario.launch(intent);
-        Espresso.onView(withId(R.id.recommendations)).check(matches(withText("[Pineapple Lemonade]")));
+        Espresso.onView(withId(R.id.recommendations)).check(matches(withText("Guess you like:")));
     }
 
     @Test
@@ -56,7 +56,7 @@ public class RecommendationActivityTest {
         Thread.sleep(3000);
         Intent intent = new Intent(InstrumentationRegistry.getInstrumentation().getTargetContext(), RecommendationActivity.class);
         ActivityScenario<RecommendationActivity> scenario = ActivityScenario.launch(intent);
-        Espresso.onView(withId(R.id.recommendations)).check(matches(withText("I am sorry. We can't tell which drink you favor because we don't have your order history record.")));
+        Espresso.onView(withId(R.id.recommendation1)).check(matches(withText("I am sorry. We can't tell which drink you favor because we don't have your order history record.")));
     }
 
     @After
