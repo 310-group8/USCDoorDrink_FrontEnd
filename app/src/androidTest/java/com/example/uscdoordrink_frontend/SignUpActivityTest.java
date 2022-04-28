@@ -1,5 +1,4 @@
 package com.example.uscdoordrink_frontend;
-import com.example.uscdoordrink_frontend.entity.User;
 import com.example.uscdoordrink_frontend.service.CallBack.OnFailureCallBack;
 import com.example.uscdoordrink_frontend.service.CallBack.OnSuccessCallBack;
 import com.example.uscdoordrink_frontend.service.UserService;
@@ -10,9 +9,6 @@ import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
-import static org.junit.Assert.*;
-
-import android.content.Intent;
 import android.util.Log;
 
 import androidx.test.espresso.Espresso;
@@ -50,7 +46,7 @@ public class SignUpActivityTest {
         closeSoftKeyboard();
         Espresso.onView(withId(R.id.customer)).perform(click());
 
-        Espresso.onView(withId(R.id.btn_register)).perform(click());
+        Espresso.onView(withId(R.id.btn_modify)).perform(click());
         //See whether it will login successfully
         Thread.sleep(1000);
         intended(hasComponent(LoginActivity.class.getName()));
@@ -77,7 +73,7 @@ public class SignUpActivityTest {
         closeSoftKeyboard();
         Espresso.onView(withId(R.id.seller)).perform(click());
 
-        Espresso.onView(withId(R.id.btn_register)).perform(click());
+        Espresso.onView(withId(R.id.btn_modify)).perform(click());
         //See whether it will login successfully
         Thread.sleep(2000);
         intended(hasComponent(LoginActivity.class.getName()));
