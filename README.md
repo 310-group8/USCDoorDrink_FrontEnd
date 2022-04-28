@@ -29,9 +29,9 @@
 #### 8. Improve Recommendation System
    After clicking on the drinks in the recommendation page, an additional feature to switch to the corresponding store’s menu.
 #### 9. Modify Profile
-   An additional feature to modify the user's password and address in profile page.
+   An additional feature to modify the user's password and contact info in profile page.
 #### 10. About Us
-   Adding a page of about us, displaying information about this software.
+   Adding a page of about us, displaying information about this software and developers.
 #### 11. AddStore
    Newly registered sellers will now be automatically prompted to add a store after their first login.
 
@@ -73,8 +73,11 @@
    At anytime on the map, you can tap the floating button on bottom left, and select the button with ID card icon
    to go to the User Profile page. Please note that this requires logging in.
 
+   You can also view your spending history in a daily, weekly, and monthly basis by clicking the View button.
+
 #### 6. Current order status 
    Customers can view their current order by tap the floating button on bottom left, and select the button with a glass icon.
+   You can click all the orders to see their details.
 
 #### 7. Recommendation
    To get today's recommended drink, tap the floating button on bottom left, and select the button with a thumb icon.
@@ -83,8 +86,21 @@
    To view your cart, tap the floating button on bottom left, and select the button with a cart icon.
 
 #### 9. Order management:
-   For sellers, update and complete your order in "Current Order";
+    a. For sellers, when you have a new order, you can pull the page from the top and then check the notification center.
+   You will receive a new notification reminding that you have a new order. You can click the notification, then click
+   one of the orders on the view order page, and click the management order button on the order info windo. Here you can
+   change the status of this order. When you hit apply, order status will be changed. But as a reminder, only customer
+   can change the order to the 'complete' status.
+
+   b. For customers, when your order has a status change, you will receive information in the notification center. You can set order status
+   to 'complete' and non longer receive any information about this order by clicking the notification, and then click the current order,
+   select the 'complete order' button on the order info window.
    
 #### 10. Store management:
    Sellers can manage their stores in their profile page. You can edit your store's name, address, menus and discounts.
 
+#### 11. Caffeine Alert
+   If user tries to order more than five drinks on a single day, user will be prompt with an alert window to alert excessive caffeine amount intake.
+
+#### 12. Menu
+    Customers can add drink from menu to their carts by clicking the menu button. They can also see drink ingredients details by clicking the drink name.

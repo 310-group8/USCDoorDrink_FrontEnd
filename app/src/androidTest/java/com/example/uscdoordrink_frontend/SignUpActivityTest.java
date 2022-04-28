@@ -12,6 +12,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import android.util.Log;
 
 import androidx.test.espresso.Espresso;
+import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
@@ -40,10 +41,9 @@ public class SignUpActivityTest {
     @Test
     public void testCustomerSignUpToLoginCorrectScenario() throws InterruptedException{
         //Input the userName and password
-        Espresso.onView(withId(R.id.et_account)).perform(typeText(userName));
-        Espresso.onView(withId(R.id.et_password)).perform(typeText(password));
-        Espresso.onView(withId(R.id.et_ci)).perform(typeText(contactInfo));
-        closeSoftKeyboard();
+        Espresso.onView(withId(R.id.et_account)).perform(typeText(userName), ViewActions.closeSoftKeyboard());
+        Espresso.onView(withId(R.id.et_password)).perform(typeText(password), ViewActions.closeSoftKeyboard());
+        Espresso.onView(withId(R.id.et_ci)).perform(typeText(contactInfo), ViewActions.closeSoftKeyboard());
         Espresso.onView(withId(R.id.customer)).perform(click());
 
         Espresso.onView(withId(R.id.btn_modify)).perform(click());
@@ -67,10 +67,9 @@ public class SignUpActivityTest {
     @Test
     public void testSellerSignUpToLoginCorrectScenario() throws InterruptedException{
         //Input the userName and password
-        Espresso.onView(withId(R.id.et_account)).perform(typeText(sellerName));
-        Espresso.onView(withId(R.id.et_password)).perform(typeText(sellerPassword));
-        Espresso.onView(withId(R.id.et_ci)).perform(typeText(sellerCI));
-        closeSoftKeyboard();
+        Espresso.onView(withId(R.id.et_account)).perform(typeText(sellerName), ViewActions.closeSoftKeyboard());
+        Espresso.onView(withId(R.id.et_password)).perform(typeText(sellerPassword), ViewActions.closeSoftKeyboard());
+        Espresso.onView(withId(R.id.et_ci)).perform(typeText(sellerCI), ViewActions.closeSoftKeyboard());
         Espresso.onView(withId(R.id.seller)).perform(click());
 
         Espresso.onView(withId(R.id.btn_modify)).perform(click());

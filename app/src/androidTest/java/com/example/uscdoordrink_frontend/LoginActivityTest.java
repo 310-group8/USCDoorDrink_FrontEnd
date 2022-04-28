@@ -1,7 +1,9 @@
 package com.example.uscdoordrink_frontend;
 
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
+import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.matcher.ComponentNameMatchers.hasClassName;
@@ -28,6 +30,7 @@ import android.view.View;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.Root;
+import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.core.internal.deps.guava.collect.Iterables;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.intent.matcher.ComponentNameMatchers;
@@ -80,8 +83,8 @@ public class LoginActivityTest {
     @Test
     public void testCustomerLoginToProfileCorrectScenario() throws InterruptedException {
         //Input the userName and password
-        Espresso.onView(withId(R.id.et_account)).perform(typeText(userName));
-        Espresso.onView(withId(R.id.et_password)).perform(typeText(password));
+        Espresso.onView(withId(R.id.et_account)).perform(clearText()).perform(typeText(userName), ViewActions.closeSoftKeyboard());
+        Espresso.onView(withId(R.id.et_password)).perform(clearText()).perform(typeText(password), ViewActions.closeSoftKeyboard());
         //Click the button
         Espresso.onView(withId(R.id.btn_login)).perform(click());
         //See whether it will login successfully
@@ -92,8 +95,8 @@ public class LoginActivityTest {
     @Test
     public void testSellerWithUIDLoginToProfileCorrectScenario() throws InterruptedException {
         //Input the userName and password
-        Espresso.onView(withId(R.id.et_account)).perform(typeText(sellerTest));
-        Espresso.onView(withId(R.id.et_password)).perform(typeText(sellerPassword));
+        Espresso.onView(withId(R.id.et_account)).perform(clearText()).perform(typeText(sellerTest), ViewActions.closeSoftKeyboard());
+        Espresso.onView(withId(R.id.et_password)).perform(clearText()).perform(typeText(sellerPassword), ViewActions.closeSoftKeyboard());
         //Click the button
         Espresso.onView(withId(R.id.btn_login)).perform(click());
         //See whether it will login successfully
@@ -104,12 +107,12 @@ public class LoginActivityTest {
     @Test
     public void testSellerWithoutUIDLoginToProfileCorrectScenario() throws InterruptedException {
         //Input the userName and password
-        Espresso.onView(withId(R.id.et_account)).perform(typeText(sellerTest2));
-        Espresso.onView(withId(R.id.et_password)).perform(typeText(sellerPassword2));
+        Espresso.onView(withId(R.id.et_account)).perform(clearText()).perform(typeText(sellerTest2), ViewActions.closeSoftKeyboard());
+        Espresso.onView(withId(R.id.et_password)).perform(clearText()).perform(typeText(sellerPassword2), ViewActions.closeSoftKeyboard());
         //Click the button
         Espresso.onView(withId(R.id.btn_login)).perform(click());
         //See whether it will login successfully
-        Thread.sleep(1000);
+        Thread.sleep(3000);
         intended(hasComponent(AddStoreActivity.class.getName()));
     }
 
